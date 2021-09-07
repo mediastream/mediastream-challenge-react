@@ -2,6 +2,7 @@
 /**
  * Exercise 02: Movie Library
  * We are trying to make a movie library for internal users. We are facing some issues by creating this, try to help us following the next steps:
+ * !IMPORTANT: Make sure to run yarn movie-api for this exercise
  * 1. We have an issue fetching the list of movies, check why and fix it (handleMovieFetch)
  * 2. Create a filter by fetching the list of gender (http://localhost:3001/genres) and then loading
  * list of movies that belong to that gender (Filter all movies).
@@ -36,7 +37,7 @@ export default function Exercise02 () {
 
   useEffect(() => {
     handleMovieFetch()
-  }, [/* handleMovieFetch */])
+  }, [handleMovieFetch])
 
   return (
     <section className="movie-library">
