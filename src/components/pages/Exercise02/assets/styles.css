@@ -2,26 +2,65 @@
   background-color: var(--black);
   color: var(--white);
   min-height: 100vh;
-  padding: 2em;
+  width: 100%;
+}
+
+.top {
+  background-image: url("./mountains.jpeg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 40% 40%;
+  -webkit-filter: blur(2px);
+  filter: blur(2px);
+  height: 30vh;
+  width: 100%;
+}
+
+.top-content {
+  padding-top: 6em;
+  margin-left: 4%;
+  padding-right: 5%;
+  width: -webkit-fill-available;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.movie-library__body {
+  padding-left: 1%;
+  padding-right: 1%;
 }
 
 .movie-library__title {
-  font-size: 2em;
+  font-size: 4em;
+  font-weight: bold;
   margin-bottom: 1em;
+  width: 100%;
 }
 
 .movie-library__actions {
   display: flex;
-  margin-bottom: 1em;
+  border-radius: 8px 8px 8px 8px;
+  border: 2px solid rgb(151, 215, 0);
+  width: 100%;
+  background-color: rgb(151, 215, 0);
+  height: 3em;
 }
 
 .movie-library__actions select {
   width: 100%;
-  padding: .25em;
+  background-color: #ffffff;
+  border-radius: 8px 0px 0px 8px;
+  border: 0px solid #b5e24b00;
+  font-size: 1rem;
 }
 
 .movie-library__actions button {
-  white-space: nowrap;
+  background-color: rgb(151 215 0 / 0%);
+  border: #aaa0;
+  font-size: 1em;
+  width: 16em;
+  border-radius: 8px 8px 8px;
 }
 
 .movie-library__loading {
@@ -54,4 +93,73 @@
 
 .movie-library__card li {
   line-height: 120%;
+}
+
+@media screen and (min-width: 320px) {
+  .top-content {
+    margin-top: -40px;
+    padding-left: 2em;
+    position: absolute;
+    width: -webkit-fill-available;
+    top: 0;
+    left: 0;
+  }
+  .movie-library__actions {
+    display: flex;
+    border: 2px solid rgb(151, 215, 0);
+    width: 100%;
+    background-color: rgb(151, 215, 0);
+    height: 3em;
+  }
+  
+  .movie-library__actions select {
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 8px 0px 0px 8px;
+    border: 0px solid #b5e24b00;
+    font-size: 1rem;
+  }
+  
+  .movie-library__actions button {
+    background-color: rgb(151 215 0 / 0%);
+    border: #aaa0;
+    font-size: 1em;
+    width: 16em;
+    border-radius: 8px 8px 8px;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .movie-library {
+    background-color: var(--black);
+    color: var(--white);
+    min-height: 100vh;
+    width: -webkit-fill-available;
+  }
+  .top {
+    background-image: url("./mountains.jpeg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 50% 25%;
+    height: 30vh;
+    -webkit-filter: blur(2px);
+    width: 100%;
+    filter: blur(2px);
+  }
+
+  .movie-library__title {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 1em;
+  }
+  .top-content {
+    padding-left: 2em;
+    position: absolute;
+    width: -webkit-fill-available;
+    top: 0;
+    left: 0;
+  }
+  .movie-library__body {
+    margin-left: 4em;
+    margin-right: 4em;
+  }
 }

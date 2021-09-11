@@ -1,0 +1,24 @@
+.container{
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  justify-content:space-between;
+  align-items:flex-start;
+  align-content:flex-start;
+  width: 100%;
+  height:100%; /*Este valor lo puedes omitir si la altura de tu componente esta definida*/
+}
+
+@media screen and (min-width: 1025px) {
+  .container{
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:flex-start;
+    align-content:flex-start;
+  
+    width: 100%;
+    height:100%; /*Este valor lo puedes omitir si la altura de tu componente esta definida*/
+  }
+}
