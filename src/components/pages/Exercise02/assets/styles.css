@@ -2,56 +2,134 @@
   background-color: var(--black);
   color: var(--white);
   min-height: 100vh;
-  padding: 2em;
+}
+
+.movie-library__header {
+  width: 100%;
+  height: 250px;
+  position: relative;
+  margin-bottom: 1em;
+}
+
+.movie-library__header img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 0px 18%; 
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .movie-library__title {
   font-size: 2em;
-  margin-bottom: 1em;
+  position: absolute;
+  left: 1em;
+  bottom: 2em;
+  text-transform: capitalize;
+  font-weight: bold;
+  font-size: 3em;
+}
+
+.movie-library > p {
+  position: absolute;
+  bottom: 1em;
+  left: 3em;
 }
 
 .movie-library__actions {
   display: flex;
-  margin-bottom: 1em;
+  width: calc(100% - 6em);
+  position: absolute;
+  bottom: 0;
+  left: 3em;
 }
 
 .movie-library__actions select {
   width: 100%;
-  padding: .25em;
+  padding: .7em;
+  border: 2px solid var(--ms-green);
+  border-radius: 5px 0px 0px 5px;
+  outline: none;
+  color: var(--black);
+  font-size: 1em;
+  font-weight: bold;
 }
 
 .movie-library__actions button {
   white-space: nowrap;
+  border: none;
+  background-color: var(--ms-green);
+  color: var(--black);
+  font-size: 1em;
+  border-radius: 0px 5px 5px 0px;
+  text-align: center;
+  font-weight: bold;
+  padding-left: .75em;
+  padding-right: .75em;
+  cursor: pointer;
 }
 
 .movie-library__loading {
-  text-align: center;
-  width: 100%;
-  background-color: #222222;
-  padding: 1.25em 0;
-  margin: 2em 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: calc(100vh - 250px);
+  margin-top: -1em;
 }
 
 .movie-library__list {
   padding: 1em;
-  background-color: #222222;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(20%, 1fr) );
+  gap: 15px;
+  padding: 2em;
 }
 
 .movie-library__card {
   background-color: #333333;
-  margin-bottom: 1em;
+  height: 450px;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
 }
 
 .movie-library__card img {
-  width: 10em;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
 }
 
 .movie-library__card ul {
+  height: 50%;
+  left: 0;
+  bottom: 0;
   padding: 1em;
+  width: 100%;
+  position: absolute;
+  background: linear-gradient(to top, var(--ms-green) 0%, rgba(151, 215, 0, 0.6) 50%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
 }
 
 .movie-library__card li {
-  line-height: 120%;
+  line-height: 1.5em;
+  font-weight: 100;
+  font-size: 1em;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.movie-library__card li.title {
+  font-weight: bold;
+  font-size: 1.3em;
+  color: var(--white);
+  max-width: calc(100% - 0.5em);
 }

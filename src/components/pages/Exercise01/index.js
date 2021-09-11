@@ -53,23 +53,67 @@ export default function Exercise01 () {
     } 
   ]
 
-  const [cart, setCart] = useState([
-    {
-      id: 1,
-      name: 'Star Wars',
-      price: 20,
-      quantity: 2
-    }
-  ])
+  const [cart, setCart] = useState([])
 
-  const getTotal = () => 0 // TODO: Implement this
+  const getTotal = () => {
+    return cart.reduce( (acc, movie) => {
+      return acc + (movie.price * movie.quantity)
+    }, 0);
+  };
+
+  // El descuento se agrega si existe alguna de las convinaciones presente en el carro
+  // el enunciado esta algo anbiguo y lo entendi de esta manera
+  // si existen combinaciones de descuentos en el carrito de compras, cada uno de estos descuentos se aplicaran!
+  const getDiscount = () => {
+    let totalDiscount = 0;
+    discountRules.forEach( (rule, index) => {
+      const hasMovieIncludedInTheRule = rule.m.every( m => cart.some( movie => movie.id === m));
+      if (hasMovieIncludedInTheRule) {
+        totalDiscount += rule.discount;
+      }
+    });
+
+    return getTotal() * totalDiscount;
+  }
+
+  const handleClickAddCard = (movie) => {
+    setCart([...cart, {...movie, quantity: 1}]);
+  }
+
+  const handleClickIncreaseMovieCopy = (movie, movieIndexInCart) => {
+    const quantityCopy = movie.quantity + 1;
+    setQuantityMovieCopy(quantityCopy, movieIndexInCart);
+  }
+
+  const handleClickDecreaseMovieCopy = (movie, movieIndexInCart) => {
+    const quantityCopy = movie.quantity - 1;
+
+    if (quantityCopy <= 0) {
+      setCart(cart.filter( (movie, index) => index !== movieIndexInCart))
+      return;
+    }
+    setQuantityMovieCopy(quantityCopy, movieIndexInCart);
+  }
+
+  const setQuantityMovieCopy = (quantityCopy, movieIndexInCart) => {
+    const newCart = cart.map( (movie, index) => {
+      if (movieIndexInCart === index) {
+        return {
+          ...movie,
+          quantity: quantityCopy
+        }
+      }
+      return movie;
+    })
+    setCart(newCart);
+  }
 
   return (
     <section className="exercise01">
       <div className="movies__list">
         <ul>
-          {movies.map(o => (
-            <li className="movies__list-card">
+          {movies.map( o => (
+            <li className="movies__list-card" key={o.id}>
               <ul>
                 <li>
                   ID: {o.id}
@@ -81,7 +125,7 @@ export default function Exercise01 () {
                   Price: ${o.price}
                 </li>
               </ul>
-              <button onClick={() => console.log('Add to cart', o)}>
+              <button onClick={ () => handleClickAddCard(o) } disabled={cart.some( movie => movie.id === o.id)}>
                 Add to cart
               </button>
             </li>
@@ -90,7 +134,7 @@ export default function Exercise01 () {
       </div>
       <div className="movies__cart">
         <ul>
-          {cart.map(x => (
+          {cart.map( (x, index) => (
             <li className="movies__cart-card">
               <ul>
                 <li>
@@ -104,13 +148,13 @@ export default function Exercise01 () {
                 </li>
               </ul>
               <div className="movies__cart-card-quantity">
-                <button onClick={() => console.log('Decrement quantity', x)}>
+                <button onClick={() => handleClickDecreaseMovieCopy(x, index)}>
                   -
                 </button>
                 <span>
                   {x.quantity}
                 </span>
-                <button onClick={() => console.log('Increment quantity', x)}>
+                <button onClick={() => handleClickIncreaseMovieCopy(x, index)}>
                   +
                 </button>
               </div>
@@ -118,7 +162,9 @@ export default function Exercise01 () {
           ))}
         </ul>
         <div className="movies__cart-total">
-          <p>Total: ${getTotal()}</p>
+          <p>SubTotal: ${getTotal()}</p>
+          <p>Descuentos: ${getDiscount()}</p>
+          <p>Total: ${getTotal() - getDiscount()}</p>
         </div>
       </div>
     </section>
