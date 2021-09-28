@@ -66,6 +66,10 @@ const discountRules = [
 export default function Exercise01() {
   const [myCart, setMyCart] = useState(cart);
 
+  // useEffect(() => {
+  //   setMyCart(myCart.filter((el) => el.quantity !== 0));
+  // }, []);
+
   const addMovieToCart = (movie) => {
     const movieAdded = { ...movie, quantity: 1 };
     setMyCart([...myCart, movieAdded]);
@@ -86,20 +90,22 @@ export default function Exercise01() {
     );
   };
 
+  const removeFromCart = (movieId) => {
+    const { quantity } = myCart.find((el) => el.id === movieId);
+    if (quantity === 1) {
+      setMyCart(myCart.filter((el) => el.id !== movieId));
+    }
+  };
+
   const decreaseMovieQuantity = ({ id }) => {
     setMyCart(
       myCart.map((movie) => {
         return movie.id === id
-          ? handleQuantity("decrement", movie)
+          ? { ...movie, quantity: movie.quantity - 1 }
           : { ...movie };
       })
     );
-
-    myCart.map((movie) => {
-      if (movie.quantity <= 1) {
-        setMyCart(myCart.filter((el) => el.id != movie.id));
-      }
-    });
+    removeFromCart(id);
   };
 
   const getTotal = () => 6; // TODO: Implement this
