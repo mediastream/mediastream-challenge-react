@@ -5,7 +5,8 @@
  *
  * 2. Increment or decrement the quantity of movie copies. If quantity is equal to 0, the movie must be removed from the cart --DONE
  *
- * 3. Calculate and show the total cost of your cart. Ex: Total: $150
+ * 3. Calculate and show the total cost of your cart. Ex: Total: $150 --DONE
+ *
  * 4. Apply discount rules. You have an array of offers with discounts depending of the combination of movie you have in your cart.
  * You have to apply all discounts in the rules array (discountRules).
  * Ex: If m: [1, 2, 3], it means the discount will be applied to the total when the cart has all that products in only.
@@ -65,14 +66,21 @@ const discountRules = [
 
 export default function Exercise01() {
   const [myCart, setMyCart] = useState(cart);
+  const [totalCart, setTotalCart] = useState(0);
+  const [discount, setDiscount] = useState(0);
 
-  // useEffect(() => {
-  //   setMyCart(myCart.filter((el) => el.quantity !== 0));
-  // }, []);
+  useEffect(() => {
+    getTotal();
+  });
 
   const addMovieToCart = (movie) => {
-    const movieAdded = { ...movie, quantity: 1 };
-    setMyCart([...myCart, movieAdded]);
+    const movieToAdd = { ...movie, quantity: 1 };
+    const movieOnCart = myCart.find((el) => el.id === movie.id);
+    if (movieOnCart) {
+      alert("Movie already added in the Cart");
+      return;
+    }
+    setMyCart([...myCart, movieToAdd]);
   };
 
   const handleQuantity = (type, movie) => {
@@ -101,21 +109,53 @@ export default function Exercise01() {
     setMyCart(
       myCart.map((movie) => {
         return movie.id === id
-          ? { ...movie, quantity: movie.quantity - 1 }
+          ? handleQuantity("decrement", movie)
           : { ...movie };
       })
     );
     removeFromCart(id);
   };
 
-  const getTotal = () => 6; // TODO: Implement this
+  function areArraysEqual(a1, a2) {
+    const firstArrayCopy = a1.slice().sort();
+    const secondArrayCopy = a2.slice().sort();
+    if (JSON.stringify(firstArrayCopy) === JSON.stringify(secondArrayCopy)) {
+      return true;
+    }
+    return false;
+  }
+
+  const applyDiscount = (localCart, discountList) => {
+    for (let i = 0; i < localCart.length; i++) {
+      for (let j = 0; j < discountList.length; j++) {
+        let combinationForDiscount = discountList[j].m;
+        let discountToApply = discountList[j].discount;
+        const res = areArraysEqual(localCart, combinationForDiscount);
+        if (res) {
+          setDiscount(discountToApply);
+          return;
+        } else {
+          setDiscount((prev) => (prev = 0));
+        }
+      }
+    }
+  };
+
+  const getTotal = () => {
+    const total = myCart.reduce((prev, current) => {
+      return prev + current.price * current.quantity;
+    }, 0);
+    const moviesOnCart = myCart.map((el) => el.id);
+    applyDiscount(moviesOnCart, discountRules);
+    setTotalCart(discount !== 0 ? total - discount : total);
+  };
 
   return (
     <section className="exercise01">
       <div className="movies__list">
         <ul>
           {movies.map((movie) => (
-            <li className="movies__list-card">
+            <li className="movies__list-card" key={movie.id}>
               <ul>
                 <li>ID: {movie.id}</li>
                 <li>Name: {movie.name}</li>
@@ -129,7 +169,7 @@ export default function Exercise01() {
       <div className="movies__cart">
         <ul>
           {myCart.map((movie) => (
-            <li className="movies__cart-card">
+            <li className="movies__cart-card" key={movie.id}>
               <ul>
                 <li>ID: {movie.id}</li>
                 <li>Name: {movie.name}</li>
@@ -144,12 +184,9 @@ export default function Exercise01() {
           ))}
         </ul>
         <div className="movies__cart-total">
-          <p>Total: ${getTotal()}</p>
+          <p>Total: ${totalCart}</p>
         </div>
       </div>
     </section>
   );
 }
-
-//() => console.log("Add to cart", o)
-//() => console.log("Increment quantity", movie)
