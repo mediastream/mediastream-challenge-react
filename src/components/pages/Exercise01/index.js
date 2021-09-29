@@ -95,7 +95,7 @@ export default function Exercise01 () {
                 <li>
                   Name: {cartItem.name}
                 </li>
-      g          <li>
+                <li>
                   Price: ${cartItem.price}
                 </li>
               </ul>
