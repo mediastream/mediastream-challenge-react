@@ -15,8 +15,15 @@
 
 import "./assets/styles.css";
 import useFetchData from "./hooks/useFetchData";
-
+import mountains from "../Exercise02/assets/mountains.jpeg";
+import MovieCard from "./components/MovieCard";
 export default function Exercise02() {
+  /*
+All the functionalities are working fine. 
+I could not do the design requested, I dont know CSS and not have experience designing on React, 
+only on React Native where I consider myself a pro. But I could learn CSS if neccesary. 
+Thanks.
+*/
   const {
     movies,
     loading,
@@ -28,8 +35,15 @@ export default function Exercise02() {
   } = useFetchData();
 
   return (
-    <section className="movie-library">
+    <section
+      className="movie-library"
+      style={{
+        backgroundImage: "url(" + mountains + ")",
+        backgroundSize: "auto",
+      }}
+    >
       <h1 className="movie-library__title">Movie Library</h1>
+
       <div className="movie-library__actions">
         <select
           name="genre"
@@ -59,20 +73,7 @@ export default function Exercise02() {
           <p>Loading...</p>
         </div>
       ) : (
-        <ul className="movie-library__list">
-          {movies.map((movie) => (
-            <li key={movie.id} className="movie-library__card">
-              <img src={movie.posterUrl} alt={movie.title} />
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(", ")}</li>
-              </ul>
-            </li>
-          ))}
-        </ul>
+        <MovieCard movies={movies} />
       )}
     </section>
   );
