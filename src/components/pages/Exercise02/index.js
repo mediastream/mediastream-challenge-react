@@ -114,12 +114,12 @@ export default function Exercise02 () {
       </h1>
       <div className="movie-library__actions">
         <select name="genre" placeholder="Search by genre..." onChange={ e => getMoviesByGenre(e.target.value) }>
-          <option value='all'>Select a genre</option>
-          { loading ? (<option value='all'>Loading...</option>) : (
+          <option value='all'>All genres</option>
+          {
             genres.map( genre => (
               <option value={genre} key={genre}>{genre}</option>
             ))
-          )}
+          }
         </select>
         <button onClick={ () => switchSortType() }>Sort {sortType}</button>
       </div>
