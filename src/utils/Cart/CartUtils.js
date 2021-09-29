@@ -30,7 +30,10 @@ export const removeItemFromCart = ( cart, setCart, discountRules, item ) => {
   if ( itemIndex > -1 ) {
     currentCart[itemIndex].quantity -= 1;
     total -= item.price;
-    if ( currentCart[itemIndex].quantity <= 0 ) currentCart.pop(currentCart[itemIndex])
+    if ( currentCart[itemIndex].quantity <= 0 ) {
+      currentCart.splice(itemIndex, 1)
+      console.log(currentCart)
+    }
     setCart({
       items: currentCart,
       total,
