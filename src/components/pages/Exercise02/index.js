@@ -7,80 +7,26 @@
  *
  * 2. Create a filter by fetching the list of gender (http://localhost:3001/genres) and then loading
  * list of movies that belong to that gender (Filter all movies). --DONE
- * 3. Order the movies by year and implement a button that switch between ascending and descending order for the list
+ * 3. Order the movies by year and implement a button that switch between ascending and descending order for the list --DONE
  * 4. Try to recreate the user interface that comes with the exercise (exercise02.png)
  *
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
 
 import "./assets/styles.css";
-import { useEffect, useState } from "react";
+import useFetchData from "./hooks/useFetchData";
 
 export default function Exercise02() {
-  const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [genres, setGenres] = useState([]);
-  const [OrderAscending, setOrderAscending] = useState(true);
-  const [filterGenre, setFilterGenre] = useState(false);
-  const [selectedGenre, setSelectedGenre] = useState("");
+  const {
+    movies,
+    loading,
+    genres,
+    descending,
+    filterByGenre,
+    setSelectedGenre,
+    changeOrder,
+  } = useFetchData();
 
-  useEffect(() => {
-    handleMovieFetch();
-  }, [selectedGenre, OrderAscending]);
-
-  useEffect(() => {
-    getGenres();
-  }, []);
-
-  const getGenres = async () => {
-    const data = await fetch("http://localhost:3001/genres");
-    const genres = await data.json();
-    setGenres(["Select a genre", ...genres]);
-  };
-
-  const handleMovieFetch = () => {
-    const url = filterGenre
-      ? "http://localhost:3001/movies?"
-      : "http://localhost:3001/movies?_limit=50";
-    setLoading(true);
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
-        filterGenre
-          ? setMovies(
-              json
-                .filter((movie) => movie.genres.includes(selectedGenre))
-                .sort(
-                  OrderAscending
-                    ? (firstMovie, secondMovie) =>
-                        firstMovie.year - secondMovie.year
-                    : (firstMovie, secondMovie) =>
-                        secondMovie.year - firstMovie.year
-                )
-            )
-          : setMovies(
-              json.sort(
-                OrderAscending
-                  ? (firstMovie, secondMovie) =>
-                      firstMovie.year - secondMovie.year
-                  : (firstMovie, secondMovie) =>
-                      secondMovie.year - firstMovie.year
-              )
-            );
-        setLoading(false);
-      })
-      .catch(() => {
-        console.log("Run yarn movie-api for fake api");
-      });
-  };
-
-  const changeOrder = () => {
-    setOrderAscending(!OrderAscending);
-  };
-
-  const filterByGenre = () => {
-    setFilterGenre(true);
-  };
   return (
     <section className="movie-library">
       <h1 className="movie-library__title">Movie Library</h1>
@@ -105,7 +51,7 @@ export default function Exercise02() {
           })}
         </select>
         <button onClick={changeOrder}>
-          {OrderAscending ? "Year ascending" : "Year descending"}
+          {descending ? "Year descending" : "Year ascending"}
         </button>
       </div>
       {loading ? (
