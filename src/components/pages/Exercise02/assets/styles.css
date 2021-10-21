@@ -16,8 +16,8 @@
 }
 
 .movie-library__actions select {
-  width: 100%;
-  padding: .25em;
+ width: 100%;
+   padding: .25em; 
 }
 
 .movie-library__actions button {
@@ -40,12 +40,14 @@
 .movie-library__card {
   background-color: #333333;
   margin-bottom: 1em;
-  display: flex;
-  align-items: center;
+  padding-right: 6em;
+  display:inline-block;
+  align-items:flex-start;
 }
 
 .movie-library__card img {
-  width: 10em;
+  width: 20em;
+  height: 30em;
 }
 
 .movie-library__card ul {
