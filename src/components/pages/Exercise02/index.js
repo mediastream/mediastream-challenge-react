@@ -30,8 +30,7 @@ export default function Exercise02 () {
   }, [])
 
   const handleFilter = (e) => setFilteredMovies( movies.filter( movie => movie.genres.includes(e.target.value) )) 
-
-  const sortMovies = () => setFilteredMovies([...filteredMovies].sort((a,b) => (a.id > b.id) ? -1 : ((b.id > a.id) ? 1 : 0)))
+  const sortMovies = () => setFilteredMovies([...filteredMovies].sort((a,b) => (a.year > b.year) ? -1 : ((b.year > a.year) ? 1 : 0)))
 
   return (
     <section className="movie-library">

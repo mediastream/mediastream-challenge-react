@@ -9,6 +9,7 @@ function QuantityManager({item, cart, setCart}){
       setCart(tempCart)
     } else {
       tempCart.push(updatedElement)
+      tempCart.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0))
       setCart(tempCart.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0))
       )
     }

@@ -1,36 +1,40 @@
-import { useState } from 'react'
+import { useState, useMemo , useEffect} from 'react'
 import MovieCard from './MovieCard'
 import QuantityManager from './QuantityManager'
 import discountRules from './data/discountRules.json'
 
 function Cart({cart, setCart}) {
   const [discount, setDiscount] = useState(0)
+  const [finalPrice, setFinalPrice] = useState(0)
+  
   const prices = cart.map(item => item.price * item.quantity)
   const movieIds = cart.map(item => item.id)
 
-  const getTotal = () => {
+  useEffect(() => {
     const finalPrice = prices.length ? prices.reduce((total, item) => total + item) : 0
-    const compareArrays = (a, b) => a.every((val, index) => val === b[index])
     const discountIndex = discountRules.findIndex(rule => compareArrays(rule.m, movieIds.sort()))
-    const discountValue = discountRules[discountIndex] === undefined ? 1 : discountRules[discountIndex].discount    
-    return discountRules[discountIndex] === undefined ? finalPrice : finalPrice - (discountValue * finalPrice)
-  }
+    const discountValue = discountRules[discountIndex] === undefined ? 0 : discountRules[discountIndex].discount    
+    setDiscount(discountValue)
+    setFinalPrice(finalPrice - (discountValue * finalPrice))
+  }, [prices, movieIds])
 
   return (
     <div className="movies__cart">
       <ul>
         {cart.map(item => (
-          <li className="movies__cart-card">
+          <li className="movies__cart-card" key={item.id}>
             <MovieCard item={item} />
             <QuantityManager item={item} cart={cart} setCart={setCart} />
           </li>
         ))}
       </ul>
       <div className="movies__cart-total">
-        <p>Total: ${getTotal()} { discount === 0 ? '' : ` -${discount*100}%` } </p>
+        <p>Total: ${finalPrice} </p> <small> {discount !== 0 ?` (${discount*100}% off)` : ""} </small>
       </div>
     </div>
   )
 }
+
+const compareArrays = (a, b) => a.every((val, index) => val === b[index])
 
 export default Cart
