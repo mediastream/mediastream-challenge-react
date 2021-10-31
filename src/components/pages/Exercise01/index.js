@@ -40,21 +40,6 @@ export default function Exercise01 () {
     }
   ]
 
-  const discountRules = [
-    {
-      m: [3, 2],
-      discount: 0.25
-    },
-    {
-      m: [2, 4, 1],
-      discount: 0.5
-    },
-    {
-      m: [4, 2],
-      discount: 0.1
-    } 
-  ]
-
   const [cart, setCart] = useState([
     {
       id: 1,
@@ -67,8 +52,8 @@ export default function Exercise01 () {
 
   return (
     <section className="exercise01">
-      <MovieList movies={movies} setCart={setCart}/>
-      <Cart elements={cart} />
+      <MovieList movies={movies} setCart={setCart} />
+      <Cart cart={cart} setCart={setCart} />
     </section>
   )
 } 

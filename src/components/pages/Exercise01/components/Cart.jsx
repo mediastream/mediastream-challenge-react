@@ -1,43 +1,48 @@
-function Cart(props) {
+import { useState } from 'react'
+import MovieCard from './MovieCard'
+import QuantityManager from './QuantityManager'
 
-  const prices = props.elements.map(item => item.price)
+function Cart({cart, setCart}) {
+  const [discount, setDiscount] = useState(0)
+  const discountRules = [
+    {
+      m: [2, 3], // 5
+      discount: 0.25
+    },
+    {
+      m: [1, 2, 4], //7
+      discount: 0.5
+    },
+    {
+      m: [2, 4], //6
+      discount: 0.1
+    } 
+  ]
 
+  const prices = cart.map(item => item.price * item.quantity)
+  const movieIds = cart.map(item => item.id)
   console.log(prices)
 
-  const getTotal = () => 0//props.elements.reduce((total, element) => total + element.price) // TODO: Implement this
+  const getTotal = () => {
+    const finalPrice = prices.length ? prices.reduce((total, item) => total + item) : 0
+    const compareArrays = (a, b) => a.every((val, index) => val === b[index])
+    const discountIndex = discountRules.findIndex(rule => compareArrays(rule.m, movieIds.sort()))
+    const discountValue = discountRules[discountIndex] === undefined ? 1 : discountRules[discountIndex].discount    
+    return discountRules[discountIndex] === undefined ? finalPrice : finalPrice - (discountValue * finalPrice)
+  }
 
   return (
     <div className="movies__cart">
       <ul>
-        {props.elements.map(item => (
+        {cart.map(item => (
           <li className="movies__cart-card">
-            <ul>
-              <li>
-                ID: {item.id}
-              </li>
-              <li>
-                Name: {item.name}
-              </li>
-              <li>
-                Price: ${item.price}
-              </li>
-            </ul>
-            <div className="movies__cart-card-quantity">
-              <button onClick={() => console.log('Decrement quantity', item)}>
-                -
-              </button>
-              <span>
-                {item.quantity}
-              </span>
-              <button onClick={() => console.log('Increment quantity', item)}>
-                +
-              </button>
-            </div>
+            <MovieCard item={item} />
+            <QuantityManager item={item} cart={cart} setCart={setCart}/>
           </li>
         ))}
       </ul>
       <div className="movies__cart-total">
-        <p>Total: ${getTotal()}</p>
+        <p>Total: ${getTotal()} { discount === 0 ? '' : ` -${discount*100}%` } </p>
       </div>
     </div>
   )
