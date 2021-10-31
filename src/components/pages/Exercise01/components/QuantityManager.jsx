@@ -1,7 +1,7 @@
 function QuantityManager({item, cart, setCart}){
 
   const changeQuantity = (id, amount) => { 
-    const tempCart = cart.slice(0)
+    const tempCart = [...cart]
     const updatedElement = tempCart.splice(cart.findIndex(item => item.id === id), 1)[0]
     updatedElement.quantity += amount
     if(updatedElement.quantity <= 0){

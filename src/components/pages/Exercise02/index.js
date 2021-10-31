@@ -14,30 +14,24 @@
 
 import "./assets/styles.css";
 import { useEffect, useState } from "react";
+import MovieLibrary from "./components/MovieLibrary";
+import GenreSelect from "./components/GenreSelect"
 
 export default function Exercise02 () {
   const [movies, setMovies] = useState([])
   const [fetchCount, setFetchCount] = useState(0)
+  const [genres, setGenres] = useState([])
   const [loading, setLoading] = useState(false)
-
-  const handleMovieFetch = () => {
-    setLoading(true)
-    setFetchCount(fetchCount + 1)
-    console.log('Getting movies')
-    fetch('http://localhost:3001/movies?_limit=50')
-      .then(res => res.json())
-      .then(json => {
-        setMovies(json)
-        setLoading(false)
-      })
-      .catch(() => {
-        console.log('Run yarn movie-api for fake api')
-      })
-  }
+  const [filteredMovies, setFilteredMovies] = useState([])
 
   useEffect(() => {
-    handleMovieFetch()
-  }, [handleMovieFetch])
+    handleMovieFetch(setMovies,setFilteredMovies,setFetchCount,setLoading)
+    handleGenreFetch(setGenres)
+  }, [])
+
+  const handleFilter = (e) => setFilteredMovies( movies.filter( movie => movie.genres.includes(e.target.value) )) 
+
+  const sortMovies = () => setFilteredMovies([...filteredMovies].sort((a,b) => (a.id > b.id) ? -1 : ((b.id > a.id) ? 1 : 0)))
 
   return (
     <section className="movie-library">
@@ -45,32 +39,31 @@ export default function Exercise02 () {
         Movie Library
       </h1>
       <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
-        </select>
-        <button>Order Descending</button>
+        <GenreSelect genres={genres} handleFilter={handleFilter}/> 
+        <button onClick={sortMovies}>Order Descending</button>
       </div>
-      {loading ? (
-        <div className="movie-library__loading">
-          <p>Loading...</p>
-          <p>Fetched {fetchCount} times</p>
-        </div>
-      ) : (
-        <ul className="movie-library__list">
-          {movies.map(movie => (
-            <li key={movie.id} className="movie-library__card">
-              <img src={movie.posterUrl} alt={movie.title} />
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
-              </ul>
-            </li>
-          ))}
-        </ul>
-      )}
+        <MovieLibrary movies={filteredMovies} loading={loading} fetchCount={fetchCount} />
     </section>
   )
+}
+
+const handleMovieFetch = (setMovies,setFilteredMovies,setFetchCount,setLoading) => {
+  setLoading(true)
+  setFetchCount(prev => prev + 1)
+  fetch('http://localhost:3001/movies?_limit=50')
+    .then(res => res.json())
+    .then(json => {
+      setMovies(json)
+      setFilteredMovies(json)
+      setLoading(false)
+    })
+    .catch(() => {
+      console.log('Run yarn movie-api for fake api')
+    })
+}
+
+const handleGenreFetch = (setGenres) => {
+  fetch('http://localhost:3001/genres')
+    .then(res => res.json())
+    .then(json => setGenres(json))
 }

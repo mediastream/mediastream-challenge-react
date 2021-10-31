@@ -1,27 +1,12 @@
 import { useState } from 'react'
 import MovieCard from './MovieCard'
 import QuantityManager from './QuantityManager'
+import discountRules from './data/discountRules.json'
 
 function Cart({cart, setCart}) {
   const [discount, setDiscount] = useState(0)
-  const discountRules = [
-    {
-      m: [2, 3], // 5
-      discount: 0.25
-    },
-    {
-      m: [1, 2, 4], //7
-      discount: 0.5
-    },
-    {
-      m: [2, 4], //6
-      discount: 0.1
-    } 
-  ]
-
   const prices = cart.map(item => item.price * item.quantity)
   const movieIds = cart.map(item => item.id)
-  console.log(prices)
 
   const getTotal = () => {
     const finalPrice = prices.length ? prices.reduce((total, item) => total + item) : 0
@@ -37,7 +22,7 @@ function Cart({cart, setCart}) {
         {cart.map(item => (
           <li className="movies__cart-card">
             <MovieCard item={item} />
-            <QuantityManager item={item} cart={cart} setCart={setCart}/>
+            <QuantityManager item={item} cart={cart} setCart={setCart} />
           </li>
         ))}
       </ul>

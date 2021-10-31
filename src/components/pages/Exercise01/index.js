@@ -15,31 +15,9 @@ import './assets/styles.css'
 import { useState } from 'react'
 import MovieList from './components/MovieList'
 import Cart from './components/Cart'
+import movies from './components/data/movies'
 
 export default function Exercise01 () {
-  const movies = [
-    {
-      id: 1,
-      name: 'Star Wars',
-      price: 20
-    },
-    {
-      id: 2,
-      name: 'Minions',
-      price: 25
-    },
-    {
-      id: 3,
-      name: 'Fast and Furious',
-      price: 10
-    },
-    {
-      id: 4,
-      name: 'The Lord of the Rings',
-      price: 5
-    }
-  ]
-
   const [cart, setCart] = useState([
     {
       id: 1,
@@ -48,8 +26,7 @@ export default function Exercise01 () {
       quantity: 2
     }
   ])
-  //const getTotal = () => 0 // TODO: Implement this
-
+  
   return (
     <section className="exercise01">
       <MovieList movies={movies} setCart={setCart} />
