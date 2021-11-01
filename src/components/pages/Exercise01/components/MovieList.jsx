@@ -1,4 +1,5 @@
 import MovieCard from './MovieCard'
+import PropTypes from 'prop-types'
 
 function MovieList({movies, setCart}){
   const handleChange = e => {
@@ -26,6 +27,11 @@ function MovieList({movies, setCart}){
       </ul>
     </div>
   )
+}
+
+MovieList.propTypes = {
+  movies: PropTypes.arrayOf(PropTypes.object),
+  setCart: PropTypes.func
 }
 
 export default MovieList

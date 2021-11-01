@@ -1,4 +1,5 @@
-import { useState, useMemo , useEffect} from 'react'
+import { useState, useEffect} from 'react'
+import PropTypes from 'prop-types'
 import MovieCard from './MovieCard'
 import QuantityManager from './QuantityManager'
 import discountRules from './data/discountRules.json'
@@ -29,12 +30,18 @@ function Cart({cart, setCart}) {
         ))}
       </ul>
       <div className="movies__cart-total">
-        <p>Total: ${finalPrice} </p> <small> {discount !== 0 ?` (${discount*100}% off)` : ""} </small>
+        <p>Total: ${finalPrice} </p> 
+        <p className="priceDiscount"> {discount !== 0 ?` (${discount*100}% discount)` : ""} </p>
       </div>
     </div>
   )
 }
 
 const compareArrays = (a, b) => a.every((val, index) => val === b[index])
+
+Cart.propTypes = {
+  cart: PropTypes.arrayOf(PropTypes.object),
+  setCart: PropTypes.func
+}
 
 export default Cart

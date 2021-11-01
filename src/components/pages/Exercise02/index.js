@@ -13,8 +13,8 @@
  */
 
 import "./assets/styles.css";
-import { useEffect, useState } from "react";
-import MovieLibrary from "./components/MovieLibrary";
+import { useEffect, useState } from "react"
+import MovieLibrary from "./components/MovieLibrary"
 import GenreSelect from "./components/GenreSelect"
 
 export default function Exercise02 () {
@@ -23,14 +23,42 @@ export default function Exercise02 () {
   const [genres, setGenres] = useState([])
   const [loading, setLoading] = useState(false)
   const [filteredMovies, setFilteredMovies] = useState([])
+  const [order, setOrder] = useState(false)
 
   useEffect(() => {
-    handleMovieFetch(setMovies,setFilteredMovies,setFetchCount,setLoading)
-    handleGenreFetch(setGenres)
+    handleMovieFetch()
+    handleGenreFetch()
   }, [])
 
+  const handleMovieFetch = () => {
+    setLoading(true)
+    setFetchCount(prev => prev + 1)
+    fetch('http://localhost:3001/movies?_limit=50')
+      .then(res => res.json())
+      .then(json => {
+        setMovies(json)
+        setFilteredMovies(json)
+        setLoading(false)
+      })
+      .catch(() => {
+        console.log('Run yarn movie-api for fake api')
+      })
+  }
+  
+  const handleGenreFetch = () => {
+    fetch('http://localhost:3001/genres')
+      .then(res => res.json())
+      .then(json => setGenres(json))  
+  }
+
+  useEffect(() => setOrder( (prev) => !prev) , [filteredMovies])
+
   const handleFilter = (e) => setFilteredMovies( movies.filter( movie => movie.genres.includes(e.target.value) )) 
-  const sortMovies = () => setFilteredMovies([...filteredMovies].sort((a,b) => (a.year > b.year) ? -1 : ((b.year > a.year) ? 1 : 0)))
+  
+  //I'm sure there's a better way to implement this sorting toggle.. curryng perhaps?
+  const ascending = (a,b) => (a.year > b.year) ? -1 : ((b.year > a.year) ? 1 : 0)
+  const descending = (a,b) => (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0)
+  const sortMovies = () => setFilteredMovies([...filteredMovies].sort(order ? ascending : descending))
 
   return (
     <section className="movie-library">
@@ -39,30 +67,11 @@ export default function Exercise02 () {
       </h1>
       <div className="movie-library__actions">
         <GenreSelect genres={genres} handleFilter={handleFilter}/> 
-        <button onClick={sortMovies}>Order Descending</button>
+        <button onClick={sortMovies} className="btnOrder roundRadius">Order Descending</button>
       </div>
         <MovieLibrary movies={filteredMovies} loading={loading} fetchCount={fetchCount} />
     </section>
   )
 }
 
-const handleMovieFetch = (setMovies,setFilteredMovies,setFetchCount,setLoading) => {
-  setLoading(true)
-  setFetchCount(prev => prev + 1)
-  fetch('http://localhost:3001/movies?_limit=50')
-    .then(res => res.json())
-    .then(json => {
-      setMovies(json)
-      setFilteredMovies(json)
-      setLoading(false)
-    })
-    .catch(() => {
-      console.log('Run yarn movie-api for fake api')
-    })
-}
 
-const handleGenreFetch = (setGenres) => {
-  fetch('http://localhost:3001/genres')
-    .then(res => res.json())
-    .then(json => setGenres(json))
-}

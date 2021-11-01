@@ -90,3 +90,9 @@
   margin-top: 1em;
   font-size: 1.25em;
 }
+
+.priceDiscount{
+  margin-top: 10px ;
+  color: red;
+  font-size: .8em;
+}

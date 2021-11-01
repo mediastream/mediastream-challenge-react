@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 function MovieCard({item}){
   return(
     <>
@@ -14,6 +16,14 @@ function MovieCard({item}){
       </ul>
     </>
   )
+}
+
+MovieCard.prototype = {
+  item: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    price: PropTypes.number
+  })
 }
 
 export default MovieCard

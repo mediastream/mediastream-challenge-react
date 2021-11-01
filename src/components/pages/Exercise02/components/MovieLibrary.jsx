@@ -1,18 +1,11 @@
+import MovieCard from './MovieCard'
+import PropTypes from 'prop-types'
+
 function MovieLibrary({movies, loading, fetchCount}){
-  console.log(loading)
   return !loading ? (
-    <ul className="movie-library__list">
+    <ul className="cardList">
       {movies.map(movie => (
-        <li key={movie.id} className="movie-library__card">
-          <img src={movie.posterUrl} alt={movie.title} />
-          <ul>
-            <li>ID: {movie.id}</li>
-            <li>Title: {movie.title}</li>
-            <li>Year: {movie.year}</li>
-            <li>Runtime: {movie.runtime}</li>
-            <li>Genres: {movie.genres.join(', ')}</li>
-          </ul>
-        </li>
+        <MovieCard movie={movie} />
       ))}
     </ul>
   ) : (
@@ -21,6 +14,12 @@ function MovieLibrary({movies, loading, fetchCount}){
       <p>Fetched {fetchCount} times</p>
     </div>
   )
+}
+
+MovieLibrary.propTypes = {
+  movies : PropTypes.arrayOf(PropTypes.object),
+  loading: PropTypes.bool,
+  fetchCount: PropTypes.number,
 }
 
 export default MovieLibrary
