@@ -1,5 +1,8 @@
 .movie-library {
-  background-color: var(--black);
+  background-image: url('../assets/mountains.jpeg');
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
   color: var(--white);
   min-height: 100vh;
   padding: 2em;
@@ -7,51 +10,90 @@
 
 .movie-library__title {
   font-size: 2em;
+  font-weight: 700;
   margin-bottom: 1em;
 }
 
 .movie-library__actions {
   display: flex;
+  height: 2rem;
   margin-bottom: 1em;
 }
 
 .movie-library__actions select {
+  border-radius: 0.3rem 0 0 0.3rem;
+  border: solid rgba(65, 194, 10, 1) 2px;
+  padding: 0.25em;
   width: 100%;
-  padding: .25em;
 }
 
 .movie-library__actions button {
+  background-color: rgba(65, 194, 10, 1);
+  border-radius: 0 0.3rem 0.3rem 0;
+  border: none;
   white-space: nowrap;
 }
 
 .movie-library__loading {
+  background-color: #222222;
+  margin: 2em 0;
+  padding: 1.25em 0;
   text-align: center;
   width: 100%;
-  background-color: #222222;
-  padding: 1.25em 0;
-  margin: 2em 0;
 }
 
 .movie-library__list {
-  padding: 1em;
   background-color: #222222;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 1em;
 }
 
 .movie-library__card {
-  background-color: #333333;
-  margin-bottom: 1em;
+  border-radius: 0.6rem;
   display: flex;
-  align-items: center;
+  flex-flow: column nowrap;
+  flex: 0 1 22%;
+  margin-bottom: 1em;
+  min-height: 20rem;
+  min-width: 15rem;
+  position: relative;
 }
 
-.movie-library__card img {
-  width: 10em;
+.movie-library__background {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(56, 255, 0, 0) 12%,
+    rgba(65, 194, 10, 1) 97%
+  );
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
-.movie-library__card ul {
-  padding: 1em;
+.movie-library__detail {
+  bottom: 0;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-end;
+  left: 0;
+  margin: 1rem;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
-.movie-library__card li {
-  line-height: 120%;
+.movie-library__detail h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.movie-library__detail span {
+  font-size: 0.9rem;
+  font-weight: 300;
 }
