@@ -5,7 +5,7 @@ function MovieLibrary({movies, loading, fetchCount}){
   return !loading ? (
     <ul className="cardList">
       {movies.map(movie => (
-        <MovieCard movie={movie} />
+        <MovieCard movie={movie} key={movie.id}/>
       ))}
     </ul>
   ) : (

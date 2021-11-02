@@ -1,4 +1,4 @@
-import { useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import MovieCard from './MovieCard'
 import QuantityManager from './QuantityManager'
@@ -13,8 +13,10 @@ function Cart({cart, setCart}) {
 
   useEffect(() => {
     const finalPrice = prices.length ? prices.reduce((total, item) => total + item) : 0
+    const compareArrays = (a, b) => a.every((val, index) => val === b[index])
     const discountIndex = discountRules.findIndex(rule => compareArrays(rule.m, movieIds.sort()))
-    const discountValue = discountRules[discountIndex] === undefined ? 0 : discountRules[discountIndex].discount    
+    const discountValue = discountRules[discountIndex] === undefined ? 0 : discountRules[discountIndex].discount
+    
     setDiscount(discountValue)
     setFinalPrice(finalPrice - (discountValue * finalPrice))
   }, [prices, movieIds])
@@ -37,7 +39,6 @@ function Cart({cart, setCart}) {
   )
 }
 
-const compareArrays = (a, b) => a.every((val, index) => val === b[index])
 
 Cart.propTypes = {
   cart: PropTypes.arrayOf(PropTypes.object),

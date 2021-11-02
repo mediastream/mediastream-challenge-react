@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /**
  * Exercise 02: Movie Library
  * We are trying to make a movie library for internal users. We are facing some issues by creating this, try to help us following the next steps:
@@ -65,9 +64,9 @@ export default function Exercise02 () {
       <h1 className="movie-library__title">
         Movie Library
       </h1>
-      <div className="movie-library__actions">
+      <div className="movie-library__actions btn-group " role="group">
         <GenreSelect genres={genres} handleFilter={handleFilter}/> 
-        <button onClick={sortMovies} className="btnOrder roundRadius">Order Descending</button>
+        <button onClick={sortMovies} className="btn btnOrder roundRadius">Order Descending</button>
       </div>
         <MovieLibrary movies={filteredMovies} loading={loading} fetchCount={fetchCount} />
     </section>

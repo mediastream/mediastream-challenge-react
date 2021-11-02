@@ -17,9 +17,9 @@ MovieCard.propTypes = {
   movie: PropTypes.shape({
     id: PropTypes.number,
     posterUrl: PropTypes.string,
-    genres: PropTypes.string,
+    genres: PropTypes.arrayOf(PropTypes.string),
     title: PropTypes.string,
-    year: PropTypes.number
+    year: PropTypes.string
   })
 }
 

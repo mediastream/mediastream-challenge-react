@@ -71,10 +71,9 @@
 }
 
 .card{
-  display : flex;
-  position: relative;
   bottom: 0;
   color: black;
+  background: 0;
   border-radius: 15px;
   vertical-align: bottom;
   text-align: left;
@@ -87,22 +86,22 @@
   transform: scale(1.045);
 }
 @keyframes hoverScaling {
-  from {  transform: scale(1.0);  }
-  to {  transform: scale(1.045); }
+  from { transform: scale(1.0);  }
+  to { transform: scale(1.045); }
 }
 
 .card::after{
-  background: rgb(255,255,255);
-  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(136,211,6,1) 80%);
-  margin-top: -350px;
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(136,211,6,1) 40%);
+  margin-top: -320px;
   height: 380px;
   width: 100%;
-  border-radius: 15px;
   content: '';
+  border-radius: inherit;
 }
 
 .movieTitle{
   font-weight: bold;
+  font-size: 20px;
 }
 
 .movieDetails{
@@ -111,7 +110,7 @@
   z-index: 0;
 }
 .movieDetails li{
-  padding-bottom: 6px ;
+  padding-bottom: 8px ;
   color: white;
 }
 
@@ -123,12 +122,15 @@
 
 .cardList{
   display: grid;
-  align-items: flex;
   margin: 1rem;
   margin-left: 0px;
   margin-right: 0px;
   flex-wrap: wrap;
-  justify-content:baseline;
   grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
   gap: 2rem;
+  margin-top: 44px;
+}
+
+select option{
+  text-align: left;
 }
