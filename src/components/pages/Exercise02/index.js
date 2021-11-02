@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /**
  * Exercise 02: Movie Library
  * We are trying to make a movie library for internal users. We are facing some issues by creating this, try to help us following the next steps:
@@ -13,64 +12,65 @@
  */
 
 import "./assets/styles.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
+import MovieLibrary from "./components/MovieLibrary"
+import GenreSelect from "./components/GenreSelect"
 
 export default function Exercise02 () {
   const [movies, setMovies] = useState([])
   const [fetchCount, setFetchCount] = useState(0)
+  const [genres, setGenres] = useState([])
   const [loading, setLoading] = useState(false)
+  const [filteredMovies, setFilteredMovies] = useState([])
+  const [order, setOrder] = useState(false)
+
+  useEffect(() => {
+    handleMovieFetch()
+    handleGenreFetch()
+  }, [])
 
   const handleMovieFetch = () => {
     setLoading(true)
-    setFetchCount(fetchCount + 1)
-    console.log('Getting movies')
+    setFetchCount(prev => prev + 1)
     fetch('http://localhost:3001/movies?_limit=50')
       .then(res => res.json())
       .then(json => {
         setMovies(json)
+        setFilteredMovies(json)
         setLoading(false)
       })
       .catch(() => {
         console.log('Run yarn movie-api for fake api')
       })
   }
+  
+  const handleGenreFetch = () => {
+    fetch('http://localhost:3001/genres')
+      .then(res => res.json())
+      .then(json => setGenres(json))  
+  }
 
-  useEffect(() => {
-    handleMovieFetch()
-  }, [handleMovieFetch])
+  useEffect(() => setOrder( (prev) => !prev) , [filteredMovies])
+
+  const handleFilter = (e) => setFilteredMovies( movies.filter( movie => movie.genres.includes(e.target.value) )) 
+  
+  //I'm sure there's a better way to implement this sorting toggle.. curryng perhaps?
+  const ascending = (a,b) => (a.year > b.year) ? -1 : ((b.year > a.year) ? 1 : 0)
+  const descending = (a,b) => (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0)
+  const sortMovies = () => setFilteredMovies([...filteredMovies].sort(order ? ascending : descending))
 
   return (
     <section className="movie-library">
       <h1 className="movie-library__title">
         Movie Library
       </h1>
-      <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
-        </select>
-        <button>Order Descending</button>
+      <div className="movie-library__actions btn-group " role="group">
+        <GenreSelect genres={genres} handleFilter={handleFilter}/> 
+        <button onClick={sortMovies} className="btn btnOrder roundRadius">Order Descending</button>
       </div>
-      {loading ? (
-        <div className="movie-library__loading">
-          <p>Loading...</p>
-          <p>Fetched {fetchCount} times</p>
-        </div>
-      ) : (
-        <ul className="movie-library__list">
-          {movies.map(movie => (
-            <li key={movie.id} className="movie-library__card">
-              <img src={movie.posterUrl} alt={movie.title} />
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
-              </ul>
-            </li>
-          ))}
-        </ul>
-      )}
+        <MovieLibrary movies={filteredMovies} loading={loading} fetchCount={fetchCount} />
     </section>
   )
 }
+
+
