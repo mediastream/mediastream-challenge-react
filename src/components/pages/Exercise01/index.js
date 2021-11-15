@@ -12,7 +12,7 @@
  */
 
 import './assets/styles.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function Exercise01 () {
   const movies = [
@@ -54,13 +54,10 @@ export default function Exercise01 () {
   ]
 
   const [cart, setCart] = useState([
-    {
-      id: 1,
-      name: 'Star Wars',
-      price: 20,
-      quantity: 2
-    }
+
   ])
+
+  
 
   const getTotal = () => 0 // TODO: Implement this
 
@@ -81,7 +78,20 @@ export default function Exercise01 () {
                   Price: ${o.price}
                 </li>
               </ul>
-              <button onClick={() => console.log('Add to cart', o)}>
+              <button onClick={() => { 
+                    let alreadyOnCart = false
+                    cart.forEach( x => {
+                      alreadyOnCart =  x.id == o.id ? true : false 
+                    })
+                    if(!alreadyOnCart)
+                        cart.push({ id: o.id, name: o.name, price: o.price, quantity: 1 })
+                    
+                    setCart([...cart])
+                    }
+        
+                }
+                
+                >
                 Add to cart
               </button>
             </li>
@@ -90,7 +100,10 @@ export default function Exercise01 () {
       </div>
       <div className="movies__cart">
         <ul>
-          {cart.map(x => (
+          {cart.map(x => {
+            if(x.quantity > 0)
+            {
+            return (
             <li className="movies__cart-card">
               <ul>
                 <li>
@@ -104,7 +117,34 @@ export default function Exercise01 () {
                 </li>
               </ul>
               <div className="movies__cart-card-quantity">
-                <button onClick={() => console.log('Decrement quantity', x)}>
+                <button onClick={() => { 
+
+                                         
+                                        /*let newCart = cart.map((x, i, v) => { 
+                                            const { id, name, price, quantity } = x
+                                            console.log("Seeing ids", id, x.id)
+                                            if(id == x.id)
+                                            {
+                                                let quantityEdit = quantity - 1
+                                                console.log("Quantity Edit", quantityEdit)
+                                                if(quantityEdit > 0)
+                                                {
+                                                    return { id, name, price, quantity: quantityEdit }
+                                                }
+                                                else
+                                                {
+                                                    return {}
+                                                }
+                                                
+                                            }
+                                        })*/
+
+                                        //console.log("NewCart", newCart)
+                                        //const newCart = Object.assign([...cart], [{ id: x.id, name: x.name, price: x.price, quantity: x.quantity - 1 }])
+                                        //console.log("X.id", x.id)
+                                        //console.log("newCart", newCart)
+                                        setCart([])
+                }}>
                   -
                 </button>
                 <span>
@@ -115,7 +155,7 @@ export default function Exercise01 () {
                 </button>
               </div>
             </li>
-          ))}
+          )}})}
         </ul>
         <div className="movies__cart-total">
           <p>Total: ${getTotal()}</p>
