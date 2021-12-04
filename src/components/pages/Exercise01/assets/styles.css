@@ -90,3 +90,14 @@
   margin-top: 1em;
   font-size: 1.25em;
 }
+
+.movies__cart-subtotal {
+  margin-top: 1em;
+  font-size: 1em;
+  margin-bottom: -0.5em;
+  color: #aaa;
+}
+
+.movies__cart-discount {
+  font-size: 0.7em;
+}
