@@ -3,6 +3,14 @@
   color: var(--white);
   min-height: 100vh;
   padding: 2em;
+  /* background-image: url('./mountains.jpeg') , linear-gradient(#ffffff00, #d13531); */
+  background-image:
+    linear-gradient(to bottom, rgba(39, 39, 39, 0.1) 20px, rgba(10,10,10, 1) 400px,  rgb(10,10,10),  rgb(10,10,10) ),
+    url('./mountains.jpeg');
+  background-position: 0 -10vw;
+  background-size: contain;
+  background-repeat:no-repeat;
+  
 }
 
 .movie-library__title {
