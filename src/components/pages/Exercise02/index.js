@@ -14,42 +14,117 @@
 
 import "./assets/styles.css";
 import { useEffect, useState } from "react";
+import background from "./assets/mountains.jpeg";
 
-export default function Exercise02 () {
-  const [movies, setMovies] = useState([])
-  const [fetchCount, setFetchCount] = useState(0)
-  const [loading, setLoading] = useState(false)
+const URL_MOVIES = 'http://localhost:3001/movies?_limit=50';
+const URL_GENDERS = 'http://localhost:3001/genres';
+
+export default function Exercise02() {
+  const [movies, setMovies] = useState([]);
+  const [genders, setGenders] = useState(['All']);
+  const [fetchCount, setFetchCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [loadingGender, setLoadingGender] = useState(false);
+  const [yearOrder, setYearOrder] = useState('Descending')
 
   const handleMovieFetch = () => {
-    setLoading(true)
-    setFetchCount(fetchCount + 1)
-    console.log('Getting movies')
-    fetch('http://localhost:3001/movies?_limit=50')
+    setLoading(true);
+    setFetchCount(fetchCount + 1);
+    console.log('Getting movies');
+    fetch(URL_MOVIES)
       .then(res => res.json())
       .then(json => {
-        setMovies(json)
-        setLoading(false)
+        setMovies(json);
+        setLoading(false);
       })
       .catch(() => {
-        console.log('Run yarn movie-api for fake api')
+        console.log('Run yarn movie-api for fake api');
+      })
+  }
+
+  const handleGenderFetch = () => {
+    setLoadingGender(true);
+    fetch(URL_GENDERS)
+      .then(res => res.json())
+      .then(json => {
+        setGenders([
+          ...genders,
+          ...json
+        ]);
+        setLoadingGender(false);
+      })
+      .catch((e) => {
+        console.log(e);
       })
   }
 
   useEffect(() => {
-    handleMovieFetch()
-  }, [handleMovieFetch])
+    handleMovieFetch();
+    handleGenderFetch();
+  }, []);
+
+  const handlerChangeGender = (e) => {
+    const gender = e.target.value;
+    if (gender === 'All') handleMovieFetch();
+    else {
+      setLoading(true);
+      setFetchCount(fetchCount + 1);
+      console.log(`Getting movies by gender ${gender}`);
+      fetch(URL_MOVIES)
+        .then(res => res.json())
+        .then(json => {
+          const filtered = json.filter(movie => movie.genres.includes(gender))
+          setMovies(filtered);
+          setLoading(false);
+        })
+        .catch(() => {
+          console.log('Run yarn movie-api for fake api');
+        })
+    }
+  }
+
+  const handlerOrderByYear = () => {
+    if (yearOrder === 'Descending') {
+      setYearOrder('Ascending');
+      const aux = Array.from(movies);
+      aux.sort(function (a, b) {
+        return a.year - b.year;
+      });
+      setMovies(aux);
+    } else {
+      setYearOrder('Descending');
+      const aux = Array.from(movies);
+      aux.sort(function (a, b) {
+        return b.year - a.year;
+      });
+      setMovies(aux);
+    }
+  }
+
 
   return (
-    <section className="movie-library">
-      <h1 className="movie-library__title">
-        Movie Library
-      </h1>
-      <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
-        </select>
-        <button>Order Descending</button>
+    <section className="movie-library" >
+      <div className="movie-library__head">
+        <h1 className="movie-library__title">
+          Movie Library
+        </h1>
+        <div className="movie-library__actions">
+          {loadingGender ? (
+            <select name="genre" placeholder="Search by genre..." >
+              <option value="genre1">wait...</option>
+            </select>
+          ) : (
+            <select name="genre" placeholder="Search by genre..." onChange={handlerChangeGender}>
+              {genders.map((gender, i) => (<option key={i} value={gender}>{gender}</option>)
+              )}
+            </select>
+          )}
+
+          <button onClick={handlerOrderByYear}>Year {yearOrder}</button>
+        </div>
       </div>
+
+
       {loading ? (
         <div className="movie-library__loading">
           <p>Loading...</p>
@@ -58,14 +133,19 @@ export default function Exercise02 () {
       ) : (
         <ul className="movie-library__list">
           {movies.map(movie => (
-            <li key={movie.id} className="movie-library__card">
-              <img src={movie.posterUrl} alt={movie.title} />
+            <li key={movie.id} className="movie-library__card"
+              style={{
+                background: `linear-gradient(to bottom, rgba(255, 255, 255,0) 30%,
+              rgba(250, 246, 7,0.9)) , url(${movie.posterUrl})center`,
+              backgroundSize: 'cover',
+              }}
+
+            >
+
               <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
+                <li>{movie.title}</li>
+                <li>{movie.genres.join(', ')}</li>
+                <li>{movie.year}</li>
               </ul>
             </li>
           ))}
@@ -74,3 +154,5 @@ export default function Exercise02 () {
     </section>
   )
 }
+
+//style={{ backgroundImage: `url(${background})` }}
