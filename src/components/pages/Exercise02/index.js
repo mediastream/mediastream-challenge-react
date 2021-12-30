@@ -154,5 +154,3 @@ export default function Exercise02() {
     </section>
   )
 }
-
-//style={{ backgroundImage: `url(${background})` }}
