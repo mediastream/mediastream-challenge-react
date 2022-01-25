@@ -13,6 +13,7 @@
 
 import './assets/styles.css'
 import { useState } from 'react'
+import { addItemToCart, removeItemFromCart } from '../../../utils/Cart/CartUtils'
 
 export default function Exercise01 () {
   const movies = [
@@ -40,48 +41,43 @@ export default function Exercise01 () {
 
   const discountRules = [
     {
-      m: [3, 2],
+      coincidence: [3,2],
       discount: 0.25
     },
     {
-      m: [2, 4, 1],
+      coincidence: [2,4,1],
       discount: 0.5
     },
     {
-      m: [4, 2],
+      coincidence: [4,2],
       discount: 0.1
     } 
   ]
 
-  const [cart, setCart] = useState([
-    {
-      id: 1,
-      name: 'Star Wars',
-      price: 20,
-      quantity: 2
-    }
-  ])
-
-  const getTotal = () => 0 // TODO: Implement this
+  const [cart, setCart] = useState({
+    items: [],
+    total: 0,
+    discount: 0
+  });
 
   return (
     <section className="exercise01">
       <div className="movies__list">
         <ul>
-          {movies.map(o => (
-            <li className="movies__list-card">
+          {movies.map(item => (
+            <li className="movies__list-card" key={item.id}>
               <ul>
                 <li>
-                  ID: {o.id}
+                  ID: {item.id}
                 </li>
                 <li>
-                  Name: {o.name}
+                  Name: {item.name}
                 </li>
                 <li>
-                  Price: ${o.price}
+                  Price: ${item.price}
                 </li>
               </ul>
-              <button onClick={() => console.log('Add to cart', o)}>
+              <button onClick={ () => addItemToCart( cart, setCart, discountRules, item ) }>
                 Add to cart
               </button>
             </li>
@@ -90,35 +86,40 @@ export default function Exercise01 () {
       </div>
       <div className="movies__cart">
         <ul>
-          {cart.map(x => (
-            <li className="movies__cart-card">
+          {cart.items.map(cartItem => (
+            <li className="movies__cart-card" key={cartItem.id}>
               <ul>
                 <li>
-                  ID: {x.id}
+                  ID: {cartItem.id}
                 </li>
                 <li>
-                  Name: {x.name}
+                  Name: {cartItem.name}
                 </li>
                 <li>
-                  Price: ${x.price}
+                  Price: ${cartItem.price}
                 </li>
               </ul>
               <div className="movies__cart-card-quantity">
-                <button onClick={() => console.log('Decrement quantity', x)}>
+                <button onClick={() => removeItemFromCart( cart, setCart, discountRules, cartItem )}>
                   -
                 </button>
                 <span>
-                  {x.quantity}
+                  {cartItem.quantity}
                 </span>
-                <button onClick={() => console.log('Increment quantity', x)}>
+                <button onClick={() => addItemToCart( cart, setCart, discountRules, cartItem )}>
                   +
                 </button>
               </div>
             </li>
           ))}
         </ul>
+        <div>
+          <br/>
+          <p>{ cart.discount > 0 ? `Total without discount: $${cart.total}` : '' }</p>
+          <p>{ cart.discount > 0 ? `Discount applied: ${cart.discount*100}%` : '' }</p>
+        </div>
         <div className="movies__cart-total">
-          <p>Total: ${getTotal()}</p>
+          <p>Total ${cart.total - (cart.total * cart.discount)}</p>
         </div>
       </div>
     </section>
