@@ -1,0 +1,118 @@
+.item {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  width: 200px;
+  height: 300px;
+  max-width: 100%;
+  max-height: 100%;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1em;
+  
+}
+
+.background {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    0deg,
+    rgba(143, 196, 19, 0.959) 10%,
+    rgba(143, 196, 19, 0.623) 25%,
+    rgba(5, 255, 0, 0) 60%
+  );
+}
+
+.movie-details {
+  position: absolute;
+  top: -16px;
+  left: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: flex-start;
+  align-content: flex-start;
+  height: 100%;
+  
+}
+
+.movie-details__title {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: flex-start;
+  height: auto;
+  width: auto;
+  font-weight: bolder;
+  font-size: 16px;
+}
+
+.movie-details__subdetails {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  height: auto;
+  width: auto;
+  font-weight: lighter;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+
+@media screen and (min-width: 480px) {
+  .item {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+    width: 25em;
+    height: 35em;
+    margin: 16px;
+    max-width: 100%;
+    max-height: 100%;
+    position: relative;
+    display: inline-block;
+    
+  }
+  
+  .background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .movie-details {
+    position: absolute;
+    top: -32px;
+    left: 16px;
+    display: inline-flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: flex-start;
+    align-content: flex-start;
+    height: 100%;
+    
+  }
+  
+  .movie-details__title {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: flex-start;
+    height: auto;
+    width: auto;
+    font-weight: bolder;
+    font-size: 24px;
+  }
+  
+  .movie-details__subdetails {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+    height: auto;
+    width: auto;
+    font-weight: lighter;
+    font-size: 16px;
+    margin-top: 4px;
+  }
+}

@@ -8,69 +8,99 @@
  * list of movies that belong to that gender (Filter all movies).
  * 3. Order the movies by year and implement a button that switch between ascending and descending order for the list
  * 4. Try to recreate the user interface that comes with the exercise (exercise02.png)
- * 
+ *
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
 
-import "./assets/styles.css";
-import { useEffect, useState } from "react";
+import "./assets/styles.css"
+import { useCallback, useEffect, useMemo, useState } from "react"
+import Catalogue from "../../Catalogue/Catalogue"
+import GenderSelector from "../../GenderSelector/GenderSelector"
+import { fetchGender } from "../../../services/genderService"
+import { fetchMovies } from "../../../services/moviesServices"
+export const DEFAULT_OPTION = "--none--"
 
-export default function Exercise02 () {
+export default function Exercise02() {
   const [movies, setMovies] = useState([])
   const [fetchCount, setFetchCount] = useState(0)
+  const [genres, setGenres] = useState([])
+  const [genreSelected, setGenreSelected] = useState("")
   const [loading, setLoading] = useState(false)
+  const [order, setOrder] = useState("")
 
-  const handleMovieFetch = () => {
+  const buttonText = useMemo(() => {
+    return order === "ASC" ? "Year Decending" : "Year Ascending"
+  }, [order])
+
+  const orderMovies = useCallback(() => {
+    if (order === "ASC") {
+      setMovies((prevState) => {
+        return prevState.sort((a, b) => b.year - a.year)
+      })
+    } else {
+      setMovies((prevState) => prevState.sort((a, b) => a.year - b.year))
+    }
+  }, [order])
+
+  const handleChangeOrder = useCallback(() => {
+    setOrder((prevState) => (prevState === "ASC" ? "DSC" : "ASC"))
+    orderMovies()
+  }, [orderMovies])
+
+  const handleGenderSelected = useCallback((event) => {
+    const newGenre =
+      event.target.value !== DEFAULT_OPTION ? event.target.value : ""
+    setGenreSelected(newGenre)
+  }, [])
+
+  const handleGendersFetch = useCallback(async () => {
     setLoading(true)
-    setFetchCount(fetchCount + 1)
-    console.log('Getting movies')
-    fetch('http://localhost:3001/movies?_limit=50')
-      .then(res => res.json())
-      .then(json => {
-        setMovies(json)
-        setLoading(false)
-      })
-      .catch(() => {
-        console.log('Run yarn movie-api for fake api')
-      })
-  }
+    const genderData = await fetchGender()
+    setGenres([DEFAULT_OPTION, ...genderData])
+    setLoading(false)
+  }, [])
+
+  const handleMovieFetch = useCallback(async () => {
+    setLoading(true)
+    setFetchCount((prevState) => prevState + 1)
+    const moviesData = await fetchMovies()
+    setMovies(moviesData)
+    setLoading(false)
+  }, [])
 
   useEffect(() => {
     handleMovieFetch()
   }, [handleMovieFetch])
 
+  useEffect(() => {
+    handleGendersFetch()
+  }, [handleGendersFetch])
+
   return (
     <section className="movie-library">
-      <h1 className="movie-library__title">
-        Movie Library
-      </h1>
-      <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
-        </select>
-        <button>Order Descending</button>
-      </div>
-      {loading ? (
-        <div className="movie-library__loading">
-          <p>Loading...</p>
-          <p>Fetched {fetchCount} times</p>
+      <section>
+        <div className="top" />
+        <div className="top-content">
+          <h1 className="movie-library__title">Movie Library</h1>
+          <div className="movie-library__actions">
+            <GenderSelector
+              handleChange={handleGenderSelected}
+              genres={genres}
+            />
+            <button onClick={handleChangeOrder}>{buttonText}</button>
+          </div>
         </div>
-      ) : (
-        <ul className="movie-library__list">
-          {movies.map(movie => (
-            <li key={movie.id} className="movie-library__card">
-              <img src={movie.posterUrl} alt={movie.title} />
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
-              </ul>
-            </li>
-          ))}
-        </ul>
-      )}
+      </section>
+      <section className="movie-library__body">
+        {loading ? (
+          <div className="movie-library__loading">
+            <p>Loading...</p>
+            <p>Fetched {fetchCount} times</p>
+          </div>
+        ) : (
+          <Catalogue filter={genreSelected} movies={movies} order={order} />
+        )}
+      </section>
     </section>
   )
 }
