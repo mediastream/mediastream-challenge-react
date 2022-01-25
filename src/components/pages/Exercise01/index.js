@@ -58,11 +58,69 @@ export default function Exercise01 () {
       id: 1,
       name: 'Star Wars',
       price: 20,
-      quantity: 2
+      quantity: 1
     }
   ])
 
-  const getTotal = () => 0 // TODO: Implement this
+  const addToCart = (o) => {
+
+    if(cart.findIndex( item => item.id === o.id) >= 0) {
+      IncrementDecrementQuantity(o,true);
+    } else {
+      setCart([...cart, {
+        id: o.id,
+        name: o.name,
+        price: o.price,
+        quantity: 1
+      }]);
+    }
+  }
+
+  const IncrementDecrementQuantity = (o,isIncrement) => {
+
+    const quantityModifyedInArry = cart.map(item => {
+      if(item.id !== o.id) return item;
+      return  {...item, quantity: isIncrement ? item.quantity + 1  : item.quantity -1}
+
+    }).filter(item => item.quantity > 0 );
+
+    setCart(quantityModifyedInArry);
+  }
+
+  const getTotal = () => cart.reduce((acum, current) => (parseInt(acum) + (parseInt(current.price) * parseInt(current.quantity)))  ,0);
+
+  const checkArryEqual = (cartIds, discountArray) => {
+    const sortedCartIds = cartIds.slice().sort();
+    const sortedDiscountArray = discountArray.slice().sort();
+    return (JSON.stringify(sortedCartIds) === JSON.stringify(sortedDiscountArray));
+  }
+  
+    const searchDiscount = (cartIds, discountArray) => {
+      let returnDiscount =0;
+      for (let i = 0; i < cartIds.length; i++) {
+        for (let j = 0; j < discountArray.length; j++) {
+          if (checkArryEqual(cartIds, discountArray[j].m)) {
+            returnDiscount = discountArray[j].discount;
+            break;
+          }
+        }
+      }
+      return returnDiscount;
+    };
+
+    const getDiscount = () => {
+      const cartIds = cart.map((item) => item.id);
+      const discount = searchDiscount(cartIds, discountRules);
+      const formatedDiscount = parseFloat(Math.round(discount * 100) / 100).toFixed(2);
+      return formatedDiscount;
+    }
+   
+    const getGranTotal = () => {
+      const discount = ((getDiscount() * getTotal())/100);
+      const granTotal =  getTotal() - discount;
+      const formatedGranTotal = parseFloat(Math.round(granTotal * 100) / 100).toFixed(2);
+      return formatedGranTotal;
+    }
 
   return (
     <section className="exercise01">
@@ -81,7 +139,7 @@ export default function Exercise01 () {
                   Price: ${o.price}
                 </li>
               </ul>
-              <button onClick={() => console.log('Add to cart', o)}>
+              <button onClick={() => addToCart( o)}>
                 Add to cart
               </button>
             </li>
@@ -104,13 +162,13 @@ export default function Exercise01 () {
                 </li>
               </ul>
               <div className="movies__cart-card-quantity">
-                <button onClick={() => console.log('Decrement quantity', x)}>
+                <button onClick={() => IncrementDecrementQuantity(x, false)}>
                   -
                 </button>
                 <span>
                   {x.quantity}
                 </span>
-                <button onClick={() => console.log('Increment quantity', x)}>
+                <button onClick={() => IncrementDecrementQuantity(x, true)}>
                   +
                 </button>
               </div>
@@ -119,6 +177,12 @@ export default function Exercise01 () {
         </ul>
         <div className="movies__cart-total">
           <p>Total: ${getTotal()}</p>
+        </div>
+        <div className="movies__cart-total">
+          <p>Discount: ${getDiscount()}</p>
+        </div>
+        <div className="movies__cart-total">
+          <p>Gran Total: ${getGranTotal()}</p>
         </div>
       </div>
     </section>

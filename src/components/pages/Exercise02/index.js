@@ -14,20 +14,31 @@
 
 import "./assets/styles.css";
 import { useEffect, useState } from "react";
+import { Grid,  GridList, Container,} from '@material-ui/core';
 
 export default function Exercise02 () {
+  const initialGenresValue = 'Search by genre...';
+
   const [movies, setMovies] = useState([])
+  const [genres, setGenres] = useState([])
+  const [genresSelected, setGenresSelected] = useState(initialGenresValue)
+  const [isAscendingList, setIsAscendingList] = useState(true)
   const [fetchCount, setFetchCount] = useState(0)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+
+  useEffect(() => {
+   handleGenresFetch()
+    handleMovieFetch()
+  }, [movies])
 
   const handleMovieFetch = () => {
-    setLoading(true)
     setFetchCount(fetchCount + 1)
     console.log('Getting movies')
     fetch('http://localhost:3001/movies?_limit=50')
       .then(res => res.json())
       .then(json => {
-        setMovies(json)
+        setMovies(json);
         setLoading(false)
       })
       .catch(() => {
@@ -35,9 +46,33 @@ export default function Exercise02 () {
       })
   }
 
-  useEffect(() => {
-    handleMovieFetch()
-  }, [handleMovieFetch])
+  const handleGenresFetch = () => {
+    fetch('http://localhost:3001/genres')
+      .then(res => res.json())
+      .then(json => {
+        setGenres(json);
+      })
+      .catch(() => {
+      })
+  }
+
+  const getGenresSelected = (e) => {
+    setGenresSelected(e.target.value);
+  }
+
+  const sorterAndfilterMovies = () => {
+
+    const sortedMovies = isAscendingList ?  movies.sort((a, b) => a.title.normalize().localeCompare(b.title.normalize())) 
+    :  movies.sort((a, b) => b.title.normalize().localeCompare(a.title.normalize()));
+
+    return (genresSelected !== initialGenresValue) ? 
+    sortedMovies.filter(item => item.genres.some(genres => genres === genresSelected)) : sortedMovies;
+
+  } 
+
+  const btnOrderList = (e) => {
+    setIsAscendingList(!isAscendingList);
+  }
 
   return (
     <section className="movie-library">
@@ -45,32 +80,31 @@ export default function Exercise02 () {
         Movie Library
       </h1>
       <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
+        <select name="genre"  onChange={getGenresSelected} value={genresSelected}>
+        <option value={initialGenresValue}>{initialGenresValue}</option>
+          {genres.map( item => ( 
+              <option value={item}>{item}</option>))}
+          
         </select>
-        <button>Order Descending</button>
+        <button onClick={e => btnOrderList(e)}>{`Order ${isAscendingList ? 'Ascending' :  'Descending'} `}</button>
       </div>
       {loading ? (
-        <div className="movie-library__loading">
-          <p>Loading...</p>
-          <p>Fetched {fetchCount} times</p>
-        </div>
-      ) : (
-        <ul className="movie-library__list">
-          {movies.map(movie => (
-            <li key={movie.id} className="movie-library__card">
-              <img src={movie.posterUrl} alt={movie.title} />
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
-              </ul>
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className="movie-library__loading">
+        <p>Loading...</p>
+        <p>Fetched {fetchCount} times</p>
+      </div>
+    ) : (
+      <Grid container   rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
+           {sorterAndfilterMovies().map(movie => (
+            <Grid item xs={3} >
+                <img src={movie.posterUrl} alt={movie.title} />
+                  <li>{movie.title}</li>
+                  <li>{movie.genres.join(', ')}</li>
+                  <li>{movie.year}</li>
+            </Grid>
+        ))}
+      </Grid>
+    )}
     </section>
   )
 }
