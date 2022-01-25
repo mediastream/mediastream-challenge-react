@@ -8,6 +8,7 @@
 .movie-library__title {
   font-size: 2em;
   margin-bottom: 1em;
+  font-weight: bold;
 }
 
 .movie-library__actions {
@@ -17,11 +18,17 @@
 
 .movie-library__actions select {
   width: 100%;
-  padding: .25em;
+  padding: 0.25em;
+  border-radius: 1ex;
+  border-color: greenyellow;
+  height: 2em;
 }
 
 .movie-library__actions button {
   white-space: nowrap;
+  background-color: greenyellow;
+  border-radius: 1ex;
+  height: 2.1em;
 }
 
 .movie-library__loading {
