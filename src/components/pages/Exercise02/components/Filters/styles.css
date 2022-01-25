@@ -1,0 +1,62 @@
+.movie-library__actions {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1em;
+}
+
+.movie-library__actions .movie-library__actions__select {
+  flex: 1;
+  min-height: 45px;
+  border-radius: 0.3em 0 0 0.3em;
+  border: solid var(--ms-green) 3px;
+  display: flex;
+  margin-bottom: 0;
+}
+
+.movie-library__actions .movie-library__actions__select select {
+  padding: 10px;
+  width: 100%;
+  border: 0;
+  border-right: 10px solid white;
+  font-size: 16px;
+}
+
+.movie-library__actions .movie-library__actions__button {
+  border: solid var(--ms-green) 3px;
+  border-radius: 0 0.3em 0.3em 0;
+  white-space: nowrap;
+  background-color: var(--ms-green);
+  border: none;
+  width: 200px;
+  cursor: pointer;
+  min-height: 45px;
+  font-size: 16px;
+}
+
+@media (max-width: 425px) {
+  .movie-library__actions .movie-library__actions__select,
+  .movie-library__actions .movie-library__actions__button {
+    min-height: 40px;
+    font-size: 14px;
+  }
+
+  .movie-library__actions .movie-library__actions__button  {
+    width: 140px;
+  }
+}
+
+@media (max-width: 375px) {
+  .movie-library__actions {
+    flex-direction: column;
+  }
+
+  .movie-library__actions .movie-library__actions__select {
+    margin-bottom: 8px;
+    border-radius: 0.3em;
+  }
+
+  .movie-library__actions .movie-library__actions__button  {
+    width: 100%;
+    border-radius: 0.3em;
+  }
+}
