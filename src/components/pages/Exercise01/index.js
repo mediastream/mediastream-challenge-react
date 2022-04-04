@@ -11,10 +11,13 @@
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
 
+import { useReducer, useState, useEffect } from 'react';
 import './assets/styles.css'
-import { useState } from 'react'
+import { Movies } from './components/Movies';
+import { CartMovies } from './components/CartMovies';
+import { cartReducer } from '../../../reducers/cartReducer';
 
-export default function Exercise01 () {
+export default function Exercise01() {
   const movies = [
     {
       id: 1,
@@ -50,77 +53,112 @@ export default function Exercise01 () {
     {
       m: [4, 2],
       discount: 0.1
-    } 
+    }
   ]
 
-  const [cart, setCart] = useState([
+  const [total, setTotal] = useState(0);
+
+  const cart = [
     {
       id: 1,
       name: 'Star Wars',
       price: 20,
       quantity: 2
     }
-  ])
+  ]
 
-  const getTotal = () => 0 // TODO: Implement this
+  const [cartMovies, dispatch] = useReducer(cartReducer, cart);
+
+  const getTotal = () => {
+    const sum = cartMovies.reduce((total, value) => total + (value.price * value.quantity), 0);
+    
+    const idsMovies = cartMovies.map(({ id }) => id);
+    
+    const idsDiscount = discountRules.map( ({m, discount}) => getDiscount(m, idsMovies, discount) );
+
+    const discount = idsDiscount.find( value  => value > 0 ) || 0;
+
+    setTotal(sum -  (sum * discount));
+  }
+
+  const getDiscount =  (discounts, ids, discount) => {
+
+    let sortedDiscounts = [ ...discounts ].sort();
+    let sortedIds = [ ...ids ].sort();
+
+    const valueDiscount = (sortedDiscounts.length === sortedIds.length && 
+      sortedDiscounts.every((element, index) => element === sortedIds[index])) 
+    ? discount 
+    : 0
+
+    return valueDiscount
+  }
+
+  useEffect(() => {
+    getTotal();
+
+  }, [cartMovies])
+
+
+  const handleAddCart = (newMovie) => {
+    dispatch({
+      type: 'addCart',
+      payload: newMovie
+    });
+  }
+
+  const handleIncrement = (id) => {
+    dispatch({
+      type: 'increment',
+      payload: id
+    })
+  }
+
+  const handleDecrement = (id) => {
+    dispatch({
+      type: 'decrement',
+      payload: id
+    })
+  }
+
+  const handleDelete = (id) => {
+    dispatch({
+      type: 'delete',
+      payload: id
+    })
+  }
 
   return (
     <section className="exercise01">
       <div className="movies__list">
         <ul>
-          {movies.map(o => (
-            <li className="movies__list-card">
-              <ul>
-                <li>
-                  ID: {o.id}
-                </li>
-                <li>
-                  Name: {o.name}
-                </li>
-                <li>
-                  Price: ${o.price}
-                </li>
-              </ul>
-              <button onClick={() => console.log('Add to cart', o)}>
-                Add to cart
-              </button>
-            </li>
+          {movies.map(movie => (
+            <Movies
+              key={movie.id}
+              movie={movie}
+              handleAddCart={handleAddCart}
+            />
           ))}
         </ul>
       </div>
-      <div className="movies__cart">
-        <ul>
-          {cart.map(x => (
-            <li className="movies__cart-card">
-              <ul>
-                <li>
-                  ID: {x.id}
-                </li>
-                <li>
-                  Name: {x.name}
-                </li>
-                <li>
-                  Price: ${x.price}
-                </li>
-              </ul>
-              <div className="movies__cart-card-quantity">
-                <button onClick={() => console.log('Decrement quantity', x)}>
-                  -
-                </button>
-                <span>
-                  {x.quantity}
-                </span>
-                <button onClick={() => console.log('Increment quantity', x)}>
-                  +
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <div className="movies__cart-total">
-          <p>Total: ${getTotal()}</p>
+      {(cartMovies.length > 0) &&
+        <div className="movies__cart">
+          <ul>
+            {cartMovies.map(x => (
+              <CartMovies
+                key={x.id}
+                x={x}
+                handleIncrement={handleIncrement}
+                handleDecrement={handleDecrement}
+                handleDelete={handleDelete}
+              />
+            ))}
+          </ul>
+          <div className="movies__cart-total">
+            <p>Total: ${total}</p>
+          </div>
         </div>
-      </div>
+      }
     </section>
   )
 } 
