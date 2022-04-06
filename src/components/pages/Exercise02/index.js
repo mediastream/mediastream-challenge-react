@@ -13,38 +13,19 @@
  */
 
 import "./assets/styles.css";
-import { useEffect, useState } from "react";
+import { useLibrary } from "../../../store";
 
 export default function Exercise02() {
-  const [movies, setMovies] = useState([]);
-  const [fetchCount, setFetchCount] = useState(0);
-  const [loading, setLoading] = useState(false);
-
-  const handleMovieFetch = () => {
-    setLoading(true);
-    setFetchCount(fetchCount + 1);
-    console.log("Getting movies");
-    fetch("http://localhost:3001/movies?_limit=50")
-      .then((res) => res.json())
-      .then((json) => {
-        setMovies(json);
-        setLoading(false);
-      })
-      .catch(() => {
-        console.log("Run yarn movie-api for fake api");
-      });
-  };
-
-  useEffect(() => {
-    handleMovieFetch();
-  }, [handleMovieFetch]);
+  const { movies, loading, fetchCount, genders, setGender } = useLibrary()
 
   return (
     <section className="movie-library">
       <h1 className="movie-library__title">Movie Library</h1>
       <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
+        <select name="genre" placeholder="Search by genre..." onChange={(event) => {
+            setGender(event.target.value)
+        }}>
+            {genders.map(gender => (<option key={`gender-${gender}`} value={gender}>{gender}</option>))}
         </select>
         <button>Order Descending</button>
       </div>
