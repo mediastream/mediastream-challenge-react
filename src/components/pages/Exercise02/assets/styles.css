@@ -17,7 +17,7 @@
 
 .movie-library__actions select {
   width: 100%;
-  padding: .25em;
+  padding: 0.25em;
 }
 
 .movie-library__actions button {

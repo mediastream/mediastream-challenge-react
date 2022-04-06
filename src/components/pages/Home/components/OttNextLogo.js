@@ -17,7 +17,7 @@ function OttNextLogo(props) {
         fill="#97D700"
       />
     </svg>
-  )
+  );
 }
 
-export default OttNextLogo
+export default OttNextLogo;
