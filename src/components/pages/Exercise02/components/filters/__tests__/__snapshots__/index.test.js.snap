@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Filter should render correctly 1`] = `
+<div>
+  <div
+    class="movie-library__actions"
+  >
+    <select
+      name="genre"
+      placeholder="Search by genre..."
+    >
+      <option
+        value=""
+      >
+        All genres
+      </option>
+      <option
+        value="Action"
+      >
+        Action
+      </option>
+      <option
+        value="Sci-Fi"
+      >
+        Sci-Fi
+      </option>
+    </select>
+    <button>
+      Year 
+      Descending
+    </button>
+  </div>
+</div>
+`;
+
+exports[`Filter should render correctlyand click button 1`] = `
+<div>
+  <div
+    class="movie-library__actions"
+  >
+    <select
+      name="genre"
+      placeholder="Search by genre..."
+    >
+      <option
+        value=""
+      >
+        All genres
+      </option>
+      <option
+        value="Action"
+      >
+        Action
+      </option>
+      <option
+        value="Sci-Fi"
+      >
+        Sci-Fi
+      </option>
+    </select>
+    <button>
+      Year 
+      Ascending
+    </button>
+  </div>
+</div>
+`;
+
+exports[`Filter should render correctlyand click button 2`] = `
+<div>
+  <div
+    class="movie-library__actions"
+  >
+    <select
+      name="genre"
+      placeholder="Search by genre..."
+    >
+      <option
+        value=""
+      >
+        All genres
+      </option>
+      <option
+        value="Action"
+      >
+        Action
+      </option>
+      <option
+        value="Sci-Fi"
+      >
+        Sci-Fi
+      </option>
+    </select>
+    <button>
+      Year 
+      Ascending
+    </button>
+  </div>
+</div>
+`;
