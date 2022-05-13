@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /**
  * Exercise 02: Movie Library
  * We are trying to make a movie library for internal users. We are facing some issues by creating this, try to help us following the next steps:
@@ -12,89 +11,51 @@
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
 
-import { useState } from "react";
-import "./assets/styles.css"
-import useMovies from "./hooks/useMovies"
-import useGenres from "./hooks/useGenres"
+import useMovies from './hooks/useMovies'
+import useGenres from './hooks/useGenres'
+import './assets/styles.css'
+import Filters from './components/filters'
+import Card from './components/card'
+import CardList from './components/card-list'
+import Loading from './components/loading'
+import Title from './components/title'
 
-const orderByYear = (movies) => {
-  return movies.sort((a, b) => {
-    return a.year - b.year
-  })
-}
-
-const filterMovies = (movies, {
-  genre,
-  order,
-}) => {
-  let output = []
-  if (genre) {
-    output = movies.filter((movie) => movie.genres.includes(genre))
-  } else {
-    output = movies
-  }
-  if (order === "desc") return orderByYear(output).reverse()
-  return orderByYear(output)
-}
-
-export default function Exercise02() {
-  const { movies, loading, fetchCount } = useMovies()
-  const { genres, loading: loadingGenres, handleChange, genre } = useGenres()
-  const [order, setOrder] = useState('desc')
+const Exercise02 = () => {
+  const { movies, loading, fetchCount, setOrder, order, genre, setGenre } = useMovies()
+  const { genres, loading: loadingGenres } = useGenres()
 
   const handleOrder = () => {
     if (order === 'desc') setOrder('asc')
     else setOrder('desc')
   }
 
+  const handleChange = (e) => {
+    setGenre(e.target.value)
+  }
+
   return (
     <section className="movie-library">
-      <h1 className="movie-library__title">
-        Movie Library {!loadingGenres && (', filted by' + (genre ? ` (${genre})` : " (All)"))}
-      </h1>
-      <div className="movie-library__actions">
-        {(
-          <select
-            disabled={loadingGenres || genres.length === 0}
-            name="genre"
-            placeholder="Search by genre..."
-            value={genre}
-            onChange={handleChange}
-          >
-            <option value="">
-              All genres
-            </option>
-            {genres.map(genre => (
-              <option key={genre} value={genre}>
-                {genre}
-              </option>
-            ))}
-          </select>)}
-        <button onClick={handleOrder} disabled={loading}>
-          Order by {order === 'desc' ? 'Descending' : 'Ascending'}
-        </button>
-      </div>
+      <Title />
+      <Filters
+        loadingGenres={loadingGenres}
+        genres={genres}
+        genre={genre}
+        onChange={handleChange}
+        onClick={handleOrder}
+        loading={loading}
+        order={order}
+      />
       {loading ? (
-        <div className="movie-library__loading">
-          <p>Loading...</p>
-          <p>Fetched {fetchCount} times</p>
-        </div>
+        <Loading fetchCount={fetchCount} />
       ) : (
-        <ul className="movie-library__list">
-          {filterMovies(movies, { genre, order }).map(movie => (
-            <li key={movie.id} className="movie-library__card">
-              <img src={movie.posterUrl} alt={movie.title} />
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
-              </ul>
-            </li>
+        <CardList>
+          {movies.map(movie => (
+            <Card key={movie.id} movie={movie} />
           ))}
-        </ul>
+        </CardList>
       )}
     </section>
   )
 }
+
+export default Exercise02

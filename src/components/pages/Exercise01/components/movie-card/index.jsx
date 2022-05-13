@@ -11,11 +11,11 @@ const MovieCard = ({ movie, addCart, removeCart, type }) => {
                 Price: ${movie.price}
             </li>
         </ul>
-        {type === 'catalog' && <button onClick={() => addCart(movie)}>Add to Cart</button>}
+        {type === 'catalog' && <button data-testid="button-add-cart" onClick={() => addCart(movie)}>Add to Cart</button>}
         {type === 'cart' && (<div className="movies__cart-card-quantity">
-            <button onClick={() => removeCart(movie)}>-</button>
+            <button data-testid="button-remove-cart" onClick={() => removeCart(movie)}>-</button>
             <span>{movie.quantity}</span>
-            <button onClick={() => addCart(movie)}>+</button>
+            <button data-testid="button-add-cart" onClick={() => addCart(movie)}>+</button>
         </div>)}
     </li>)
 }

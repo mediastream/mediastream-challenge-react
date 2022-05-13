@@ -1,5 +1,5 @@
-import CartTotal from "../cart-total"
-import MovieCard from "../movie-card"
+import CartTotal from '../cart-total'
+import MovieCard from '../movie-card'
 
 const MovieCart = ({ cart, addCart, removeCart, total, totalWithDiscount }) => {
     return (<div className="movies__cart">
