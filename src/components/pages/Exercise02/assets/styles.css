@@ -1,27 +1,68 @@
 .movie-library {
-  background-color: var(--black);
   color: var(--white);
   min-height: 100vh;
   padding: 2em;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position-y: -150px;
+  background-repeat: no-repeat;
+  background-image: url("./mountains.jpeg");
+}
+
+.translucent-screen {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  align-self: center;
+
+  /* z-index: 12; */
+
+  background-image: linear-gradient(
+    rgba(252, 244, 244, 0),
+    rgba(0, 0, 0, 0.021),
+    rgb(0, 0, 0),
+    rgb(0, 0, 0),
+    rgb(0, 0, 0),
+    rgb(0, 0, 0)
+  );
 }
 
 .movie-library__title {
-  font-size: 2em;
+  z-index: 5000;
   margin-bottom: 1em;
+  font-size: 2em;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  display: block;
+  font-weight: bold;
 }
 
 .movie-library__actions {
+  background: transparent;
   display: flex;
   margin-bottom: 1em;
+  border-radius: 5px;
+  border: 1.5px rgb(94, 255, 0) solid;
+  background: rgb(94, 255, 0);
 }
 
 .movie-library__actions select {
+  z-index: 2000;
   width: 100%;
-  padding: .25em;
+  padding: 0.25em;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
 }
 
 .movie-library__actions button {
+  z-index: 2000;
   white-space: nowrap;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  text-decoration: none;
+  border: none;
+  background: rgb(94, 255, 0);
+  padding: 0 20px;
 }
 
 .movie-library__loading {
@@ -30,28 +71,73 @@
   background-color: #222222;
   padding: 1.25em 0;
   margin: 2em 0;
+  z-index: 2000;
 }
 
 .movie-library__list {
-  padding: 1em;
-  background-color: #222222;
+  background: transparent;
+  z-index: 2000;
+  padding: 30px 0;
+  display: grid;
+  grid-template-columns: repeat(4, 2fr);
+  width: 100%;
+  margin: 0 auto;
+  grid-gap: 80px;
+  justify-content: center;
 }
 
 .movie-library__card {
+  z-index: 2000;
   background-color: #333333;
   margin-bottom: 1em;
   display: flex;
   align-items: center;
+  height: 400px;
+  width: 305px;
+  border-radius: 14px;
+  /* overflow: hidden; */
 }
 
 .movie-library__card img {
-  width: 10em;
+  width: 100%;
+  height: 450px;
+  border-radius: 12px;
+}
+
+.movie-library__card .movie-library_card_background {
+  width: 305px;
+  height: 450px;
+  background-image: linear-gradient(
+    rgba(248, 248, 248, 0),
+    rgba(94, 255, 0, 0.219),
+    rgb(94, 255, 0)
+  );
+  position: absolute;
+  border-radius: 12px;
 }
 
 .movie-library__card ul {
   padding: 1em;
+  position: absolute;
+  text-align: left;
+  justify-content: center;
+  align-items: center;
+  bottom: 0;
 }
 
 .movie-library__card li {
-  line-height: 120%;
+  line-height: 130%;
+}
+
+.movie-title {
+  color: white;
+  font-weight: bolder;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+}
+
+.genres {
+  font-size: 12px;
+  font-family: "Poppins", sans-serif;
+  color: white;
 }
