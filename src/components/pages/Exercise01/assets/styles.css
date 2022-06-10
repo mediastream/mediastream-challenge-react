@@ -73,8 +73,9 @@
   margin-top: .5em;
 }
 
-.movies__cart-card span {
+.movies__cart-card-quantity-number {
   margin: 0 .5em;
+  margin-top: 0.75em;
 }
 
 .movies__cart-card button {

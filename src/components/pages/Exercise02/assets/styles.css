@@ -2,12 +2,22 @@
   background-color: var(--black);
   color: var(--white);
   min-height: 100vh;
-  padding: 2em;
+}
+
+.movie-library__header {
+  background-image: linear-gradient(0, var(--black) 0%, rgba(255, 255, 255, 0) 80%),
+    url("./mountains.jpeg");
+  padding: 4em;
+  padding-bottom: 0;
+  background-size: cover;
+  background-position-y: 20%;
+  margin-bottom: 4%;
 }
 
 .movie-library__title {
-  font-size: 2em;
+  font-size: 2vw;
   margin-bottom: 1em;
+  font-weight: 600;
 }
 
 .movie-library__actions {
@@ -17,11 +27,27 @@
 
 .movie-library__actions select {
   width: 100%;
-  padding: .25em;
+  padding: 0.25em;
+  height: 2.8vw;
+  border-radius: 5px;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  border-color: var(--ms-green);
+  border-width: 2px;
 }
 
 .movie-library__actions button {
   white-space: nowrap;
+  background: var(--ms-green);
+  height: 2.8vw;
+  width: 10vw;
+  border-color: var(--ms-green);
+  border-style: solid;
+  color: white;
+  font-weight: 600;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  font-size: 0.9vw;
 }
 
 .movie-library__loading {
@@ -30,6 +56,7 @@
   background-color: #222222;
   padding: 1.25em 0;
   margin: 2em 0;
+  padding: 5.25em 4em;
 }
 
 .movie-library__list {
@@ -37,15 +64,53 @@
   background-color: #222222;
 }
 
+.movie-library__wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 3em;
+  padding: 4em;
+  padding-top: 0;
+}
+
 .movie-library__card {
-  background-color: #333333;
-  margin-bottom: 1em;
-  display: flex;
-  align-items: center;
+  min-height: 25em;
+  background: white;
+  overflow: hidden;
+  border-radius: 8px;
+  position: relative;
+}
+
+.moview-library__card-gradient {
+  background: rgb(19, 180, 18);
+  background: linear-gradient(0, var(--ms-green) 8%, rgba(255, 255, 255, 0) 93%);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  position: absolute;
+  padding-top: 0;
+}
+
+.moview-library__card-footer {
+  bottom: 0;
+  position: absolute;
+  padding: 1em;
+}
+
+.moview-library__card-footer text {
+  display: block;
+  font-size: 1vw;
+  padding-bottom: 0.3em;
+  padding-right: 0.2em;
+  text-overflow: ellipsis;
+}
+
+.moview-library__card-footer .card-footer-title {
+  font-weight: 700;
+  font-size: 1.7vw;
 }
 
 .movie-library__card img {
-  width: 10em;
+  width: 100%;
 }
 
 .movie-library__card ul {
@@ -54,4 +119,28 @@
 
 .movie-library__card li {
   line-height: 120%;
+}
+
+@media (max-width: 1200px) {
+  .movie-library__wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .moview-library__card-footer text {
+    font-size: 1.3em;
+  }
+  .moview-library__card-footer .card-footer-title {
+    font-size: 1.7em;
+  }
+  .movie-library__header {
+    min-height: 2em;
+  }
+}
+
+@media (max-width: 576px) {
+  .movie-library__wrapper {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .movie-library__header {
+    min-height: 4em;
+  }
 }

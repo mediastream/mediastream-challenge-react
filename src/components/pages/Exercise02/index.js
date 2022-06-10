@@ -8,47 +8,100 @@
  * list of movies that belong to that gender (Filter all movies).
  * 3. Order the movies by year and implement a button that switch between ascending and descending order for the list
  * 4. Try to recreate the user interface that comes with the exercise (exercise02.png)
- * 
+ *
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
 
 import "./assets/styles.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import Card from "./components/MovieCard";
 
-export default function Exercise02 () {
-  const [movies, setMovies] = useState([])
-  const [fetchCount, setFetchCount] = useState(0)
-  const [loading, setLoading] = useState(false)
+export default function Exercise02() {
+  const [movies, setMovies] = useState([]);
+  const [fetchCount, setFetchCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [loadingGenre, setLodingGenre] = useState();
+  const [genres, setGenres] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState([]);
+  const [orderType, setOrderType] = useState("asc");
 
-  const handleMovieFetch = () => {
-    setLoading(true)
-    setFetchCount(fetchCount + 1)
-    console.log('Getting movies')
-    fetch('http://localhost:3001/movies?_limit=50')
-      .then(res => res.json())
-      .then(json => {
-        setMovies(json)
-        setLoading(false)
+  const handleMovieFetch = useCallback(async () => {
+    setLoading(true);
+    setFetchCount(fetchCount + 1);
+    console.log("Getting movies");
+    await fetch("http://localhost:3001/movies?_limit=50")
+      .then((res) => res.json())
+      .then((json) => {
+        setMovies(json);
+        setFilteredMovies(json);
+        setLoading(false);
       })
       .catch(() => {
-        console.log('Run yarn movie-api for fake api')
+        console.log("Run yarn movie-api for fake api");
+      });
+  }, []);
+
+  const handleGenreFetch = useCallback(async () => {
+    setLodingGenre(true);
+    await fetch("http://localhost:3001/genres")
+      .then((res) => res.json())
+      .then((json) => {
+        setGenres(json);
+        setLodingGenre(false);
       })
-  }
+      .catch(() => {
+        console.log("Run yarn movie-api for fake api");
+      });
+  }, []);
 
   useEffect(() => {
-    handleMovieFetch()
-  }, [handleMovieFetch])
+    handleMovieFetch();
+    handleGenreFetch();
+  }, [handleMovieFetch, handleGenreFetch]);
+
+  const filterMovies = (genre) => {
+    if (genre !== "*") {
+      const auxFilteredMovies = movies.filter((movie) => {
+        if (movie.genres.some((g) => g === genre)) return movie;
+      });
+      setFilteredMovies(auxFilteredMovies);
+    } else {
+      setFilteredMovies(movies);
+    }
+  };
+
+  const sortByMovieYear = () => {
+    return filteredMovies.sort((a, b) => {
+      if (orderType === "asc") return parseInt(a.year) - parseInt(b.year);
+      else return parseInt(b.year) - parseInt(a.year);
+    });
+  };
 
   return (
     <section className="movie-library">
-      <h1 className="movie-library__title">
-        Movie Library
-      </h1>
-      <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
-        </select>
-        <button>Order Descending</button>
+      <div className="movie-library__header">
+        <h1 className="movie-library__title">Movie Library</h1>
+        <div className="movie-library__actions">
+          <select
+            onChange={(e) => {
+              filterMovies(e.target.value);
+            }}
+            name="genre"
+            placeholder="Search by genre..."
+          >
+            <option key={"*"} value={"*"}>
+              {loadingGenre ? "Loading..." : "Show all"}
+            </option>
+            {genres.map((genre) => (
+              <option key={genre} value={genre}>
+                {genre}
+              </option>
+            ))}
+          </select>
+          <button onClick={() => setOrderType(orderType === "asc" ? "desc" : "asc")}>
+            Year {orderType === "asc" ? "Descending" : "Ascending"}
+          </button>
+        </div>
       </div>
       {loading ? (
         <div className="movie-library__loading">
@@ -56,21 +109,12 @@ export default function Exercise02 () {
           <p>Fetched {fetchCount} times</p>
         </div>
       ) : (
-        <ul className="movie-library__list">
-          {movies.map(movie => (
-            <li key={movie.id} className="movie-library__card">
-              <img src={movie.posterUrl} alt={movie.title} />
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
-              </ul>
-            </li>
+        <div class="movie-library__wrapper">
+          {sortByMovieYear().map((movie) => (
+            <Card movie={movie} />
           ))}
-        </ul>
+        </div>
       )}
     </section>
-  )
+  );
 }
