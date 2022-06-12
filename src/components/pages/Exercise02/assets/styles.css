@@ -3,6 +3,9 @@
   color: var(--white);
   min-height: 100vh;
   padding: 2em;
+  background-image: url('mountains.jpeg');
+  background-repeat: no-repeat;
+  background-size: 100% 200px;
 }
 
 .movie-library__title {
@@ -18,10 +21,16 @@
 .movie-library__actions select {
   width: 100%;
   padding: .25em;
+  border-width: 1;
+  border-radius: 4px;
+  border-color: #86FF33;
 }
 
 .movie-library__actions button {
   white-space: nowrap;
+  background-color: #86FF33;
+  display: inline-block;
+  border-radius: 4px;
 }
 
 .movie-library__loading {
@@ -34,12 +43,15 @@
 
 .movie-library__list {
   padding: 1em;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
   background-color: #222222;
 }
 
 .movie-library__card {
   background-color: #333333;
   margin-bottom: 1em;
+  margin-right: 1em;
   display: flex;
   align-items: center;
 }
@@ -50,6 +62,9 @@
 
 .movie-library__card ul {
   padding: 1em;
+  position: relative;
+  width: 50%;
+  bottom: -170px;
 }
 
 .movie-library__card li {

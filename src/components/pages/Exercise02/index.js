@@ -19,12 +19,18 @@ export default function Exercise02 () {
   const [movies, setMovies] = useState([])
   const [fetchCount, setFetchCount] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [genderList, setGenderList] = useState([])
+  const [gender, setGender] = useState('')
+  const [order, setOrder] = useState('desc')
 
   const handleMovieFetch = () => {
     setLoading(true)
     setFetchCount(fetchCount + 1)
     console.log('Getting movies')
-    fetch('http://localhost:3001/movies?_limit=50')
+    let uri = 'http://localhost:3001/movies?_limit=50'
+    if(gender.trim()) uri = uri + '&genres_like='+ gender
+    if(order.trim()) uri = uri + '&_sort=year&_order=' + order
+    fetch(uri)
       .then(res => res.json())
       .then(json => {
         setMovies(json)
@@ -35,9 +41,33 @@ export default function Exercise02 () {
       })
   }
 
+  const handleGenderFetch = () => {
+    fetch('http://localhost:3001/genres')
+    .then(res => res.json())
+    .then(json => {
+      setGenderList(json)
+    })
+    .catch(() => {
+      console.log('Run yarn movie-api for fake api')
+    })
+  }
+
+  useEffect(() => {
+    handleGenderFetch()
+  }, [])
+
   useEffect(() => {
     handleMovieFetch()
-  }, [handleMovieFetch])
+  },[gender, order])
+
+  const handleGenderOption = (e) => {
+    console.log(e.target.value)
+    setGender(e.target.value)
+  }
+
+  const handleOrder = () => {
+    setOrder(order === 'asc' ? 'desc' : 'asc')
+  }
 
   return (
     <section className="movie-library">
@@ -45,10 +75,13 @@ export default function Exercise02 () {
         Movie Library
       </h1>
       <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
+        <select onChange={handleGenderOption} name="genre" placeholder="Search by genre...">
+          <option value="">Select an option</option>
+          {genderList.map((gender, key) => (
+            <option value={gender} key={key}>{gender}</option>
+          ))}
         </select>
-        <button>Order Descending</button>
+        <button onClick={handleOrder}>Year {order === 'asc' ?  'Descending' : 'Ascending'}</button>
       </div>
       {loading ? (
         <div className="movie-library__loading">
@@ -58,14 +91,16 @@ export default function Exercise02 () {
       ) : (
         <ul className="movie-library__list">
           {movies.map(movie => (
-            <li key={movie.id} className="movie-library__card">
-              <img src={movie.posterUrl} alt={movie.title} />
+            <li key={movie.id} style={{
+              backgroundImage: `linear-gradient(to bottom, rgba(245, 246, 252, 0), rgba(134, 255, 51, 0.72)), url(${movie.posterUrl})`,
+              backgroundRepeat: 'no-repeat',
+              width: 300,
+              height: 450
+            }} className="movie-library__card">
               <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
+                <li style={{fontWeight: 'bold'}}>{movie.title}</li>
+                <li style={{fontSize: 11}}>{movie.genres.join(', ')}</li>
+                <li style={{fontSize: 11}}>{movie.year}</li>
               </ul>
             </li>
           ))}
