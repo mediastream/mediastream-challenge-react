@@ -2,11 +2,24 @@
   background-color: var(--black);
   color: var(--white);
   min-height: 100vh;
-  padding: 2em;
+
+}
+
+.movie-library__header {
+  padding: 2em 4em 0;
+  background-size: cover;
+  background-position-y: 18%;
+  background-image: linear-gradient(0, var(--black) 0%, rgba(255, 255, 255, 0) 80%),
+  url("./mountains.jpeg");
+}
+
+.movie-library__content {
+  padding: 2em 4em;
 }
 
 .movie-library__title {
   font-size: 2em;
+  font-weight: bold;
   margin-bottom: 1em;
 }
 
@@ -17,11 +30,19 @@
 
 .movie-library__actions select {
   width: 100%;
-  padding: .25em;
+  border: .1em solid var(--ms-green);
+  border-radius: .2em 0 0 .2em;
+  padding: .25em .35em;
 }
 
 .movie-library__actions button {
   white-space: nowrap;
+  background: var(--ms-green);
+  border: none;
+  border-radius: 0 .2em .2em 0;
+  padding: .5em 1.2em;
+  font-weight: bold;
+  font-size: .85em;
 }
 
 .movie-library__loading {
@@ -33,25 +54,77 @@
 }
 
 .movie-library__list {
-  padding: 1em;
-  background-color: #222222;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 2em;
+}
+
+@media (max-width: 1024px) {
+  .movie-library__list {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 2em;
+  }
+}
+
+@media (max-width: 768px) {
+  .movie-library__list {
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2em;
+  }
+}
+
+@media (max-width: 525px) {
+  .movie-library__list {
+    grid-template-columns: 1fr;
+    grid-gap: 2em;
+  }
+  .movie-library__content {
+    padding: 1em 2em;
+  }
+  .movie-library__actions button {
+    padding: .2em .7em;
+    font-size: .7em;
+  }
 }
 
 .movie-library__card {
   background-color: #333333;
-  margin-bottom: 1em;
+  border-radius: .6em;
+  overflow: hidden;
+  position: relative;
+  min-height: 25em;
   display: flex;
   align-items: center;
 }
 
-.movie-library__card img {
-  width: 10em;
+.movie-library__card > img {
+  width: 100%;
+  height: 100%;
 }
 
-.movie-library__card ul {
+.movie-library__gradient {
+  background: rgb(20, 180, 20);
+  background: linear-gradient(0, var(--ms-green) 0%, rgba(255, 255, 255, 0) 80%);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  position: absolute;
+}
+
+.movie-library__description {
+  position: absolute;
+  bottom: 0;
   padding: 1em;
 }
 
-.movie-library__card li {
+.movie-library__description > li {
+  font-size: .80em;
   line-height: 120%;
+  margin-bottom: 0.2em;
+}
+
+.movie-library__title-card {
+  font-weight: bold;
+  font-size: .90em;
 }
