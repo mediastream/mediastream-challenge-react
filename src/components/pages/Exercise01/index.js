@@ -53,16 +53,79 @@ export default function Exercise01 () {
     } 
   ]
 
-  const [cart, setCart] = useState([
-    {
-      id: 1,
-      name: 'Star Wars',
-      price: 20,
-      quantity: 2
-    }
-  ])
+  const [cart, setCart] = useState([])
 
-  const getTotal = () => 0 // TODO: Implement this
+  const getTotal = () => {
+    let total = 0
+    let discount = 0
+    cart.forEach(movieCart => {
+      total = total + (movieCart.quantity * movieCart.price) 
+    })
+
+    discountRules.forEach(value => {
+      let aux = 0
+      if(value.m.length === cart.length) {
+        cart.forEach((movieCart, i) => {
+          if(movieCart.quantity === value.m[i]) {
+            aux = aux + 1
+          }
+        })
+        if(aux === value.m.length) discount = value.discount
+      }
+    })
+
+    discount = total * discount 
+    return total - discount
+  }
+
+  const addToCart = (movie) => {
+    const carts = [...cart];
+
+    if(carts.findIndex(v => v.id === movie.id) === -1) {
+      carts.push({...movie,quantity: 1})
+    }else{
+      carts.forEach((movieCart, i) => {
+        if(movieCart.id === movie.id) {
+          carts[i] = {
+            ...movieCart,
+            quantity: movieCart.quantity + 1
+          }
+        }
+      })
+    }
+  
+    setCart(carts)
+  }
+
+  const incrementQuantity = movie => {
+    const carts = [...cart]
+    const index = cart.findIndex(movieCart => movieCart.id === movie.id)
+    if(index !== -1) {
+      carts[index] = {
+        ...movie,
+        quantity: movie.quantity + 1
+      }
+      setCart(carts)
+    }
+  }
+
+  const decrementQuantity = movie => {
+    const carts = [...cart]
+    const index = cart.findIndex(movieCart => movieCart.id === movie.id)
+    if(index !== -1) {
+      const quantity = movie.quantity -1
+      if(quantity === 0) {
+        const list = carts.filter(value => value.id !== movie.id)
+        setCart(list)
+      } else {
+        carts[index] = {
+          ...movie,
+          quantity
+        }
+        setCart(carts)
+      }
+    }
+  }
 
   return (
     <section className="exercise01">
@@ -81,7 +144,7 @@ export default function Exercise01 () {
                   Price: ${o.price}
                 </li>
               </ul>
-              <button onClick={() => console.log('Add to cart', o)}>
+              <button onClick={() => addToCart(o)}>
                 Add to cart
               </button>
             </li>
@@ -104,13 +167,13 @@ export default function Exercise01 () {
                 </li>
               </ul>
               <div className="movies__cart-card-quantity">
-                <button onClick={() => console.log('Decrement quantity', x)}>
+                <button onClick={() => decrementQuantity(x)}>
                   -
                 </button>
                 <span>
                   {x.quantity}
                 </span>
-                <button onClick={() => console.log('Increment quantity', x)}>
+                <button onClick={() => incrementQuantity(x)}>
                   +
                 </button>
               </div>
