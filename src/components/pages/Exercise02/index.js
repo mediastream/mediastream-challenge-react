@@ -1,7 +1,5 @@
 /**
  * /* eslint-disable react-hooks/exhaustive-deps
- *
- * @format
  */
 
 /**
@@ -22,8 +20,7 @@ import { useState } from 'react';
 
 import useRequest from './hooks/useRequest';
 
-import Header from './components/Header';
-import Movie from './components/Movie';
+import { Header, Movie } from './components';
 
 export default function Exercise02() {
   const [selectedGenre, setSelectedGenre] = useState('');
@@ -68,14 +65,14 @@ export default function Exercise02() {
         onOrderClick={handleOnOrderClick}
       />
       {genresLoading || moviesLoading ? (
-        <div className="movie-library__loading">
+        <div className="movie-library__loading" data-testid="loading">
           <p>Loading...</p>
           <p>Fetched {fetchCount} times</p>
         </div>
       ) : (
         <ul className="movie-library__list">
           {movies.map((movie) => (
-            <Movie movie={movie} />
+            <Movie key={movie.id} movie={movie} />
           ))}
         </ul>
       )}

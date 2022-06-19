@@ -9,6 +9,7 @@ function Header(props) {
           name="genre"
           value={selectedGenre}
           onChange={onGenderChange}
+          data-testid="genre-list"
         >
           <option value="">Show all</option>
           {genres.map((genre) => (
