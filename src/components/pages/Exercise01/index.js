@@ -9,10 +9,16 @@
  * Ex: If m: [1, 2, 3], it means the discount will be applied to the total when the cart has all that products in only.
  *
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
+ *
+ * @format
  */
 
 import './assets/styles.css';
 import { useState } from 'react';
+
+import List from './components/List';
+import Cart from './components/Cart';
+
 import { MOVIES, DISCOUNT_RULES } from './constants';
 
 /**
@@ -87,7 +93,7 @@ export default function Exercise01() {
    *
    * @return {void}
    */
-  const handleOnAddMovieClick = (movie) => {
+  const handleOnAddCartClick = (movie) => {
     const cartMovies = [...cart];
     const index = searchMovieIndex(cartMovies, movie.id);
 
@@ -125,55 +131,12 @@ export default function Exercise01() {
 
   return (
     <section className="exercise01">
-      <div className="movies__list">
-        <ul>
-          {MOVIES.map((movie) => (
-            <li key={movie.id} className="movies__list-card">
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Name: {movie.name}</li>
-                <li>Price: ${movie.price}</li>
-              </ul>
-              <button onClick={() => handleOnAddMovieClick(movie)}>
-                Add to cart
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="movies__cart">
-        <ul>
-          {cart.map((cartMovie) => (
-            <li key={cartMovie.id} className="movies__cart-card">
-              <ul>
-                <li>ID: {cartMovie.id}</li>
-                <li>Name: {cartMovie.name}</li>
-                <li>Price: ${cartMovie.price}</li>
-              </ul>
-              <div className="movies__cart-card-quantity">
-                <button
-                  onClick={() =>
-                    handleOnIncrementOrDecrementClick(-1, cartMovie.id)
-                  }
-                >
-                  -
-                </button>
-                <span>{cartMovie.quantity}</span>
-                <button
-                  onClick={() =>
-                    handleOnIncrementOrDecrementClick(1, cartMovie.id)
-                  }
-                >
-                  +
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <div className="movies__cart-total">
-          <p>Total: ${getTotal()}</p>
-        </div>
-      </div>
+      <List movies={MOVIES} onAddCartClick={handleOnAddCartClick} />
+      <Cart
+        cart={cart}
+        total={getTotal()}
+        onIncrementDecrementClick={handleOnIncrementOrDecrementClick}
+      />
     </section>
   );
 }

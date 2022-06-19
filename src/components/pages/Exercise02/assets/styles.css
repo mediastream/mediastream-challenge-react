@@ -1,57 +1,160 @@
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg)
+  }
+}
+
+
 .movie-library {
   background-color: var(--black);
+  background-image: url(./mountains.jpeg);
+  background-repeat: no-repeat;
+  background-size: contain;
   color: var(--white);
   min-height: 100vh;
-  padding: 2em;
+  padding: 4em 0em;
+}
+
+.movie-library__header {
+  padding: 0 10em;
 }
 
 .movie-library__title {
   font-size: 2em;
   margin-bottom: 1em;
+  font-weight: bold;
 }
 
 .movie-library__actions {
   display: flex;
   margin-bottom: 1em;
+  height: 2.5em;
 }
 
 .movie-library__actions select {
   width: 100%;
-  padding: .25em;
+  padding: .5em;
+  border: 1px solid var(--ms-green);
+  border-radius: 10px 0 0 10px;
+  font-family: 'Poppins', sans-serif;
+  outline-color: var(--ms-green);
 }
 
 .movie-library__actions button {
   white-space: nowrap;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--ms-green);
+  border-width: 0;
+  width: 15em;
+  border-radius: 0 5px 5px 0;
 }
 
 .movie-library__loading {
+  box-sizing: border-box;
   text-align: center;
   width: 100%;
-  background-color: #222222;
-  padding: 1.25em 0;
-  margin: 2em 0;
-}
-
-.movie-library__list {
-  padding: 1em;
-  background-color: #222222;
-}
-
-.movie-library__card {
-  background-color: #333333;
-  margin-bottom: 1em;
+  padding: 10em 3em;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
+.movie-library__loading p:first-child {
+  font-size: 2em;
+  padding-bottom: 4rem;
+  font-weight: bold;
+}
+
+.movie-library__loading:after {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  border-top-color: rgba(255, 255, 255, 0.3);
+  margin: 2rem;
+  animation: rotate .5s infinite linear;
+}
+
+.movie-library__list {
+  background-color: var(--black);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 2em;
+  grid-row-gap: 2em;
+  padding: 1em 10em;
+  margin-top: 6em;
+  box-shadow: 0 -2em 5em 4em var(--black);
+}
+
+.movie-library__card {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 5px;
+  position: relative;
+}
+
 .movie-library__card img {
-  width: 10em;
+  height: 24em;
+  width: 100%;
+  object-fit: cover;
+  transition: .3s;
+  text-align: center;
+  font-weight: bold;
+  line-height: 8em;
 }
 
 .movie-library__card ul {
+  box-sizing: border-box;
+  position: absolute;
   padding: 1em;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-shadow: inset 0 -20em 10em -10em var(--ms-green);
+}
+
+.movie-library__card:hover img {
+  transform: scale(1.2);
+}
+
+.movie-library__movie-title {
+  font-weight: bold;
 }
 
 .movie-library__card li {
-  line-height: 120%;
+  line-height: 1.5em;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+}
+
+@media (max-width: 1100px) {
+  .movie-library__header {
+    padding: 1em 4em;
+  }
+
+  .movie-library__list {
+    padding: 1em 5em;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .movie-library__list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 650px) {
+  .movie-library__list {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
