@@ -17,7 +17,7 @@ import './assets/styles.css';
 import { useState } from 'react';
 
 import List from './components/List';
-import Cart from './components/Cart';
+import Cart from './components/Cart/';
 
 import { MOVIES, DISCOUNT_RULES } from './constants';
 
@@ -38,44 +38,6 @@ export default function Exercise01() {
       quantity: 2,
     },
   ]);
-
-  /**
-   *
-   * @param {number} total
-   *
-   * @return {number}
-   */
-  const applyDiscount = (total) => {
-    const cartIds = new Set(cart.map((cartMovie) => cartMovie.id));
-    let totalWithDiscount = total;
-
-    DISCOUNT_RULES.forEach((rule) => {
-      let hasDiscount = true;
-      for (const id of rule.moviesIds) {
-        if (!cartIds.has(id)) {
-          hasDiscount = false;
-          break;
-        }
-      }
-      if (hasDiscount) {
-        totalWithDiscount -= total * rule.discount;
-      }
-    });
-
-    return totalWithDiscount;
-  };
-
-  const getTotal = () => {
-    if (cart.length === 0) {
-      return 0;
-    }
-
-    const total = cart.reduce((total, movie) => {
-      return total + movie.price * movie.quantity;
-    }, 0);
-
-    return applyDiscount(total);
-  };
 
   /**
    *
@@ -134,7 +96,7 @@ export default function Exercise01() {
       <List movies={MOVIES} onAddCartClick={handleOnAddCartClick} />
       <Cart
         cart={cart}
-        total={getTotal()}
+        discountRules={DISCOUNT_RULES}
         onIncrementDecrementClick={handleOnIncrementOrDecrementClick}
       />
     </section>
