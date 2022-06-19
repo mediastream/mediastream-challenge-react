@@ -46,7 +46,7 @@ function Cart(props) {
           <li
             key={cartMovie.id}
             className="movies__cart-card"
-            data-testid="movies-card"
+            data-testid="movies-cart-card"
           >
             <ul>
               <li>ID: {cartMovie.id}</li>

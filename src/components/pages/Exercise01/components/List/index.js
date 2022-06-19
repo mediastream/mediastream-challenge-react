@@ -4,7 +4,7 @@ function List(props) {
   return (
     <ul className="movies__list">
       {movies.map((movie) => (
-        <li key={movie.id} className="movies__list-card">
+        <li key={movie.id} className="movies__list-card"  data-testid="movies-card">
           <ul>
             <li>ID: {movie.id}</li>
             <li>Name: {movie.name}</li>

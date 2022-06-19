@@ -42,7 +42,7 @@ describe('Cart component', () => {
   });
 
   it('Should render two element in the list', () => {
-    expect(screen.getAllByTestId('movies-card')).toHaveLength(cart.length);
+    expect(screen.getAllByTestId('movies-cart-card')).toHaveLength(cart.length);
   });
 
   it('Should fire increment event', () => {
