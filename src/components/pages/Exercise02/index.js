@@ -20,7 +20,7 @@ import { useState } from 'react';
 
 import useRequest from './hooks/useRequest';
 
-import { Header, Movie } from './components';
+import { Header, Movie, Paginate } from './components';
 
 export default function Exercise02() {
   const [selectedGenre, setSelectedGenre] = useState('');
@@ -38,11 +38,12 @@ export default function Exercise02() {
     return moviePath;
   };
 
-  const { data: movies, loading: moviesLoading } = useRequest(getMovieUrl(), {
-    pushToList: setPage > 1,
-    onResponse: () => {
-      setFetchCount((count) => count + 1);
-    },
+  const {
+    data: movies,
+    loading: moviesLoading,
+    total,
+  } = useRequest(getMovieUrl(),() => {
+    setFetchCount((count) => count + 1);
   });
 
   const handleOnGenderChange = (e) => {
@@ -70,11 +71,14 @@ export default function Exercise02() {
           <p>Fetched {fetchCount} times</p>
         </div>
       ) : (
-        <ul className="movie-library__list">
-          {movies.map((movie) => (
-            <Movie key={movie.id} movie={movie} />
-          ))}
-        </ul>
+        <>
+          <ul className="movie-library__list">
+            {movies.map((movie) => (
+              <Movie key={movie.id} movie={movie} />
+            ))}
+          </ul>
+          {total > 50 && <Paginate total={total} page={page} onPageChange={setPage} />}
+        </>
       )}
     </section>
   );

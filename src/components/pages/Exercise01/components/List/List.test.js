@@ -1,5 +1,3 @@
-/** @format */
-
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
@@ -20,7 +18,7 @@ const movies = [
   },
 ];
 
-describe('Cart component', () => {
+describe('List component', () => {
   beforeEach(() => {
     render(
       <List
@@ -41,5 +39,7 @@ describe('Cart component', () => {
 
   it('Should fire add to card event', () => {
     fireEvent.click(screen.getAllByText(/Add to cart/)[0]);
+
+    expect(handleOnAddCartClick.mock.calls.length).toBe(1);
   });
 });

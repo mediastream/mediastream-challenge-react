@@ -16,8 +16,7 @@
 import './assets/styles.css';
 import { useState } from 'react';
 
-import List from './components/List/';
-import Cart from './components/Cart/';
+import { List, Cart } from './components';
 
 import { MOVIES, DISCOUNT_RULES } from './constants';
 

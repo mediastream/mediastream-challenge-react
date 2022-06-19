@@ -1,5 +1,3 @@
-/** @format */
-
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
@@ -47,10 +45,12 @@ describe('Cart component', () => {
 
   it('Should fire increment event', () => {
     fireEvent.click(screen.getAllByText('+')[0]);
+    expect(handleIncrementOrDecrement.mock.calls.length).toBe(1);
   });
 
   it('Should fire decrement event', () => {
     fireEvent.click(screen.getAllByText('-')[0]);
+    expect(handleIncrementOrDecrement.mock.calls.length).toBe(1);
   });
 
   it('Should calculate the cart total without discount', () => {

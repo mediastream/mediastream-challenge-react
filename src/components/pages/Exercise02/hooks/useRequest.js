@@ -8,7 +8,11 @@ const request = async (path, signal) => {
   const res = await fetch(`${API_URL}${path}`, {
     signal,
   });
-  return res.json();
+  
+  return {
+    data: await res.json(),
+    headers: res.headers,
+  };
 };
 
 /**
@@ -20,15 +24,21 @@ const request = async (path, signal) => {
 function useRequest(path, cb) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [total, setTotal] = useState(0);
   const abortController = useRef(null);
 
   const handleRequest = async () => {
     setLoading(true);
     abortController.current = new AbortController();
     try {
-      const response = await request(path, abortController.current.signal);
-      setData(response);
-      cb && cb();
+      const { data: responseData, headers } = await request(path, abortController.current.signal);
+      setData(responseData);
+      if (headers.has('X-Total-Count')) {
+        setTotal(Number(headers.get('X-Total-Count')));
+      }
+      if (cb) {
+        cb();
+      }
     } catch (e) {
       console.log('Run yarn movie-api for fake api');
     }
@@ -47,6 +57,7 @@ function useRequest(path, cb) {
   return {
     loading,
     data,
+    total,
   };
 }
 

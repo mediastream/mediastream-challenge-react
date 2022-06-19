@@ -18,7 +18,7 @@
 }
 
 .movie-library__header {
-  padding: 0 10em;
+  padding: 0 15em;
 }
 
 .movie-library__title {
@@ -86,7 +86,7 @@
   grid-template-columns: repeat(4, 1fr);
   grid-column-gap: 2em;
   grid-row-gap: 2em;
-  padding: 1em 10em;
+  padding: 1em 15em;
   margin-top: 6em;
   box-shadow: 0 -2em 5em 4em var(--black);
 }
@@ -133,6 +133,38 @@
   line-height: 1.5em;
   font-size: 14px;
   font-family: 'Poppins', sans-serif;
+}
+
+.movie-library__paginate {
+  display: flex;
+  justify-content: center;
+  padding-top: 3em;
+}
+
+.movie-library__page {
+  width: 2em;
+  height: 2em;
+  border-radius: 5px;
+  border: 1px solid #fff;
+  margin: 0.2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14;
+  cursor: pointer;
+}
+
+.movie-library__page--active {
+  background-color: #fff;
+  color: var(--ms-green);
+  font-weight: bold;
+}
+
+
+@media (max-width: 1400px) {
+  .movie-library__header, .movie-library__list {
+    padding: 1em 10em;
+  }
 }
 
 @media (max-width: 1100px) {

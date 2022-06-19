@@ -1,5 +1,3 @@
-/** @format */
-
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
@@ -8,7 +6,7 @@ import Exercise from '.';
 import { MOVIES } from "./constants"
 
 
-describe('Cart component', () => {
+describe('Exercise component', () => {
   beforeEach(() => {
     render(
       <Exercise />
@@ -27,7 +25,6 @@ describe('Cart component', () => {
     expect(screen.getByText(`Total: $40`)).toBeTruthy();
 
     fireEvent.click(screen.getAllByText(/Add to cart/)[0]);
-  
     expect(screen.getByText(`Total: $60`)).toBeTruthy();
   });
 
