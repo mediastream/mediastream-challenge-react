@@ -2,26 +2,58 @@
   background-color: var(--black);
   color: var(--white);
   min-height: 100vh;
-  padding: 2em;
+  /* padding: 2em; */
+  /* background-color: red; */
+  
+}
+
+.movie-library__header {
+  padding: 2.5em;
+  background-image: linear-gradient(0, var(--black) 0%, rgba(255, 255, 255, 0) 25%), url("./mountains.jpeg");
+  background-position: 20% 18%;
+  background-size: cover;
+  height: 100px;
+}
+
+.movie-library__body {
+  background-image: url("./mountains.jpeg");
+  /* top: 0; */
+  /* position: absolute; */
+  width: 100vw;
+  /* height: 500px; */
 }
 
 .movie-library__title {
-  font-size: 2em;
+
+  font-size: 2.2vw;
   margin-bottom: 1em;
+  font-weight: bold;
 }
 
 .movie-library__actions {
   display: flex;
   margin-bottom: 1em;
+  width: 100%;
+  height: 3vw;
+  border-radius: 8px;
 }
 
 .movie-library__actions select {
   width: 100%;
   padding: .25em;
+  border: 2px solid var(--ms-green);
+  border-radius: 8px 0 0 8px;
 }
 
 .movie-library__actions button {
   white-space: nowrap;
+  border: 2px solid var(--ms-green);
+  border-radius: 0 7px 7px 0;
+  background-color: var(--ms-green);
+  border: 0px;
+  padding: 0 1em;
+  font-size: 1.2vw;
+  font-weight: 500;
 }
 
 .movie-library__loading {
