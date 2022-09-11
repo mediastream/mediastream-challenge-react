@@ -1,0 +1,31 @@
+const setItemsDiscounts = (data, discountRules) => {
+    data.map((item) => {
+        let discounts = []
+
+        /* 
+          Filtro las peliculas que coincidan con el id dentro "discountRules->itemsGroupId" 
+          itero los Ids por cada descuento y luego hago push al arreglo "discount".
+        */
+        discountRules.filter((discountRule) => {
+            discountRule.moviesGroupId.forEach(id => {
+                if(id === item.id){
+                    let discount = item.price * discountRule.discount
+                    discounts.push(discount);
+                }
+            });
+        })
+
+        /*
+          Hago uso del arreglo "discounts" para deducir correctamente el monto a descontar
+          al precio original de cada película.
+        */
+        if(discounts.length > 0){
+          discounts.forEach((discount) => item.price = item.price - discount)
+        }
+    })
+
+    console.log('Alter items Prices: ', data);
+    return data;
+}
+
+export default setItemsDiscounts

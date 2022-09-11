@@ -73,6 +73,12 @@
   margin-top: .5em;
 }
 
+.movies__cart-card-removeItem {
+  display: flex;
+  align-items: center;
+  margin-top: 1em;
+}
+
 .movies__cart-card span {
   margin: 0 .5em;
 }
@@ -89,4 +95,8 @@
 .movies__cart-total {
   margin-top: 1em;
   font-size: 1.25em;
+}
+
+.text-center{
+  text-align: center;
 }
