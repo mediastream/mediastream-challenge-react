@@ -1,30 +1,49 @@
+:root {
+  --theme-green: #97D701;
+}
+
 .movie-library {
-  background-color: var(--black);
+  background: var(--black);
   color: var(--white);
   min-height: 100vh;
-  padding: 2em;
+}
+
+.movie-library__header{
+  background: url('../assets/mountains.jpeg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  padding: 0px 75px;
 }
 
 .movie-library__title {
   font-size: 2em;
-  margin-bottom: 1em;
+  margin-bottom: 25px;
+  height: 100px;
+  line-height: 150px;
 }
 
 .movie-library__actions {
   display: flex;
   margin-bottom: 1em;
+  padding-bottom: 1em;
 }
 
 .movie-library__actions select {
-  width: 100%;
-  padding: .25em;
+  width: 90%;
+  padding: .75em;
+  font-size: 16px;
 }
 
 .movie-library__actions button {
+  background: var(--theme-green);
+  border: none;
+  border-radius: 0px 6px 6px 0px;
   white-space: nowrap;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-.movie-library__loading {
+.movie-library__loading,  .movie-library__empty{
   text-align: center;
   width: 100%;
   background-color: #222222;
@@ -34,22 +53,39 @@
 
 .movie-library__list {
   padding: 1em;
-  background-color: #222222;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2em;
 }
 
 .movie-library__card {
-  background-color: #333333;
-  margin-bottom: 1em;
-  display: flex;
-  align-items: center;
+  position: relative;
+  width: 300px;
+  height: 450px;
+}
+
+.movie-library__card:before {
+  content: "";
+  position: absolute;
+  background: -moz-linear-gradient(0deg, rgba(151,215,1,0.9) 30%, rgba(255,255,255,0.1) 60%);
+  background: -webkit-linear-gradient(0deg, rgba(151,215,1,0.9) 30%, rgba(255,255,255,0.1) 60%);
+  background: linear-gradient(0deg, rgba(151,215,1,0.9) 30%, rgba(255,255,255,0.1) 60%);
+  width: 100%;
+  height: 100%;
+  border-radius: 5%;
 }
 
 .movie-library__card img {
-  width: 10em;
+  width: 100%;
+  height: 100%;
+  border-radius: 5%;
 }
 
 .movie-library__card ul {
   padding: 1em;
+  position: absolute;
+  bottom: 0;
 }
 
 .movie-library__card li {
