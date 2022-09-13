@@ -17,7 +17,7 @@
 
 .movie-library__actions select {
   width: 100%;
-  padding: .25em;
+  padding: 0.25em;
 }
 
 .movie-library__actions button {
@@ -54,4 +54,18 @@
 
 .movie-library__card li {
   line-height: 120%;
+}
+
+.movie-library__button {
+  background-color: var(--ms-green);
+  border: none;
+  cursor: pointer;
+  font-size: 0.75em;
+  border-radius: 0.25em;
+  margin-top: 0.75em;
+  padding-top: 20px;
+}
+
+.container__item {
+  position: relative;
 }
