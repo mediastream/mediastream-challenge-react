@@ -1,14 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export interface Movie {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-}
+import { MovieShoppingCart } from '../interfaces/Movie';
 
 interface State {
-  moviesSelected: Array<Movie>;
+  moviesSelected: Array<MovieShoppingCart>;
 }
 
 const initialState: State = {
@@ -19,7 +13,7 @@ const shoppingCartSlice = createSlice({
   name: 'shoppingCart',
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<Movie>) => {
+    addToCart: (state, action: PayloadAction<MovieShoppingCart>) => {
       state.moviesSelected = state.moviesSelected.concat(action.payload);
     },
     plusQuantityToCart: (state, action: PayloadAction<{ movieId: number }>) => {
@@ -34,14 +28,14 @@ const shoppingCartSlice = createSlice({
       }
 
       state.moviesSelected = state.moviesSelected.map((e) => e.id === action.payload.movieId ? { ...e, quantity: e.quantity - 1 } : e)
-    }
+    },
   },
 });
 
 export const {
   addToCart,
   plusQuantityToCart,
-  minusQuantityToCart
+  minusQuantityToCart,
 } = shoppingCartSlice.actions;
 
 export default shoppingCartSlice.reducer;

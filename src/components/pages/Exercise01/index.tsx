@@ -12,10 +12,10 @@
  */
 
 import './assets/styles.css'
-import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../store/useRedux'
+import { discountRules, movies } from './constants/index'
+import { Movie } from './interfaces/Movie'
 import {
-  Movie,
   addToCart,
   plusQuantityToCart,
   minusQuantityToCart,
@@ -24,65 +24,10 @@ import {
 export default function Exercise01() {
   const { moviesSelected } = useAppSelector((state) => state.shoppingCart)
 
-  console.log({ moviesSelected })
-
   const dispatch = useAppDispatch()
 
-  const movies = [
-    {
-      id: 1,
-      name: 'Star Wars',
-      price: 20,
-    },
-    {
-      id: 2,
-      name: 'Minions',
-      price: 25,
-    },
-    {
-      id: 3,
-      name: 'Fast and Furious',
-      price: 10,
-    },
-    {
-      id: 4,
-      name: 'The Lord of the Rings',
-      price: 5,
-    },
-  ]
-
-  const discountRules = [
-    {
-      m: [3, 2],
-      discount: 0.25,
-    },
-    {
-      m: [2, 4, 1],
-      discount: 0.5,
-    },
-    {
-      m: [4, 2],
-      discount: 0.1,
-    },
-  ]
-
-  const addToCartAction = ({
-    id,
-    name,
-    price,
-  }: {
-    id: number
-    price: number
-    name: string
-  }) => {
-    dispatch(
-      addToCart({
-        id,
-        name: name,
-        price,
-        quantity: 1,
-      })
-    )
+  const addToCartAction = (movie: Movie) => {
+    dispatch(addToCart({ ...movie, quantity: 1 }))
   }
 
   const plusQuantityToCartAction = (movieId: number) => {
@@ -94,7 +39,32 @@ export default function Exercise01() {
   }
 
   const getTotal = (): number => {
-    return moviesSelected.reduce((acc, el) => acc + el.price * el.quantity, 0)
+    if (moviesSelected.length === 0) {
+      return 0
+    }
+
+    const total = moviesSelected.reduce(
+      (acc, el) => acc + el.price * el.quantity,
+      0
+    )
+
+    const moviesId = moviesSelected.map((e) => e.id)!
+
+    const discountToApply = discountRules.find((e) =>
+      e.m.every((el) => moviesId.includes(el))
+    )
+
+    const itemsNotIncluded = moviesId.reduce(
+      (acc, value) => (discountToApply?.m.includes(value) ? acc : acc + 1),
+      0
+    )
+
+    if (itemsNotIncluded > 0) {
+      return total
+    }
+
+    const totalWithDiscount = total - (total * discountToApply?.discount!) / 100
+    return parseFloat(totalWithDiscount.toFixed(2))
   }
 
   return (
