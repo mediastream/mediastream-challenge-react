@@ -3,9 +3,11 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 
 // root reducer
 import reducer from './reducer';
+import { middlewareApi } from './middlewareApi';
 
 const store = configureStore({
     reducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(middlewareApi.middleware),
     devTools: process.env.NODE_ENV !== 'production',
 });
 
