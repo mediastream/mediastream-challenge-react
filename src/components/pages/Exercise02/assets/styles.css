@@ -1,27 +1,69 @@
-.movie-library {
-  background-color: var(--black);
-  color: var(--white);
+.background {
+  position: absolute;
+  z-index: -2;
+  top: -10vw;
+  width: 100%;
+}
+.gradient-container {
+  position: absolute;
+}
+.gradient {
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(0deg, #222222 75.5%, rgba(255, 255, 255, 0) 100%);
   min-height: 100vh;
-  padding: 2em;
+}
+
+.movie-library {
+  min-height: 100vh;
+}
+
+.movie-library__title,
+.movie-library__list {
+  padding-left: 3vw;
+  padding-right: 6vw;
 }
 
 .movie-library__title {
-  font-size: 2em;
-  margin-bottom: 1em;
+  font-size: 3vw;
+  padding-top: 5vw;
+  color: white;
+  font-weight: bolder;
+  padding-bottom: 2vw;
 }
 
 .movie-library__actions {
   display: flex;
-  margin-bottom: 1em;
+  border: 2px lawngreen solid;
+  margin-left: 3vw;
+  margin-right: 6vw;
+  height: 3vw;
+  background-color: white;
+  border-radius: 0.5vw;
+  overflow: hidden;
+}
+
+.movie-library__actions > select,
+button {
+  border: none;
+  font-size: 1.1vw;
+  background-color: white;
 }
 
 .movie-library__actions select {
-  width: 100%;
-  padding: .25em;
+  width: 85%;
+  padding: 0.25em;
+  color: grey;
 }
 
 .movie-library__actions button {
   white-space: nowrap;
+  background-color: lawngreen;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  width: 15%;
 }
 
 .movie-library__loading {
@@ -33,25 +75,57 @@
 }
 
 .movie-library__list {
-  padding: 1em;
   background-color: #222222;
+  display: grid;
+  grid-template-columns: repeat(4, 20vw);
+  justify-content: space-between;
+  align-content: start;
+  row-gap: 2vw;
+  padding-top: 4vw;
+  min-height: 100vh;
 }
 
 .movie-library__card {
-  background-color: #333333;
-  margin-bottom: 1em;
-  display: flex;
-  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 1vw;
+  height: 30vw;
 }
 
 .movie-library__card img {
-  width: 10em;
+  width: 100%;
+  z-index: -1;
 }
 
 .movie-library__card ul {
-  padding: 1em;
+  padding: 2vw;
+  position: absolute;
+  width: 100%;
+  height: 26vw;
+  top: 0%;
+
+  display: grid;
+  align-content: flex-end;
+  background: linear-gradient(
+    0deg,
+    rgba(124, 252, 0, 1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
 }
 
 .movie-library__card li {
   line-height: 120%;
+  bottom: 0px;
+  white-space: nowrap;
+  align-self: end;
+  height: min-content;
+  color: white;
+  font-size: 1vw;
+}
+
+.title {
+  font-size: 1vw;
+  font-weight: bold;
 }
