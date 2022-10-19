@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  margin-bottom: 1em;
+  background-color: var(--ms-green);
+  padding: 2px;
+  border-radius: 5px;
+  overflow: hidden;
+
+  select {
+    width: 100%;
+    padding: 0.25em;
+    border: none;
+    appearance: none;
+    outline: none;
+    background-image: url('./assets/down-arrow.svg');
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+  }
+
+  button {
+    white-space: nowrap;
+    border: none;
+    background-color: var(--ms-green);
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+}

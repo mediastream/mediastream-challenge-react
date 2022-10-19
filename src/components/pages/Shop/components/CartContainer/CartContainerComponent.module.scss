@@ -1,0 +1,40 @@
+@import '/src/styles/utils/variables';
+
+.cart {
+  width: 24em;
+  background-color: $gray-secondary;
+  padding: 1em;
+  border-radius: 0.2em;
+  margin-bottom: 0;
+
+  ul li {
+    font-size: 1em;
+    line-height: 120%;
+  }
+}
+
+.card {
+  background-color: $gray-primary;
+  margin-bottom: 1rem;
+  padding: 0.75em;
+  border-radius: 0.2em;
+}
+
+.quantity {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5em;
+
+  span {
+    margin: 0 0.5em;
+  }
+
+  button {
+    background-color: var(--ms-green);
+    border: none;
+    cursor: pointer;
+    font-size: 0.75em;
+    border-radius: 0.25em;
+    padding: 0.25em 0.5em;
+  }
+}

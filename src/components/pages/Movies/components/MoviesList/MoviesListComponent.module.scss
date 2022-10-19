@@ -1,0 +1,14 @@
+.loading {
+  text-align: center;
+  width: 100%;
+  padding: 1.25em 0;
+  margin: 2em 0;
+}
+
+.list {
+  padding: 1em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: flex-start;
+}
