@@ -13,6 +13,8 @@
 import './assets/styles.css';
 import { movies } from './assets/data';
 import { useCart } from './hooks/useCart';
+import MovieComponent from './components/movie_component';
+import CartItemComponent from './components/cart_item_component';
 
 export default function Exercise01() {
   const { cart, addToCart, decrementItem, getTotal } = useCart();
@@ -23,14 +25,11 @@ export default function Exercise01() {
       <div className='movies__list'>
         <ul>
           {movies.map((movie) => (
-            <li className='movies__list-card' key={movie.id}>
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Name: {movie.name}</li>
-                <li>Price: ${movie.price}</li>
-              </ul>
-              <button onClick={() => addToCart(movie)}>Add to cart</button>
-            </li>
+            <MovieComponent
+              movie={movie}
+              onClick={() => addToCart(movie)}
+              key={movie.id}
+            />
           ))}
         </ul>
       </div>
@@ -39,18 +38,12 @@ export default function Exercise01() {
         <div className='movies__cart'>
           <ul>
             {cart.map((item) => (
-              <li className='movies__cart-card' key={`item_${item.id}`}>
-                <ul>
-                  <li>ID: {item.id}</li>
-                  <li>Name: {item.name}</li>
-                  <li>Price: ${item.price}</li>
-                </ul>
-                <div className='movies__cart-card-quantity'>
-                  <button onClick={() => decrementItem(item)}>-</button>
-                  <span>{item.quantity}</span>
-                  <button onClick={() => addToCart(item)}>+</button>
-                </div>
-              </li>
+              <CartItemComponent
+                item={item}
+                onDecrement={() => decrementItem(item)}
+                onAdd={() => addToCart(item)}
+                key={`carItem_${item.id}`}
+              />
             ))}
           </ul>
 
