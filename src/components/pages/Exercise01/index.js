@@ -14,53 +14,101 @@
 import './assets/styles.css'
 import { useState } from 'react'
 
+/* Parameters vars like discountRules or movies I prefer to put
+outside of the component to keep the code mode legible.
+*/
+
+
+const discountRules = [
+  {
+    m: [3, 2],
+    discount: 0.25
+  },
+  {
+    m: [2, 4, 1],
+    discount: 0.5
+  },
+  {
+    m: [4, 2],
+    discount: 0.1
+  } 
+]
+
+const movies = [
+  {
+    id: 1,
+    name: 'Star Wars',
+    price: 20
+  },
+  {
+    id: 2,
+    name: 'Minions',
+    price: 25
+  },
+  {
+    id: 3,
+    name: 'Fast and Furious',
+    price: 10
+  },
+  {
+    id: 4,
+    name: 'The Lord of the Rings',
+    price: 5
+  }
+]
+
+
 export default function Exercise01 () {
-  const movies = [
-    {
-      id: 1,
-      name: 'Star Wars',
-      price: 20
-    },
-    {
-      id: 2,
-      name: 'Minions',
-      price: 25
-    },
-    {
-      id: 3,
-      name: 'Fast and Furious',
-      price: 10
-    },
-    {
-      id: 4,
-      name: 'The Lord of the Rings',
-      price: 5
-    }
-  ]
 
-  const discountRules = [
-    {
-      m: [3, 2],
-      discount: 0.25
-    },
-    {
-      m: [2, 4, 1],
-      discount: 0.5
-    },
-    {
-      m: [4, 2],
-      discount: 0.1
-    } 
-  ]
+  /* Cart Modification: Instead to be an array, Cart will be an object where keys
+     will be the id of the movie and the value the movie. That makes more easy the
+     adding or deletion of a movie to the cart.
+  */
+  const [cart, setCart] = useState({
+    1: {
+        id: 1,
+        name: 'Star Wars',
+        price: 20,
+        quantity: 2
+        }
+    })
 
-  const [cart, setCart] = useState([
-    {
-      id: 1,
-      name: 'Star Wars',
-      price: 20,
-      quantity: 2
+  const addToCart = (newMovie) => {
+      const movieId = newMovie.id
+
+    if (cart[movieId] === undefined) {
+        setCart({...cart,
+                 [movieId]: {...newMovie,
+                                quantity: 1
+                            }
+                })
+    } else {
+        setCart({...cart,
+                 [movieId]: {...newMovie,
+                           quantity: cart[movieId].quantity + 1
+                          }
+                })
     }
-  ])
+  }
+
+  const decreaseQuantity = (movie) => {
+    const movieId = movie.id
+    // First case: Movie only reduces quantity
+    if (cart[movieId].quantity > 1) {
+        setCart({...cart,
+                 [movieId]: {
+                    ...movie,
+                    quantity: cart[movieId] - 1
+                            }
+                })
+    } else {
+        // Second case: Movie removed from cart
+        const {[movieId]: _, ...newCart} = cart
+        setCart(newCart)
+
+    }
+
+  }
 
   const getTotal = () => 0 // TODO: Implement this
 
@@ -68,8 +116,8 @@ export default function Exercise01 () {
     <section className="exercise01">
       <div className="movies__list">
         <ul>
-          {movies.map(o => (
-            <li className="movies__list-card">
+          {movies.map((o, i) => (
+            <li key={i} className="movies__list-card">
               <ul>
                 <li>
                   ID: {o.id}
@@ -81,7 +129,7 @@ export default function Exercise01 () {
                   Price: ${o.price}
                 </li>
               </ul>
-              <button onClick={() => console.log('Add to cart', o)}>
+              <button onClick={() => addToCart(o)}>
                 Add to cart
               </button>
             </li>
@@ -90,8 +138,8 @@ export default function Exercise01 () {
       </div>
       <div className="movies__cart">
         <ul>
-          {cart.map(x => (
-            <li className="movies__cart-card">
+          {Object.values(cart).map((x, i) => (
+            <li key={i} className="movies__cart-card">
               <ul>
                 <li>
                   ID: {x.id}
@@ -104,13 +152,13 @@ export default function Exercise01 () {
                 </li>
               </ul>
               <div className="movies__cart-card-quantity">
-                <button onClick={() => console.log('Decrement quantity', x)}>
+                <button onClick={() => decreaseQuantity(x)}>
                   -
                 </button>
                 <span>
                   {x.quantity}
                 </span>
-                <button onClick={() => console.log('Increment quantity', x)}>
+                <button onClick={() => addToCart(x)}>
                   +
                 </button>
               </div>
