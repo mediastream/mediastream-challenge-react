@@ -135,8 +135,9 @@ export default function Exercise01 () {
       totalPrice += movie.price * movie.quantity;
     });
 
-    // Return totalPrice but applying discounts
-    return totalPrice - totalDiscount;
+    // Return totalPrice but applying discounts. Handles the case of negative number
+    // but the algorithm to compute the total discount assumes that the discounts are reasonables
+    return Math.max(totalPrice - totalDiscount, 0);
   }
 
   return (
