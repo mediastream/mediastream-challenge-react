@@ -11,8 +11,8 @@
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
 
-import './assets/styles.css'
-import { useState } from 'react'
+import './assets/styles.css';
+import { useState } from 'react';
 
 /* Parameters vars like discountRules or movies I prefer to put
 outside of the component to keep the code mode legible.
@@ -32,7 +32,7 @@ const discountRules = [
     m: [4, 2],
     discount: 0.1
   } 
-]
+];
 
 const movies = [
   {
@@ -55,7 +55,7 @@ const movies = [
     name: 'The Lord of the Rings',
     price: 5
   }
-]
+];
 
 
 export default function Exercise01 () {
@@ -66,51 +66,78 @@ export default function Exercise01 () {
   */
   const [cart, setCart] = useState({
     1: {
-        id: 1,
-        name: 'Star Wars',
-        price: 20,
-        quantity: 2
-        }
-    })
+      id: 1,
+      name: 'Star Wars',
+      price: 20,
+      quantity: 2
+      }
+  });
 
   const addToCart = (newMovie) => {
-      const movieId = newMovie.id
+    const movieId = newMovie.id;
 
     if (cart[movieId] === undefined) {
-        setCart({...cart,
-                 [movieId]: {...newMovie,
-                                quantity: 1
-                            }
-                })
-    } else {
-        setCart({...cart,
-                 [movieId]: {...newMovie,
-                           quantity: cart[movieId].quantity + 1
+      setCart({...cart,
+              [movieId]: {...newMovie,
+                          quantity: 1
                           }
-                })
+              });
+    } else {
+      setCart({...cart,
+              [movieId]: {...newMovie,
+                          quantity: cart[movieId].quantity + 1
+                         }
+              });
     }
   }
 
   const decreaseQuantity = (movie) => {
-    const movieId = movie.id
+    const movieId = movie.id;
     // First case: Movie only reduces quantity
     if (cart[movieId].quantity > 1) {
-        setCart({...cart,
-                 [movieId]: {
-                    ...movie,
-                    quantity: cart[movieId] - 1
-                            }
-                })
+      setCart({...cart,
+              [movieId]: {...movie,
+                          quantity: movie.quantity - 1
+                         }
+              });
     } else {
-        // Second case: Movie removed from cart
-        const {[movieId]: _, ...newCart} = cart
-        setCart(newCart)
-
+      // Second case: Movie removed from cart
+      const {[movieId]: _, ...newCart} = cart;
+      setCart(newCart);
     }
-
   }
 
-  const getTotal = () => 0 // TODO: Implement this
+  const getTotal = () => {
+    // Compute discounts, see Readme to see how it is computed
+    let totalDiscount = 0;
+    discountRules.forEach((rule) => {
+      // Check if all the movies of the rule are in the cart
+      const canBeApplied = rule.m.every(movieId => {
+        if (cart[movieId] === undefined) {
+          return false;
+        }
+        return true;
+      });
+      if (canBeApplied) {
+        // Compute the total price of only the movies that are in the rule
+        let moviesTotalPrice = 0;
+        rule.m.forEach(movieId => {
+          moviesTotalPrice += cart[movieId].price * cart[movieId].quantity;
+        });
+        // Add to discount counter to get total discount
+        totalDiscount += moviesTotalPrice * rule.discount;
+      }
+    });
+
+    // Get total price
+    let totalPrice = 0;
+    Object.values(cart).forEach(movie => {
+      totalPrice += movie.price * movie.quantity;
+    });
+
+    // Return totalPrice but applying discounts
+    return totalPrice - totalDiscount;
+  }
 
   return (
     <section className="exercise01">
