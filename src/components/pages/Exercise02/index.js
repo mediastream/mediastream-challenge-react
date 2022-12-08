@@ -15,6 +15,8 @@
 import "./assets/styles.css";
 import { useEffect, useState } from "react";
 
+import headerImage from './assets/mountains.jpeg'
+
 
 // In a bigger project it should be in a utils folder that allow be used
 // by many components without code repeat
@@ -25,7 +27,7 @@ export default function Exercise02 () {
   const [movies, setMovies] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [genres, setGenres] = useState([]);
-  const [genre, setGenre] = useState(null);
+  const [genre, setGenre] = useState("");
   const [ascending, setAscending] = useState(true);
 
   const [fetchCount, setFetchCount] = useState(0);
@@ -77,7 +79,7 @@ export default function Exercise02 () {
 
 
   const handleGenreChange = (event) => {
-    if (event.target.value == null) {
+    if (event.target.value === "") {
         const allMovies = [...movies];
         if (!ascending) {
             allMovies.reverse();
@@ -102,20 +104,24 @@ export default function Exercise02 () {
 
   return (
     <section className="movie-library">
-      <h1 className="movie-library__title">
-        Movie Library
-      </h1>
-      <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre..." onChange={handleGenreChange}>
-            <option value={null}>Search by genre</option>
-            {
-                genres.map((genre, i) => (
-                    <option value={genre}>{genre}</option>
-                ))
-            }
-        </select>
-        <button onClick={handleAscending}>{ascending ?'Order Descending' : 'Order Ascending'}</button>
-      </div>
+        <div className="header">
+          <img src={headerImage} alt=""/>
+          <div className="movie-library__title">
+            <h1 >Movie Library</h1>
+          </div>
+  
+          <div className="movie-library__actions">
+            <select name="genre" placeholder="Search by genre..." value={genre} onChange={handleGenreChange}>
+              <option value={null}>Search by genre</option>
+              {
+                  genres.map((genre, i) => (
+                      <option key={i} value={genre}>{genre}</option>
+                  ))
+              }
+            </select>
+            <button onClick={handleAscending}>{ascending ?'Order Descending' : 'Order Ascending'}</button>
+          </div>
+        </div>
       {loading ? (
         <div className="movie-library__loading">
           <p>Loading...</p>
@@ -124,16 +130,14 @@ export default function Exercise02 () {
       ) : (
         <ul className="movie-library__list">
           {filteredMovies.map(movie => (
-            <li key={movie.id} className="movie-library__card">
+            <div key={movie.id} className="movie-library__card">
               <img src={movie.posterUrl} alt={movie.title} />
               <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
+                <li key="title" className="movie-title">{movie.title}</li>
+                <li key="genres">{movie.genres.join(', ')}</li>
+                <li key="year">{movie.year}</li>
               </ul>
-            </li>
+            </div>
           ))}
         </ul>
       )}
