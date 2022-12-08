@@ -1,7 +1,7 @@
 .exercise01 {
   background-color: var(--black);
   color: var(--white);
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   display: flex;
   align-items: center;
