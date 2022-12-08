@@ -109,10 +109,10 @@ export default function Exercise02 () {
           <div className="movie-library__title">
             <h1 >Movie Library</h1>
           </div>
-  
+
           <div className="movie-library__actions">
             <select name="genre" placeholder="Search by genre..." value={genre} onChange={handleGenreChange}>
-              <option value={null}>Search by genre</option>
+              <option value={""}>Search by genre</option>
               {
                   genres.map((genre, i) => (
                       <option key={i} value={genre}>{genre}</option>
