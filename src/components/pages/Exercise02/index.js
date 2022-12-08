@@ -37,7 +37,7 @@ export default function Exercise02 () {
 
   useEffect(() => {
     handleMovieFetch()
-  }, [handleMovieFetch])
+  }, [])
 
   return (
     <section className="movie-library">
