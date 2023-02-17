@@ -13,64 +13,101 @@
  */
 
 import "./assets/styles.css";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import MovieCard from "./components/MovieCard/MovieCard";
+const MOCK_API_URI = 'http://localhost:3001/';
 
 export default function Exercise02 () {
+
+  // initial component state
   const [movies, setMovies] = useState([])
   const [fetchCount, setFetchCount] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [genres, setGenres] = useState([])
+  const [genre, setGenre] = useState(null)
+  const [sortingBy, setSortingBy] = useState(null)
 
-  const handleMovieFetch = () => {
+  const fetchData = async (uri = '') => {
     setLoading(true)
-    setFetchCount(fetchCount + 1)
-    console.log('Getting movies')
-    fetch('http://localhost:3001/movies?_limit=50')
-      .then(res => res.json())
-      .then(json => {
-        setMovies(json)
-        setLoading(false)
-      })
-      .catch(() => {
-        console.log('Run yarn movie-api for fake api')
-      })
+    const response = await fetch(`${MOCK_API_URI}${uri}`).catch(() => {
+      console.log('Run yarn movie-api for fake api');
+    })
+    const json = await response.json();
+    setLoading(false)
+    return json;
   }
 
+  // fetch genres
+  const handleGenresFetch = async () => {
+    const data = await fetchData(`genres`).catch(() => {
+      console.log('Run yarn movie-api for fake api');
+    })
+    setGenres(data);
+  };
+
+  // fetch and logical for movies
+  const handleMovieFetch = useCallback( async () => {
+    setFetchCount(prevCount => prevCount+1)
+    const sortParam = sortingBy ? `&_sort=year&_order=${sortingBy}` : '';
+    const genreParam = genre ? `&genres_like=${genre}` : '';
+    const data = await fetchData(`movies?_limit=50${sortParam}${genreParam}`)
+    setMovies(data);
+  }, [sortingBy, genre])
+
+  const handleSorting = async () => {
+    setSortingBy((sortingBy) => sortingBy === 'asc' ? 'desc': 'asc')
+  }
+
+  const sortByYearButton = useMemo(() => {
+    return sortingBy === 'asc' ? 'Year Descending' : 'Year Ascending'
+  }, [sortingBy])
+
   useEffect(() => {
-    handleMovieFetch()
+    handleMovieFetch();
+    handleGenresFetch();
   }, [handleMovieFetch])
 
+  useEffect(async () => {
+    if(sortingBy || genre) {
+      setFetchCount(prevCount => prevCount + 1)
+      const sortParam = sortingBy ? `&_sort=year&_order=${sortingBy}` : '';
+      const genreParam = genre ? `&genres_like=${genre}` : '';
+      const data = await fetch(`${MOCK_API_URI}movies?_limit=50${sortParam}${genreParam}`).then((response) =>
+        response.json()
+      );
+      setMovies(data);
+    }
+  }, [sortingBy, genre]);
+
   return (
-    <section className="movie-library">
-      <h1 className="movie-library__title">
-        Movie Library
-      </h1>
-      <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
-        </select>
-        <button>Order Descending</button>
-      </div>
-      {loading ? (
-        <div className="movie-library__loading">
-          <p>Loading...</p>
-          <p>Fetched {fetchCount} times</p>
+    <div className="movie-container">
+      <div className="movie-container__header"></div>
+      <section className="movie-library">
+        <h1 className="movie-library__title">
+          Movie Library
+        </h1>
+        <div className="movie-library__actions">
+          <select name="genre" placeholder="Search by genre..." disabled={loading} onChange={(evt) => setGenre(evt.target.value)}>
+            <option value="">Select an option</option>
+            {genres.map(genre => (
+              <option key={genre} value={genre}>{genre}</option>
+            ))}
+          </select>
+          <button onClick={handleSorting}>{sortByYearButton}</button>
         </div>
-      ) : (
-        <ul className="movie-library__list">
-          {movies.map(movie => (
-            <li key={movie.id} className="movie-library__card">
-              <img src={movie.posterUrl} alt={movie.title} />
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
-              </ul>
-            </li>
-          ))}
-        </ul>
-      )}
-    </section>
+        {loading ? (
+          <div className="movie-library__loading">
+            <p>Loading...</p>
+            <p>Fetched {fetchCount} times</p>
+          </div>
+        ) : (
+          <div className="movie-library__list">
+            {movies.map(movie => (
+              <MovieCard movie={movie} key={movie.id}/>
+            ))}
+          </div>
+        )}
+      </section>
+      </div>
   )
 }

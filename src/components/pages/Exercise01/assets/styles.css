@@ -26,6 +26,12 @@
   border-radius: .2em;
 }
 
+.movies__list-card ul {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
 .movies__list-card:last-child {
   margin-bottom: 0;
 }
@@ -35,6 +41,44 @@
   line-height: 120%;
 }
 
+.movies__list-card .movie__information {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 9em;
+}
+
+.movies__list-card .movie__card-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.movies__cart-card ul li .movie__title,
+.movies__list-card ul li .movie__title {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: .2em;
+}
+
+.movies__list-card ul li .movie__body {
+  font-size: .75em;
+  font-weight: lighter;
+  margin-bottom: .2em;
+}
+
+.movies__list-card ul li  .movie__price {
+  font-size: 1.25em;
+  font-weight: normal;
+  margin-top: auto;
+}
+
+.movies__list-card ul li img {
+  height: 9em;
+  width: 6.5em;
+  margin-right: .5em;
+  border-radius: .25em;
+}
+
 .movies__list-card button {
   background-color: var(--ms-green);
   border: none;
@@ -42,7 +86,8 @@
   font-size: .75em;
   border-radius: .25em;
   margin-top: .75em;
-  padding: .25em .5em;
+  padding: .5em .5em;
+  width: 100%;
 }
 
 .movies__cart {
@@ -56,6 +101,8 @@
   margin-bottom: 1rem;
   padding: .75em;
   border-radius: .2em;
+  display: flex;
+  flex-direction: column;
 }
 
 .movies__cart-card:last-child {
@@ -67,10 +114,19 @@
   line-height: 120%;
 }
 
+.movies__cart-card .movie__band {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+
+}
+
 .movies__cart-card-quantity {
   display: flex;
   align-items: center;
   margin-top: .5em;
+  margin-left: auto;
 }
 
 .movies__cart-card span {
@@ -89,4 +145,6 @@
 .movies__cart-total {
   margin-top: 1em;
   font-size: 1.25em;
+  width: 100%;
+  text-align: right;
 }
