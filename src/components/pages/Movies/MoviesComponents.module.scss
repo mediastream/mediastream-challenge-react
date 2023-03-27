@@ -1,0 +1,42 @@
+.container {
+  position: relative;
+  background-color: var(--black);
+  color: var(--white);
+  min-height: 100vh;
+  padding: 2em;
+}
+
+.movieContainer {
+  position: relative;
+  z-index: 10;
+
+  h1 {
+    font-size: 2em;
+    margin-bottom: 1em;
+    font-weight: bold;
+  }
+}
+
+.banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 100%;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 18rem;
+    box-shadow: inset 0px -100px 100px var(--black);
+  }
+
+  > img {
+    width: 100%;
+    height: 18rem;
+    object-fit: cover;
+    object-position: 0px 20%;
+  }
+}
