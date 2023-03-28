@@ -11,116 +11,146 @@
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
 
-import './assets/styles.css'
-import { useState } from 'react'
+import "./assets/styles.css";
+import { useState } from "react";
 
-export default function Exercise01 () {
+export default function Exercise01() {
   const movies = [
     {
       id: 1,
-      name: 'Star Wars',
-      price: 20
+      name: "Star Wars",
+      price: 20,
     },
     {
       id: 2,
-      name: 'Minions',
-      price: 25
+      name: "Minions",
+      price: 25,
     },
     {
       id: 3,
-      name: 'Fast and Furious',
-      price: 10
+      name: "Fast and Furious",
+      price: 10,
     },
     {
       id: 4,
-      name: 'The Lord of the Rings',
-      price: 5
-    }
-  ]
+      name: "The Lord of the Rings",
+      price: 5,
+    },
+  ];
 
   const discountRules = [
     {
       m: [3, 2],
-      discount: 0.25
+      discount: 0.25,
     },
     {
       m: [2, 4, 1],
-      discount: 0.5
+      discount: 0.5,
     },
     {
       m: [4, 2],
-      discount: 0.1
-    } 
-  ]
+      discount: 0.1,
+    },
+  ];
 
   const [cart, setCart] = useState([
     {
       id: 1,
-      name: 'Star Wars',
+      name: "Star Wars",
       price: 20,
-      quantity: 2
-    }
-  ])
+      quantity: 2,
+    },
+  ]);
 
-  const getTotal = () => 0 // TODO: Implement this
+  const addToCart = (movie) => {
+    const itemInCart = cart.find((item) => item.id === movie.id);
+    if (itemInCart) {
+      incrementQuantity(itemInCart);
+    } else {
+      setCart([...cart, { ...movie, quantity: 1 }]);
+    }
+  };
+
+  const incrementQuantity = (item) => {
+    const newCart = [...cart];
+    const itemIndex = newCart.findIndex((cartItem) => cartItem.id === item.id);
+    newCart[itemIndex].quantity++;
+    setCart(newCart);
+  };
+
+  const decrementQuantity = (item) => {
+    const newCart = [...cart];
+    const itemIndex = newCart.findIndex((cartItem) => cartItem.id === item.id);
+    if (newCart[itemIndex].quantity > 1) {
+      newCart[itemIndex].quantity--;
+    } else {
+      newCart.splice(itemIndex, 1);
+    }
+    setCart(newCart);
+  };
+
+  const removeItem = (item) => {
+    const newCart = cart.filter((cartItem) => cartItem.id !== item.id);
+    setCart(newCart);
+  };
+
+  const getTotal = () => {
+    let total = 0;
+    cart.forEach((item) => {
+      const itemTotal = item.price * item.quantity;
+      total += itemTotal;
+      const rule = discountRules.find((rule) =>
+        rule.m.every((movieId) =>
+          cart.some((cartItem) => cartItem.id === movieId)
+        )
+      );
+      if (rule) {
+        const discount = itemTotal * rule.discount;
+        total -= discount;
+      }
+    });
+    return total.toFixed(2);
+  };
 
   return (
     <section className="exercise01">
       <div className="movies__list">
         <ul>
-          {movies.map(o => (
-            <li className="movies__list-card">
+          {movies.map((o) => (
+            <li className="movies__list-card" key={o.id}>
               <ul>
-                <li>
-                  ID: {o.id}
-                </li>
-                <li>
-                  Name: {o.name}
-                </li>
-                <li>
-                  Price: ${o.price}
-                </li>
+                <li>ID: {o.id}</li>
+                <li>Name: {o.name}</li>
+                <li>Price: ${o.price}</li>
               </ul>
-              <button onClick={() => console.log('Add to cart', o)}>
-                Add to cart
-              </button>
+              <button onClick={() => addToCart(o)}>Add to cart</button>
             </li>
           ))}
         </ul>
       </div>
-      <div className="movies__cart">
+      <div className="cart__list">
+        <h2>Cart</h2>
         <ul>
-          {cart.map(x => (
-            <li className="movies__cart-card">
+          {cart.map((item) => (
+            <li className="cart__list-card" key={item.id}>
               <ul>
+                <li>Name: {item.name}</li>
+                <li>Price: ${item.price}</li>
                 <li>
-                  ID: {x.id}
+                  Quantity:
+                  <button onClick={() => decrementQuantity(item)}>-</button>
+                  {item.quantity}
+                  <button onClick={() => incrementQuantity(item)}>+</button>
                 </li>
                 <li>
-                  Name: {x.name}
-                </li>
-                <li>
-                  Price: ${x.price}
+                  <button onClick={() => removeItem(item)}>Remove item</button>
                 </li>
               </ul>
-              <div className="movies__cart-card-quantity">
-                <button onClick={() => console.log('Decrement quantity', x)}>
-                  -
-                </button>
-                <span>
-                  {x.quantity}
-                </span>
-                <button onClick={() => console.log('Increment quantity', x)}>
-                  +
-                </button>
-              </div>
             </li>
           ))}
         </ul>
-        <div className="movies__cart-total">
-          <p>Total: ${getTotal()}</p>
-        </div>
+        <h3>Total: ${getTotal()}</h3>
       </div>
     </section>
-  )
-} 
+  );
+}
