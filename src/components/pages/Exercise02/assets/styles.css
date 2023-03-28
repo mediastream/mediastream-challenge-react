@@ -2,26 +2,42 @@
   background-color: var(--black);
   color: var(--white);
   min-height: 100vh;
-  padding: 2em;
+  padding: 4em;
+  background-image: url(./mountains.jpeg);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: 0 -10vh;
 }
 
 .movie-library__title {
-  font-size: 2em;
+  font-size: 3em;
   margin-bottom: 1em;
+  font-weight: bold;
 }
 
 .movie-library__actions {
   display: flex;
-  margin-bottom: 1em;
+  margin-bottom: 2em;
 }
 
 .movie-library__actions select {
   width: 100%;
-  padding: .25em;
+  padding: 0.5em 1em;
+  font-size: 1rem;
+  border-radius: 0.5em;
+  border: 2px solid #8aba1d;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .movie-library__actions button {
+  font-size: 1rem;
+  padding: 0.5em 1.5em;
   white-space: nowrap;
+  background-color: #97d700;
+  border: none;
+  border-top-right-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
 }
 
 .movie-library__loading {
@@ -33,25 +49,43 @@
 }
 
 .movie-library__list {
-  padding: 1em;
-  background-color: #222222;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .movie-library__card {
-  background-color: #333333;
-  margin-bottom: 1em;
-  display: flex;
+  width: 250px;
+  max-width: 251px;
+  height: 350px;
+  max-height: 351px;
+  border-radius: 15px;
+  flex: auto;
+  margin: 20px;
+  display: flex;;
   align-items: center;
+  background: linear-gradient(to bottom, transparent, transparent, rgba(151, 215, 0, 0.6));
 }
 
-.movie-library__card img {
-  width: 10em;
+.movie-library__card > .card__wrapper {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .movie-library__card ul {
   padding: 1em;
 }
 
-.movie-library__card li {
-  line-height: 120%;
+.movie-library__card ul li {
+  margin-bottom: 3%;
+  font-size: .85em;
+}
+
+.movie-library__card ul li:nth-child(1) {
+  font-weight: bold;
 }
