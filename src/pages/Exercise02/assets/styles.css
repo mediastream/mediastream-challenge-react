@@ -1,5 +1,7 @@
 .movie-library {
-  background-color: var(--black);
+  background-image: url('mountains.jpeg');
+  background-repeat: no-repeat;
+  background-color: black;
   color: var(--white);
   min-height: 100vh;
   padding: 2em;

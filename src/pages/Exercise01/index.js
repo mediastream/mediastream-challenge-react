@@ -13,8 +13,8 @@
 
 import './assets/styles.css'
 import { useState } from 'react'
-import { getMoviesTotal } from '../../../utils'
-import { DISCOUNT_RULES, MOVIES } from '../../../data'
+import { getMoviesTotal } from '../../utils'
+import { DISCOUNT_RULES, MOVIES } from '../../data'
 
 export default function Exercise01() {
 
