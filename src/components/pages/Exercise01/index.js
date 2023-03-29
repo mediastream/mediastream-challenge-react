@@ -13,45 +13,10 @@
 
 import './assets/styles.css'
 import { useState } from 'react'
+import { getMoviesTotal } from '../../../utils'
+import { DISCOUNT_RULES, MOVIES } from '../../../data'
 
-export default function Exercise01 () {
-  const movies = [
-    {
-      id: 1,
-      name: 'Star Wars',
-      price: 20
-    },
-    {
-      id: 2,
-      name: 'Minions',
-      price: 25
-    },
-    {
-      id: 3,
-      name: 'Fast and Furious',
-      price: 10
-    },
-    {
-      id: 4,
-      name: 'The Lord of the Rings',
-      price: 5
-    }
-  ]
-
-  const discountRules = [
-    {
-      m: [3, 2],
-      discount: 0.25
-    },
-    {
-      m: [2, 4, 1],
-      discount: 0.5
-    },
-    {
-      m: [4, 2],
-      discount: 0.1
-    } 
-  ]
+export default function Exercise01() {
 
   const [cart, setCart] = useState([
     {
@@ -62,14 +27,63 @@ export default function Exercise01 () {
     }
   ])
 
-  const getTotal = () => 0 // TODO: Implement this
+  const addToCart = (item) => {
+    const ids = cart.map((element) => element.id)
+    if (ids.includes(item.id) === false) {
+      setCart((prevState) => {
+        const newItem = {
+          ...item,
+          quantity: 1
+        }
+        return [
+          ...prevState,
+          newItem
+        ]
+      })
+    }
+  }
+
+  const quantityButton = (movie, value) => {
+    setCart((prevState) => {
+      const newState = prevState.map((element) => {
+        if (element.id === movie.id && element.quantity + value !== 0) {
+          return {
+            ...element,
+            quantity: element.quantity + value
+          }
+        } else if (element.id === movie.id && element.quantity + value === 0) {
+          return null
+        }
+        else {
+          return element
+        }
+      }).filter((element) => element !== null)
+      return [...newState]
+    })
+  }
+
+  const getTotal = () => {
+    const ids = cart.map((element) => element.id)
+    switch (true) {
+      case DISCOUNT_RULES[1].m.every((element) => ids.includes(element)):
+        return getMoviesTotal(cart, DISCOUNT_RULES[1].discount)
+      case DISCOUNT_RULES[0].m.every((element) => ids.includes(element)):
+        return getMoviesTotal(cart, DISCOUNT_RULES[0].discount)
+      case DISCOUNT_RULES[2].m.every((element) => ids.includes(element)):
+        return getMoviesTotal(cart, DISCOUNT_RULES[2].discount)
+      default:
+        return cart.reduce(function (accumulator, curValue) {
+          return accumulator + (curValue.price * curValue.quantity)
+        }, 0)
+    }
+  }
 
   return (
     <section className="exercise01">
       <div className="movies__list">
         <ul>
-          {movies.map(o => (
-            <li className="movies__list-card">
+          {MOVIES.map((o, index) => (
+            <li className="movies__list-card" key={index}>
               <ul>
                 <li>
                   ID: {o.id}
@@ -81,7 +95,7 @@ export default function Exercise01 () {
                   Price: ${o.price}
                 </li>
               </ul>
-              <button onClick={() => console.log('Add to cart', o)}>
+              <button onClick={() => addToCart(o)}>
                 Add to cart
               </button>
             </li>
@@ -90,8 +104,8 @@ export default function Exercise01 () {
       </div>
       <div className="movies__cart">
         <ul>
-          {cart.map(x => (
-            <li className="movies__cart-card">
+          {cart.map((x, index) => (
+            <li className="movies__cart-card" key={index}>
               <ul>
                 <li>
                   ID: {x.id}
@@ -104,13 +118,13 @@ export default function Exercise01 () {
                 </li>
               </ul>
               <div className="movies__cart-card-quantity">
-                <button onClick={() => console.log('Decrement quantity', x)}>
+                <button onClick={() => quantityButton(x, -1)}>
                   -
                 </button>
                 <span>
                   {x.quantity}
                 </span>
-                <button onClick={() => console.log('Increment quantity', x)}>
+                <button onClick={() => quantityButton(x, 1)}>
                   +
                 </button>
               </div>
