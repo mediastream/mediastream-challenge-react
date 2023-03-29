@@ -1,13 +1,45 @@
 .movie-library {
-  background-color: var(--black);
-  color: var(--white);
+  background-image: url("./mountains.jpeg");
+  background-size: 100% 8%;
+  background-repeat: no-repeat;
+  background-color: #000;
+  background-position: top center;
   min-height: 100vh;
-  padding: 2em;
+  overflow: auto;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.movie-library * {
+  box-sizing: border-box;
+  position: relative;
+}
+
+.movie-library::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgb(55, 55, 55);
+  background: linear-gradient(
+    0deg,
+    rgba(55, 55, 55, 1) 0%,
+    rgba(26, 26, 26, 0.5480786064425771) 40%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.movie-library > * {
+  padding: 1rem 2rem;
+  width: 100%;
 }
 
 .movie-library__title {
   font-size: 2em;
-  margin-bottom: 1em;
+  font-weight: bold;
+  color: white;
 }
 
 .movie-library__actions {
@@ -17,7 +49,7 @@
 
 .movie-library__actions select {
   width: 100%;
-  padding: .25em;
+  padding: 0.25em;
 }
 
 .movie-library__actions button {
@@ -30,28 +62,97 @@
   background-color: #222222;
   padding: 1.25em 0;
   margin: 2em 0;
+  color: white;
 }
 
 .movie-library__list {
-  padding: 1em;
-  background-color: #222222;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4%;
+  justify-content: start;
+  background: #222222;
+  background: linear-gradient(
+    0deg,
+    rgb(34, 34, 34) 99%,
+    transparent 99.999999%
+  );
 }
 
 .movie-library__card {
   background-color: #333333;
-  margin-bottom: 1em;
-  display: flex;
-  align-items: center;
+  width: 22%;
+  position: relative;
+  margin-top: 20px;
+  border-radius: 10px;
 }
 
 .movie-library__card img {
-  width: 10em;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
 }
 
-.movie-library__card ul {
-  padding: 1em;
+.movie-library_text {
+  position: absolute;
+  bottom: 0%;
+  color: white;
+  padding: 10px;
+  height: 70%;
+  width: 100%;
+  display: flex;
+  align-items: end;
+  background: rgb(55, 55, 55);
+  background: linear-gradient(0deg, rgb(151 215 0) 0%, rgb(151 215 0 / 0%) 80%);
+  border-radius: 5px;
 }
 
 .movie-library__card li {
   line-height: 120%;
+}
+
+.movie-library_title {
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.movie-library_genders,
+.movie-library_year {
+  color: white;
+  font-weight: 400;
+  font-size: 10px;
+}
+
+.movie-filter {
+  border: 1px solid rgb(151 215 0);
+  border-radius: 5px 0px 0px 5px;
+  height: 30px;
+}
+
+.movie-button {
+  background-color: rgb(151 215 0);
+  border: 1px solid rgb(151 215 0);
+  border-radius: 0px 5px 5px 0px;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+  .movie-library__card {
+    width: 30%;
+  }
+
+  .movie-library__list {
+    gap: 5%;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .movie-library__card {
+    width: 100%;
+  }
+  .movie-library__list {
+    gap: 0%;
+  }
 }
