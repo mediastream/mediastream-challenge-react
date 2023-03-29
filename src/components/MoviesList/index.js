@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography';
+import { DEFAULT_IMAGE } from '../../data';
 
 export default function MoviesList({ movies }) {
     return (
@@ -20,7 +21,7 @@ export default function MoviesList({ movies }) {
                                     display: "flex",
                                     flexDirection: "column",
                                     justifyContent: "flex-end",
-                                    background: `linear-gradient(to bottom, rgba(0,0,0,0), transparent, rgba(154, 219, 2, 0.5), rgba(154, 219, 2, 0.9)), url('${movie.posterUrl}'), url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png')`
+                                    background: `linear-gradient(to bottom, rgba(0,0,0,0), transparent, rgba(154, 219, 2, 0.5), rgba(154, 219, 2, 0.9)), url('${movie.posterUrl}'), url(${DEFAULT_IMAGE})`
                                 }}>
                             <ul style={{ padding: "20px" }}>
                                 <li><Typography variant='h6' sx={{ fontWeight: 'bold' }}>{movie.title}</Typography></li>

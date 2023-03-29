@@ -62,3 +62,4 @@ export const MOVIES = [
 
 export const ITEM_HEIGHT = 48;
 export const ITEM_PADDING_TOP = 8;
+export const DEFAULT_IMAGE = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'
