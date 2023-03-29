@@ -14,17 +14,24 @@
 
 import "./assets/styles.css";
 import { useEffect, useState } from "react";
+import { FILTER_DEFAULT_OPTIONS } from "../../data";
+import SelectInput from "../../components/SelectInput";
+import MoviesList from "../../components/MoviesList";
+import Typography from '@mui/material/Typography';
 
-export default function Exercise02 () {
-  const [movies, setMovies] = useState([])
-  const [fetchCount, setFetchCount] = useState(0)
-  const [loading, setLoading] = useState(false)
+export default function Exercise02() {
+  const [movies, setMovies] = useState([]);
+  const [fetchCount, setFetchCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [filterOptions, setFilterOptions] = useState(FILTER_DEFAULT_OPTIONS);
+  const [selectOption, setSelectOption] = useState(FILTER_DEFAULT_OPTIONS[0]);
+  const [order, setOrder] = useState('desc');
 
   const handleMovieFetch = () => {
     setLoading(true)
     setFetchCount(fetchCount + 1)
     console.log('Getting movies')
-    fetch('http://localhost:3001/movies?_limit=50')
+    fetch(`http://localhost:3001/movies?_limit=50&&_sort=year&_order=${order}&&genres_like=${selectOption}`)
       .then(res => res.json())
       .then(json => {
         setMovies(json)
@@ -35,41 +42,49 @@ export default function Exercise02 () {
       })
   }
 
+  const handleFilterFetch = () => {
+    fetch('http://localhost:3001/genres')
+      .then(res => res.json())
+      .then(json => {
+        setFilterOptions(json)
+      })
+      .catch(() => {
+        setFilterOptions(FILTER_DEFAULT_OPTIONS)
+      })
+  }
+
+  const handleClickButton = () => {
+    setOrder((prevState) => {
+      if (prevState === 'desc') {
+        return 'asc'
+      }
+      return 'desc'
+    })
+  }
+
+  const handleSelectOption = (value) => {
+    setSelectOption(value);
+  };
+
   useEffect(() => {
     handleMovieFetch()
-  }, [handleMovieFetch])
+  }, [order, selectOption])
+
+  useEffect(() => {
+    handleFilterFetch()
+  }, [])
 
   return (
     <section className="movie-library">
-      <h1 className="movie-library__title">
-        Movie Library
-      </h1>
-      <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
-        </select>
-        <button>Order Descending</button>
-      </div>
+      <Typography variant="h3" sx={{ fontWeight: 'bold' }}>Movie Library</Typography>
+      <SelectInput genderName={selectOption} onChange={(e) => handleSelectOption(e)} options={filterOptions} order={order} onClick={handleClickButton} />
       {loading ? (
         <div className="movie-library__loading">
           <p>Loading...</p>
           <p>Fetched {fetchCount} times</p>
         </div>
       ) : (
-        <ul className="movie-library__list">
-          {movies.map(movie => (
-            <li key={movie.id} className="movie-library__card">
-              <img src={movie.posterUrl} alt={movie.title} />
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
-              </ul>
-            </li>
-          ))}
-        </ul>
+        <MoviesList movies={movies} />
       )}
     </section>
   )

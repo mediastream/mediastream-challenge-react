@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import "./assets/styles.css";
-import OttNextLogo from "./components/OttNextLogo";
+import OttNextLogo from "../../components/OttNextLogo";
 
 export default function Home() {
   return (
