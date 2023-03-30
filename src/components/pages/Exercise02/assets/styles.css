@@ -72,7 +72,7 @@
   justify-content: center;
   gap: 5em;
   list-style: none;
-  margin: 0 50px 0 50px;
+  margin: 50px 50px 0 50px;
 }
 
 .movie-library__card {
@@ -83,21 +83,32 @@
   height: 30rem;
   flex-direction: column;
   position: relative;
-  background: linear-gradient(to top, var(--ms-green), #222);
+  background-image: linear-gradient(
+    0deg,
+    hsl(78deg 100% 42%) 0%,
+    hsl(79deg 78% 42%) 24%,
+    hsl(80deg 67% 39%) 29%,
+    hsl(80deg 58% 35%) 33%,
+    hsl(80deg 50% 31%) 39%,
+    hsl(80deg 41% 27%) 48%,
+    hsl(79deg 31% 22%) 61%,
+    hsl(77deg 18% 18%) 78%,
+    hsl(0deg 0% 13%) 100%
+  );
 }
 
 .movie-library__card img {
   height: 100%;
   width: 100%;
   object-fit: cover;
-  opacity: 0.8;
+  opacity: 0.5;
 }
 
 .movie-library__card ul {
   position: absolute;
   flex-grow: 1;
   list-style: none;
-  margin: 1rem;
+  margin: 0 0 0 1.7rem;
   height: 100%;
   top: 80%;
 }
@@ -108,4 +119,5 @@
 
 .movie-library__title-movie {
   font-weight: bold;
+  font-size: 1.1rem;
 }
