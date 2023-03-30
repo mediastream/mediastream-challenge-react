@@ -2,7 +2,7 @@
   background-color: var(--black);
   color: var(--white);
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -75,6 +75,8 @@
 
 .movies__cart-card span {
   margin: 0 .5em;
+  min-width: 25px;
+  text-align: center;
 }
 
 .movies__cart-card button {
@@ -84,9 +86,25 @@
   font-size: .75em;
   border-radius: .25em;
   padding: .25em .5em;
+  width: 35px;
+  height: 25px;
+}
+
+.movies__cart-card button:hover {
+  background-color: var(--ms-green-hover);
+}
+
+.movies__cart-card button:active {
+  background-color: var(--ms-green-active);
 }
 
 .movies__cart-total {
   margin-top: 1em;
   font-size: 1.25em;
+}
+
+.movies__cart-total p {
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  font-size: 0.9em;
 }
