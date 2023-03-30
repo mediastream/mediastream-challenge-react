@@ -1,0 +1,40 @@
+@use 'styles/colors';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.logo {
+  width: 16em;
+  margin-bottom: 2em;
+}
+
+.title {
+  font-size: 2em;
+  font-weight: 700;
+  margin-bottom: 4rem;
+}
+
+.navigation a {
+  background-color: colors.$green;
+  border-radius: .2em;
+  color: colors.$black;
+  display: inline-block;
+  margin-left: 2em;
+  min-width: 5em;
+  padding: .5em 1em;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1.2em;
+  &:first-child {
+    margin-left: 0;
+  }
+  &:hover {
+    opacity: .9;
+  }
+}

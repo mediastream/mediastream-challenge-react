@@ -1,0 +1,58 @@
+@use 'styles/colors';
+@use 'styles/media';
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  > ul {
+    display: grid;
+    gap: 2em;
+    @include media.width(xs) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @include media.width(sm) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @include media.width(md) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}
+
+.item {
+  background-color: colors.$gray-light;
+  border-radius: .5em;
+  position: relative;
+  aspect-ratio: 25/37;
+  max-width: 300px;
+  overflow: hidden;
+
+  > img {
+    height: auto;
+    width: 100%;
+  }
+
+  > div {
+    background-image: linear-gradient(to top, colors.$green, rgba(255,0,0,0) 75%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1em;
+    line-height: 120%;
+
+    > h1 {
+      font-weight: 600;
+      margin-bottom: .25em;
+    }
+
+    > p {
+      font-size: .75em;
+    }
+  }
+}
+
