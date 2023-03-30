@@ -8,22 +8,26 @@
   justify-content: center;
 }
 
-.movies__list, .movies__cart {
-  width: 24em;
+.movies__list,
+.movies__cart {
+  width: 25em;
 }
 
 .movies__list {
   background-color: #222222;
   padding: 1em;
-  border-radius: .2em;
+  border-radius: 0.2em;
   margin-right: 2em;
 }
 
 .movies__list-card {
   background-color: #333333;
   margin-bottom: 1rem;
-  padding: .75em;
-  border-radius: .2em;
+  padding: 0.75em;
+  border-radius: 0.2em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .movies__list-card:last-child {
@@ -39,23 +43,26 @@
   background-color: var(--ms-green);
   border: none;
   cursor: pointer;
-  font-size: .75em;
-  border-radius: .25em;
-  margin-top: .75em;
-  padding: .25em .5em;
+  font-size: 0.75em;
+  border-radius: 0.25em;
+  margin-top: 0.75em;
+  padding: 0.25em 0.5em;
 }
 
 .movies__cart {
   background-color: #222222;
   padding: 1em;
-  border-radius: .2em;
+  border-radius: 0.2em;
 }
 
 .movies__cart-card {
   background-color: #333333;
   margin-bottom: 1rem;
-  padding: .75em;
-  border-radius: .2em;
+  padding: 0.75em;
+  border-radius: 0.2em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .movies__cart-card:last-child {
@@ -70,23 +77,48 @@
 .movies__cart-card-quantity {
   display: flex;
   align-items: center;
-  margin-top: .5em;
+  margin-top: 0.5em;
 }
 
 .movies__cart-card span {
-  margin: 0 .5em;
+  margin: 0 0.5em;
 }
 
 .movies__cart-card button {
   background-color: var(--ms-green);
   border: none;
   cursor: pointer;
-  font-size: .75em;
-  border-radius: .25em;
-  padding: .25em .5em;
+  font-size: 0.75em;
+  border-radius: 0.25em;
+  padding: 0.25em 0.5em;
 }
 
 .movies__cart-total {
   margin-top: 1em;
   font-size: 1.25em;
+}
+
+.movies__list-header {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  font-size: 2.25em;
+  display: flex;
+}
+
+.movies__cart-header {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  font-size: 2.25em;
+}
+
+.movie-poster {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.movie-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 10px;
 }
