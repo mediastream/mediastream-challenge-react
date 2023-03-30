@@ -1,27 +1,70 @@
 .movie-library {
-  background-color: var(--black);
+  background: linear-gradient(180deg, rgb(0 0 0 / 0%) 50px, #1b1b1b 170px),
+    url("./mountains.jpeg");
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  /*background-color: var(--black);
+  background-image: url("./mountains.jpeg");*/
+  background-repeat: no-repeat;
+  background-color: #1b1b1b;
+  background-position: top center;
   color: var(--white);
   min-height: 100vh;
   padding: 2em;
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+  min-width: 320px;
 }
 
+.movie-library-container {
+  overflow-y: auto;
+}
 .movie-library__title {
   font-size: 2em;
+  font-weight: 600;
   margin-bottom: 1em;
+  margin-left: 0.9em;
+  margin-right: 0.9em;
 }
 
 .movie-library__actions {
   display: flex;
   margin-bottom: 1em;
+  margin-left: 1.8em;
+  margin-right: 1.8em;
 }
 
 .movie-library__actions select {
   width: 100%;
-  padding: .25em;
+  padding: 0.45em 0.5em;
+  border: 2px solid #97d700;
+  font-weight: 600;
+  font-size: 1em;
+  background: #fff;
+  border-radius: 0.35em 0 0 0.35em;
 }
 
 .movie-library__actions button {
   white-space: nowrap;
+  background-color: #97d700;
+  border: 2px solid #97d700;
+  font-size: 1em;
+  font-weight: 600;
+  border-radius: 0 0.35em 0.35em 0;
+  min-width: 200px;
+  cursor: pointer;
+}
+
+.movie-library__actions button:hover {
+  background-color: #83bb00;
+  border: 2px solid #83bb00;
+}
+
+.movie-library__actions button:active {
+  background-color: #75a700;
+  border: 2px solid #75a700;
 }
 
 .movie-library__loading {
@@ -34,24 +77,100 @@
 
 .movie-library__list {
   padding: 1em;
-  background-color: #222222;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .movie-library__card {
   background-color: #333333;
-  margin-bottom: 1em;
+  margin: 0.7em 1em;
   display: flex;
   align-items: center;
+  position: relative;
+  width: 22%;
+  justify-content: center;
+  border-radius: 8px;
+  max-width: 250px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.movie-library__card:hover {
+  transform: scale(1.01);
 }
 
 .movie-library__card img {
-  width: 10em;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  background-image: url("./no-image.webp");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: #efefef;
 }
 
-.movie-library__card ul {
+.movie-library__card__info {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  border-radius: 8px;
+  z-index: 1;
+}
+
+.movie-library__card__info::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent 0%, #97d700 100%);
+  border-radius: 8px;
+  z-index: -1;
+}
+
+.movie-library__card__info ul {
   padding: 1em;
+  position: absolute;
+  text-shadow: 0px 0px 5px #000;
 }
 
-.movie-library__card li {
+.movie-library__card__info li {
   line-height: 120%;
+  font-size: 12px;
+  padding: 2px 0;
+}
+
+.movie-library__card__info li:first-child {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+@media (max-width: 1279px) {
+  .movie-library__card {
+    width: 30%;
+  }
+  .movie-library__list {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 767px) {
+  .movie-library__card {
+    width: 46%;
+  }
+  .movie-library__list {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 500px) {
+  .movie-library__card {
+    width: 80%;
+  }
 }
