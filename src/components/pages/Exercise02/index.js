@@ -8,7 +8,7 @@
  * list of movies that belong to that gender (Filter all movies).
  * 3. Order the movies by year and implement a button that switch between ascending and descending order for the list
  * 4. Try to recreate the user interface that comes with the exercise (exercise02.png)
- * 
+ *
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
 
@@ -20,24 +20,44 @@ export default function Exercise02 () {
   const [fetchCount, setFetchCount] = useState(0)
   const [loading, setLoading] = useState(false)
 
-  const handleMovieFetch = () => {
+  const [genres, setGenres] = useState([])
+  const [ascendingOrder, setAscendingOrder] = useState(true)
+  const [selectedGenre, setSelectedGenre] = useState('all')
+
+  const handleMovieFetch = async() => {
     setLoading(true)
     setFetchCount(fetchCount + 1)
-    console.log('Getting movies')
-    fetch('http://localhost:3001/movies?_limit=50')
-      .then(res => res.json())
-      .then(json => {
-        setMovies(json)
-        setLoading(false)
-      })
-      .catch(() => {
-        console.log('Run yarn movie-api for fake api')
-      })
+    console.log('Getting movies', fetchCount)
+    try {
+      const response = await fetch('ttp://localhost:3001/movies?_limit=50')
+      const data = await response.json()
+      setMovies(data)
+    } catch (error) {
+      console.log('Run yarn movie-apo for fake api')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleGenreFetch = async() => {
+    setLoading(true)
+    setFetchCount(fetchCount + 1)
+    console.log('Getting genres', fetchCount)
+    try {
+      const response = await fetch('http://localhost:3001/genres')
+      const data = await response.json()
+      data.sort()
+      setGenres(data)
+    } catch (error) {
+      console.log('Run yarn movie-apo for fake api')
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
     handleMovieFetch()
-  }, [handleMovieFetch])
+  }, [])
 
   return (
     <section className="movie-library">
