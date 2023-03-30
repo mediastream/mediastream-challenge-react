@@ -86,26 +86,30 @@ export default function Exercise02 () {
 
   return (
     <section className="movie-library">
-      <h1 className="movie-library__title">
-        Movie Library
-      </h1>
-      <div className="movie-library__actions">
-        <select
-          name="genre"
-          value={selectedGenre}
-          onChange={handleGenreChange}
-          placeholder="Search by genre..."
-        >
-          <option value="all-genres" key="all-genres">All genres</option>
-          {genres.map(genre => (
-            <option key={genre} value={genre}>
-              {genre}
-            </option>
-          ))}
-        </select>
-        <button onClick={handleOrderToggle}>
-          Order {ascendingOrder ? 'Descending' : 'Ascending'}
-        </button>
+      <div className="movie-library__header">
+        <div className="movie-library__container">
+          <h1 className="movie-library__title">
+            Movie Library
+          </h1>
+          <div className="movie-library__actions">
+            <select
+              name="genre"
+              value={selectedGenre}
+              onChange={handleGenreChange}
+              placeholder="Search by genre..."
+            >
+              <option value="all-genres" key="all-genres">All genres</option>
+              {genres.map(genre => (
+                <option key={genre} value={genre}>
+                  {genre}
+                </option>
+              ))}
+            </select>
+            <button onClick={handleOrderToggle}>
+              Order {ascendingOrder ? 'Descending' : 'Ascending'}
+            </button>
+          </div>
+        </div>
       </div>
       {loading ? (
         <div className="movie-library__loading">
@@ -119,7 +123,7 @@ export default function Exercise02 () {
               <img src={movie.posterUrl} alt={movie.title} />
               <ul>
                 <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
+                <li className='movie-library__title-movie'>Title: {movie.title}</li>
                 <li>Year: {movie.year}</li>
                 <li>Runtime: {movie.runtime}</li>
                 <li>Genres: {movie.genres.join(', ')}</li>
