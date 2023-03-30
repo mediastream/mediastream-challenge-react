@@ -17,47 +17,72 @@ import { useEffect, useState } from "react";
 
 export default function Exercise02 () {
   const [movies, setMovies] = useState([])
+  const [filteredMovies, setfilteredMovies] = useState([])
+  const [genres, setGenres] = useState([])
   const [fetchCount, setFetchCount] = useState(0)
   const [loading, setLoading] = useState(false)
-
-  const [genres, setGenres] = useState([])
   const [ascendingOrder, setAscendingOrder] = useState(true)
-  const [selectedGenre, setSelectedGenre] = useState('all')
+  const [selectedGenre, setSelectedGenre] = useState('')
 
-  const handleMovieFetch = async() => {
+  const handleMovieFetch = async () => {
     setLoading(true)
     setFetchCount(fetchCount + 1)
     console.log('Getting movies', fetchCount)
     try {
-      const response = await fetch('ttp://localhost:3001/movies?_limit=50')
-      const data = await response.json()
-      setMovies(data)
-    } catch (error) {
-      console.log('Run yarn movie-apo for fake api')
-    } finally {
+      const response = await fetch('http://localhost:3001/movies?_limit=50')
+      const json = await response.json()
+      setMovies(json)
       setLoading(false)
+    } catch (error) {
+      console.log('Run yarn movie-api for fake api')
     }
   }
 
-  const handleGenreFetch = async() => {
+  const handleGenreFetch = async () => {
     setLoading(true)
     setFetchCount(fetchCount + 1)
     console.log('Getting genres', fetchCount)
     try {
       const response = await fetch('http://localhost:3001/genres')
-      const data = await response.json()
-      data.sort()
-      setGenres(data)
-    } catch (error) {
-      console.log('Run yarn movie-apo for fake api')
-    } finally {
+      const json = await response.json()
+      json.sort()
+      setGenres(json)
       setLoading(false)
+    } catch (error) {
+      console.log('Run yarn movie-api for fake api')
     }
+  }
+
+  const handleGenreChange = (e) => {
+    const value = e.target.value
+    if(value === 'all-genres') {
+      setSelectedGenre('')
+      setfilteredMovies(movies)
+      return
+    }
+    setSelectedGenre(value)
+  }
+
+  const handleOrderToggle = () => {
+    setAscendingOrder(!ascendingOrder)
   }
 
   useEffect(() => {
     handleMovieFetch()
+    handleGenreFetch()
   }, [])
+
+  useEffect(() => {
+    const filteredMovies = selectedGenre
+        ? movies.filter(movie => movie.genres.includes(selectedGenre))
+        : movies
+
+    const sortedMovies = ascendingOrder
+        ? filteredMovies.sort((a, b) => a.year - b.year)
+        : filteredMovies.sort((a, b) => b.year - a.year)
+
+    setfilteredMovies(sortedMovies)
+  }, [ascendingOrder, selectedGenre, movies])
 
   return (
     <section className="movie-library">
@@ -65,10 +90,22 @@ export default function Exercise02 () {
         Movie Library
       </h1>
       <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
+        <select
+          name="genre"
+          value={selectedGenre}
+          onChange={handleGenreChange}
+          placeholder="Search by genre..."
+        >
+          <option value="all-genres" key="all-genres">All genres</option>
+          {genres.map(genre => (
+            <option key={genre} value={genre}>
+              {genre}
+            </option>
+          ))}
         </select>
-        <button>Order Descending</button>
+        <button onClick={handleOrderToggle}>
+          Order {ascendingOrder ? 'Descending' : 'Ascending'}
+        </button>
       </div>
       {loading ? (
         <div className="movie-library__loading">
@@ -77,7 +114,7 @@ export default function Exercise02 () {
         </div>
       ) : (
         <ul className="movie-library__list">
-          {movies.map(movie => (
+          {filteredMovies.map(movie => (
             <li key={movie.id} className="movie-library__card">
               <img src={movie.posterUrl} alt={movie.title} />
               <ul>
