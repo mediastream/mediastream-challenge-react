@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /**
  * Exercise 02: Movie Library
  * We are trying to make a movie library for internal users. We are facing some issues by creating this, try to help us following the next steps:
@@ -8,42 +7,40 @@
  * list of movies that belong to that gender (Filter all movies).
  * 3. Order the movies by year and implement a button that switch between ascending and descending order for the list
  * 4. Try to recreate the user interface that comes with the exercise (exercise02.png)
- * 
+ *
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
+import React from 'react';
+import './assets/styles.css';
+import { useEffect, useState } from 'react';
 
-import "./assets/styles.css";
-import { useEffect, useState } from "react";
-
-export default function Exercise02 () {
-  const [movies, setMovies] = useState([])
-  const [fetchCount, setFetchCount] = useState(0)
-  const [loading, setLoading] = useState(false)
+export default function Exercise02() {
+  const [movies, setMovies] = useState<any>([]);
+  const [fetchCount, setFetchCount] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const handleMovieFetch = () => {
-    setLoading(true)
-    setFetchCount(fetchCount + 1)
-    console.log('Getting movies')
+    setLoading(true);
+    setFetchCount(fetchCount + 1);
+    console.log('Getting movies');
     fetch('http://localhost:3001/movies?_limit=50')
-      .then(res => res.json())
-      .then(json => {
-        setMovies(json)
-        setLoading(false)
+      .then((res) => res.json())
+      .then((json) => {
+        setMovies(json);
+        setLoading(false);
       })
       .catch(() => {
-        console.log('Run yarn movie-api for fake api')
-      })
-  }
+        console.log('Run yarn movie-api for fake api');
+      });
+  };
 
   useEffect(() => {
-    handleMovieFetch()
-  }, [handleMovieFetch])
+    handleMovieFetch();
+  }, [handleMovieFetch]);
 
   return (
     <section className="movie-library">
-      <h1 className="movie-library__title">
-        Movie Library
-      </h1>
+      <h1 className="movie-library__title">Movie Library</h1>
       <div className="movie-library__actions">
         <select name="genre" placeholder="Search by genre...">
           <option value="genre1">Genre 1</option>
@@ -57,7 +54,7 @@ export default function Exercise02 () {
         </div>
       ) : (
         <ul className="movie-library__list">
-          {movies.map(movie => (
+          {movies.map((movie: any) => (
             <li key={movie.id} className="movie-library__card">
               <img src={movie.posterUrl} alt={movie.title} />
               <ul>
@@ -72,5 +69,5 @@ export default function Exercise02 () {
         </ul>
       )}
     </section>
-  )
+  );
 }
