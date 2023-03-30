@@ -11,7 +11,7 @@ const ShopCart = () => {
     <section className={styles.container}>
       <ul>
         {cart.map((item) => (
-          <Item data={item} />
+          <Item data={item} key={item.id} />
         ))}
         {cart.length === 0 && <Empty />}
       </ul>
