@@ -7,12 +7,12 @@
  * 4. Apply discount rules. You have an array of offers with discounts depending of the combination of movie you have in your cart.
  * You have to apply all discounts in the rules array (discountRules).
  * Ex: If m: [1, 2, 3], it means the discount will be applied to the total when the cart has all that products in only.
- * 
+ *
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
 
 import './assets/styles.css'
-import { useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 export default function Exercise01 () {
   const movies = [
@@ -38,7 +38,7 @@ export default function Exercise01 () {
     }
   ]
 
-  const discountRules = [
+  const discountRules = useMemo(() => [
     {
       m: [3, 2],
       discount: 0.25
@@ -50,8 +50,8 @@ export default function Exercise01 () {
     {
       m: [4, 2],
       discount: 0.1
-    } 
-  ]
+    }
+  ], [])
 
   const [cart, setCart] = useState([
     {
@@ -62,14 +62,65 @@ export default function Exercise01 () {
     }
   ])
 
-  const getTotal = () => 0 // TODO: Implement this
+  const [total, setTotal] = useState(0)
+  const [subTotal, setSubTotal] = useState(0)
+  const [discount, setDiscount] = useState(0)
+
+  const calculateDiscount = useCallback((cart) => {
+    const discountRulesMatched = discountRules.filter(rule => {
+      const moviesInCart = cart.map(movie => movie.id)
+      return rule.m.every(movieId => moviesInCart.includes(movieId))
+    })
+
+    const discount = discountRulesMatched.reduce((acc, rule) => {
+      return rule.discount > acc ? rule.discount : acc
+    }, 0)
+
+    return discount >= 1 ? 0 : discount
+  }, [discountRules])
+
+  useEffect(() => {
+    const discount = calculateDiscount(cart)
+    const subTotal = cart.reduce((acc, movie) => {
+      return acc + (movie.price * movie.quantity)
+    }, 0)
+    setSubTotal(subTotal)
+    setTotal(parseInt(subTotal - (subTotal * discount)))
+    setDiscount(discount)
+  }, [cart, calculateDiscount])
+
+  const handleAddMovieToCart = (movie) => {
+    const movieInCart = cart.find(cartMovie => cartMovie.id === movie.id)
+    if (movieInCart) {
+      movieInCart.quantity++
+      setCart([...cart])
+    } else {
+      setCart([...cart, { ...movie, quantity: 1 }])
+    }
+  }
+
+  const handleRemoveMovieFromCart = (movie) => {
+    const movieInCart = cart.find(cartMovie => cartMovie.id === movie.id)
+    if (movieInCart) {
+      movieInCart.quantity--
+      if (movieInCart.quantity === 0) {
+        setCart(cart.filter(cartMovie => cartMovie.id !== movie.id))
+      } else {
+        setCart([...cart])
+      }
+    }
+  }
+
+  const handleRemoveItemFromCart = (movie) => {
+    setCart(cart.filter(cartMovie => cartMovie.id !== movie.id))
+  }
 
   return (
     <section className="exercise01">
       <div className="movies__list">
         <ul>
           {movies.map(o => (
-            <li className="movies__list-card">
+            <li className="movies__list-card" key={o.id}>
               <ul>
                 <li>
                   ID: {o.id}
@@ -81,7 +132,7 @@ export default function Exercise01 () {
                   Price: ${o.price}
                 </li>
               </ul>
-              <button onClick={() => console.log('Add to cart', o)}>
+              <button onClick={() => handleAddMovieToCart(o)}>
                 Add to cart
               </button>
             </li>
@@ -91,7 +142,7 @@ export default function Exercise01 () {
       <div className="movies__cart">
         <ul>
           {cart.map(x => (
-            <li className="movies__cart-card">
+            <li className="movies__cart-card" key={x.id}>
               <ul>
                 <li>
                   ID: {x.id}
@@ -104,23 +155,41 @@ export default function Exercise01 () {
                 </li>
               </ul>
               <div className="movies__cart-card-quantity">
-                <button onClick={() => console.log('Decrement quantity', x)}>
+                <button onClick={() => handleRemoveMovieFromCart(x)}>
                   -
                 </button>
                 <span>
                   {x.quantity}
                 </span>
-                <button onClick={() => console.log('Increment quantity', x)}>
+                <button onClick={() => handleAddMovieToCart(x)}>
                   +
+                </button>
+              </div>
+              <div className="movies__cart-card-quantity">
+                <button onClick={() => handleRemoveItemFromCart(x)}>
+                  Remove Item
                 </button>
               </div>
             </li>
           ))}
         </ul>
         <div className="movies__cart-total">
-          <p>Total: ${getTotal()}</p>
+          {cart.length === 0 && (
+            <p>Cart is empty</p>
+          )}
+          {cart.length > 0 && (
+            <>
+              <p>Subtotal: ${subTotal}</p>
+              <p>Discount: {discount * 100}%</p>
+              <p>Total: ${total}</p>
+              <button onClick={() => setCart([])}>
+                Clean Cart
+              </button>
+            </>
+          )}
+
         </div>
       </div>
     </section>
   )
-} 
+}
