@@ -1,0 +1,41 @@
+@use 'styles/colors';
+
+.container {
+  background-color: colors.$gray-dark;
+  border-radius: .2em;
+  margin-right: 2em;
+  padding: 1em;
+  width: 24em;
+}
+
+.item {
+  background-color: colors.$gray-light;
+  border-radius: .2em;
+  margin-bottom: 1em;
+  padding: .75em;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  li {
+    line-height: 120%;
+  }
+}
+
+.button {
+  background-color: colors.$green;
+  border: none;
+  border-radius: .25em;
+  color: colors.$black;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: .75em;
+  font-weight: 500;
+  margin-top: .75em;
+  padding: .25em .667em;
+
+  &:hover {
+    opacity: .9;
+  }
+}

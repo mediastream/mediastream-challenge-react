@@ -1,0 +1,48 @@
+@use 'styles/colors';
+
+.container {
+  background-color: colors.$green;
+  border-radius: .25em;
+  display: flex;
+  align-items: center;
+  list-style: none;
+  max-width: 1200px;
+  margin: 0 auto 2em auto;
+  overflow: hidden;
+
+  > li:first-child {
+    flex: 1;
+  }
+
+  > li:last-child {
+    background-color: colors.$black;
+    border-radius: 0 .375em .375em 0;
+  }
+}
+
+.select {
+  border: 2px solid colors.$green;
+  border-radius: .375em 0 0 .375em;
+  font-family: inherit;
+  font-size: 1em;
+  padding: .25em .5em;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.button {
+  background-color: colors.$green;
+  border: none;
+  border-radius: 0 .25em .25em 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1em;
+  padding: .375em 1.125em;
+
+  &:hover {
+    opacity: .9;
+  }
+}

@@ -1,0 +1,79 @@
+@use 'styles/colors';
+
+.container {
+  background-color: colors.$gray-dark;
+  border-radius: .2em;
+  padding: 1em;
+  width: 24em;
+}
+
+.empty {
+  background-color: colors.$gray-light;
+  border-radius: .2em;
+  padding: .75em;
+
+  h2, p {
+    line-height: 120%;
+  }
+
+  p {
+    font-size: .75em;
+    margin-top: .5rem;
+  }
+}
+
+.item {
+  background-color: colors.$gray-light;
+  border-radius: .2em;
+  margin-bottom: 1em;
+  padding: .75em;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  li {
+    line-height: 120%;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+    margin-top: .5em;
+    gap: .5em;
+  }
+}
+
+.button {
+  background-color: colors.$green;
+  border: none;
+  border-radius: .25em;
+  color: colors.$black;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: .75em;
+  font-weight: 500;
+  padding: .25em .667em;
+  width: 2em;
+
+  &:hover {
+    opacity: .9;
+  }
+}
+
+.total {
+  margin-top: 1em;
+
+  li {
+    line-height: 120%;
+    margin-bottom: .75em;
+
+    &:first-child {
+      margin-bottom: 0;
+    }
+    &:last-child {
+      font-size: 1.5em;
+      margin-bottom: 0;
+    }
+  }
+}
