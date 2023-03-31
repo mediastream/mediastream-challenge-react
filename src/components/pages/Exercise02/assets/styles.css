@@ -101,7 +101,7 @@
   height: 100%;
   width: 100%;
   object-fit: cover;
-  opacity: 0.5;
+  opacity: 0.7;
 }
 
 .movie-library__card ul {
