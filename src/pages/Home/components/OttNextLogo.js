@@ -1,13 +1,7 @@
+import React from 'react';
 function OttNextLogo(props) {
   return (
-    <svg
-      width={317}
-      height={221}
-      viewBox="0 0 317 221"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
+    <svg width={317} height={221} viewBox="0 0 317 221" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path
         d="M72.381 220.714H60.002L12.986 148.52v72.194H.606V127.03h12.38l47.144 72.515V127.03h12.251v93.684zM147.042 177.411h-40.473v33.201h47.016v10.102H94.254V127.03h58.689v10.166h-46.374v30.113h40.473v10.102zM199.382 162.933l22.385-35.903h14.496l-29.505 46.456 30.211 47.228h-14.625l-22.962-36.547-23.091 36.547h-14.56l30.274-47.228-29.569-46.456h14.432l22.514 35.903zM315.799 137.196H285.78v83.518h-12.251v-83.518h-29.954V127.03h72.224v10.166zM217.329 18.608h-34.117v92.886h-22.949V18.608h-33.658V0h90.724v18.608zM316.082 18.608h-34.117v92.886h-22.949V18.608h-33.658V0h90.724v18.608z"
         fill="#fff"
@@ -17,7 +11,7 @@ function OttNextLogo(props) {
         fill="#97D700"
       />
     </svg>
-  )
+  );
 }
 
-export default OttNextLogo
+export default OttNextLogo;
