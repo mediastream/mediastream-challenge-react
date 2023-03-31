@@ -33,16 +33,7 @@
 .movies__list-card ul li {
   font-size: 1em;
   line-height: 120%;
-}
-
-.movies__list-card button {
-  background-color: var(--ms-green);
-  border: none;
-  cursor: pointer;
-  font-size: .75em;
-  border-radius: .25em;
-  margin-top: .75em;
-  padding: .25em .5em;
+  padding-bottom: 6px;
 }
 
 .movies__cart {
@@ -77,16 +68,40 @@
   margin: 0 .5em;
 }
 
-.movies__cart-card button {
+ .movies__cart-card button {
   background-color: var(--ms-green);
   border: none;
   cursor: pointer;
   font-size: .75em;
   border-radius: .25em;
   padding: .25em .5em;
-}
+} 
 
 .movies__cart-total {
   margin-top: 1em;
   font-size: 1.25em;
+}
+
+.button {
+  font: inherit;
+  background-color: var(--ms-green);
+  border: 1px solid rgb(3, 3, 3);
+  color: rgba(0, 0, 0, 0.795);
+  font-weight: bold;
+  padding: 0.2rem 1rem;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: rgba(98, 199, 5, 0.774) ;
+  color: #0a0a0a ;
+}
+
+.titleStore {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
 }
