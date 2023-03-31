@@ -22,7 +22,6 @@ export default function Exercise02() {
   const handleMovieFetch = () => {
     setLoading(true);
     setFetchCount(fetchCount + 1);
-    console.log('Getting movies');
     fetch('http://localhost:3001/movies?_limit=50')
       .then((res) => res.json())
       .then((json) => {
