@@ -17,7 +17,6 @@ import { useEffect, useState } from "react";
 
 export default function Exercise02 () {
   const [movies, setMovies] = useState([])
-  const [filteredMovies, setfilteredMovies] = useState([])
   const [genres, setGenres] = useState([])
   const [fetchCount, setFetchCount] = useState(0)
   const [loading, setLoading] = useState(false)
@@ -53,17 +52,27 @@ export default function Exercise02 () {
     }
   }
 
-  const handleGenreChange = (e) => {
+  const handleGenreChange = async (e) => {
     const value = e.target.value
-    if(value === 'all-genres') {
-      setSelectedGenre('')
-      setfilteredMovies(movies)
+    setSelectedGenre(value)
+    setLoading(true)
+    if(!value || value === 'all-genres') {
+      handleMovieFetch()
+      setLoading(false)
       return
     }
-    setSelectedGenre(value)
+    try {
+      const filterMovies = await fetch(`http://localhost:3001/movies?genres_like=${value}`)
+      const json = await filterMovies.json()
+      setMovies(json)
+    } catch (error) {
+      console.log('Run yarn movie-api for fake api')
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const handleOrderToggle = () => {
+  const handleOrderChante = () => {
     setAscendingOrder(!ascendingOrder)
   }
 
@@ -73,16 +82,10 @@ export default function Exercise02 () {
   }, [])
 
   useEffect(() => {
-    const filteredMovies = selectedGenre
-        ? movies.filter(movie => movie.genres.includes(selectedGenre))
-        : movies
-
-    const sortedMovies = ascendingOrder
-        ? filteredMovies.sort((a, b) => a.year - b.year)
-        : filteredMovies.sort((a, b) => b.year - a.year)
-
-    setfilteredMovies(sortedMovies)
-  }, [ascendingOrder, selectedGenre, movies])
+    let sortedMovies = [...movies];
+    sortedMovies.sort((a, b) => ascendingOrder ? a.year - b.year : b.year - a.year);
+    setMovies(sortedMovies);
+  }, [ascendingOrder]);
 
   return (
     <section className="movie-library">
@@ -105,8 +108,8 @@ export default function Exercise02 () {
                 </option>
               ))}
             </select>
-            <button onClick={handleOrderToggle}>
-              Order {ascendingOrder ? 'Descending' : 'Ascending'}
+            <button onClick={handleOrderChante}>
+              Sort Year {ascendingOrder ? 'Descending' : 'Ascending'}
             </button>
           </div>
         </div>
@@ -118,7 +121,7 @@ export default function Exercise02 () {
         </div>
       ) : (
         <ul className="movie-library__list">
-          {filteredMovies.map(movie => (
+          {movies.map(movie => (
             <li key={movie.id} className="movie-library__card">
               <img src={movie.posterUrl} alt={movie.title} />
               <ul>
