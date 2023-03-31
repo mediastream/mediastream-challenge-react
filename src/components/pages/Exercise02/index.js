@@ -32,6 +32,7 @@ export default function Exercise02 () {
     fetch('http://localhost:3001/movies?_limit=50')
       .then(res => res.json())
       .then(json => {
+        json.sort((a, b) => b.year - a.year);
         setMovies(json);
         setLoading(false);
       })

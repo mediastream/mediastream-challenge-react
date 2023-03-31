@@ -13,8 +13,11 @@ const Search = ({
                 onChange={(event) => handleChangeGenre(event.target.value)}
                 disabled={loading}
             >
-                {genres.map((genre) => (
-                    <option value={genre} key={genre}>
+                <option key="genre-opt-default">
+                    Select a movie genre
+                </option>
+                {genres.map((genre, index) => (
+                    <option value={genre} key={`genre-opt-${index}`}>
                         {genre}
                     </option>
                 ))}
