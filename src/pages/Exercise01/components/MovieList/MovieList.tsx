@@ -1,5 +1,5 @@
 import React from 'react';
-import { movies } from 'data';
+import { movies } from 'pages/Exercise01/data';
 import { MovieItem } from '../MovieItem';
 
 const MovieList = () => {

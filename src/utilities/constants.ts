@@ -12,3 +12,5 @@ export const DISCOUNT_RULES = [
     discount: 0.1
   }
 ];
+
+export const API_URL = `http://localhost:3001/`;
