@@ -35,7 +35,8 @@
   line-height: 120%;
 }
 
-.movies__list-card button {
+.movies__list-card button,
+.movies__cart-total button {
   background-color: var(--ms-green);
   border: none;
   cursor: pointer;

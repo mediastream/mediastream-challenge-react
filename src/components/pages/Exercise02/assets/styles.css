@@ -1,27 +1,64 @@
 .movie-library {
   background-color: var(--black);
   color: var(--white);
-  min-height: 100vh;
-  padding: 2em;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.movie-library__header {
+  width: 100%;
+  background-image: url("../assets/mountains.jpeg");
+  background-size: cover;
+  overflow: hidden;
+  background-position: 0 22%;
+  height: 10rem;
+}
+
+.movie-library__container {
+  width: 100%;
+  height: 100%;
+  margin: 0 0 0 7%;
 }
 
 .movie-library__title {
+  margin-top: 1em;
   font-size: 2em;
+  font-weight: bold;
   margin-bottom: 1em;
 }
 
 .movie-library__actions {
   display: flex;
   margin-bottom: 1em;
+  width: 85%;
+  border: 1px solid var(--ms-green);
+  align-items: center;
+  border-radius: 10px;
+  justify-content: center;
 }
 
 .movie-library__actions select {
   width: 100%;
-  padding: .25em;
+  padding: 1em;
+  border-radius: 10px 0 0 10px;
+  min-height: 55px;
+}
+
+.movies-library__actions text {
+  background-color: #222;
 }
 
 .movie-library__actions button {
-  white-space: nowrap;
+  align-items: center;
+  min-height: 55px;
+  text-align: center;
+  font-weight: bold;
+  display: flex;
+  background-color: var(--ms-green);
+  border-radius: 0 10px 10px 0;
+  width: 9rem;
 }
 
 .movie-library__loading {
@@ -33,25 +70,57 @@
 }
 
 .movie-library__list {
-  padding: 1em;
-  background-color: #222222;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5em;
+  list-style: none;
+  margin: 50px 50px 0 50px;
 }
 
 .movie-library__card {
-  background-color: #333333;
-  margin-bottom: 1em;
+  width: 20%;
+  border-radius: 10px;
   display: flex;
-  align-items: center;
+  overflow: hidden;
+  height: 30rem;
+  flex-direction: column;
+  position: relative;
+  background-image: linear-gradient(
+    0deg,
+    hsl(78deg 100% 42%) 0%,
+    hsl(79deg 78% 42%) 24%,
+    hsl(80deg 67% 39%) 29%,
+    hsl(80deg 58% 35%) 33%,
+    hsl(80deg 50% 31%) 39%,
+    hsl(80deg 41% 27%) 48%,
+    hsl(79deg 31% 22%) 61%,
+    hsl(77deg 18% 18%) 78%,
+    hsl(0deg 0% 13%) 100%
+  );
 }
 
 .movie-library__card img {
-  width: 10em;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  opacity: 0.7;
 }
 
 .movie-library__card ul {
-  padding: 1em;
+  position: absolute;
+  flex-grow: 1;
+  list-style: none;
+  margin: 0 0 0 1.7rem;
+  height: 100%;
+  top: 80%;
 }
 
 .movie-library__card li {
-  line-height: 120%;
+  margin-bottom: 0.5rem;
+}
+
+.movie-library__title-movie {
+  font-weight: bold;
+  font-size: 1.1rem;
 }
