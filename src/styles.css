@@ -56,3 +56,36 @@ table {
   font-size: 16px;
   font-family: 'Poppins', sans-serif;
 }
+
+.movie-library__list {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	max-width: 800px;
+	margin: auto;
+}
+
+.movie-library__card {
+	margin: 20px;
+	display: flex;
+	justify-content: center;
+}
+
+.movieContainer {
+	position: relative;
+}
+
+.movie-library__card img {
+	
+}
+
+.movie-library__card ul {
+	position: absolute;
+	font-size: 0.5em;
+	left: 0;
+	bottom: 0;
+	height: 70px;
+	width: 100%;
+	background: linear-gradient(to top, #94f048 0%,#000000 100%);
+	mix-blend-mode: screen;
+	box-sizing: border-box;
+}
