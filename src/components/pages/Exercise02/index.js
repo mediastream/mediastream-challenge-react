@@ -4,7 +4,7 @@
  * We are trying to make a movie library for internal users. We are facing some issues by creating this, try to help us following the next steps:
  * !IMPORTANT: Make sure to run yarn movie-api for this exercise
  * 1. We have an issue fetching the list of movies, check why and fix it (handleMovieFetch)
- * 2. Create a filter by fetching the list of gender (http://localhost:3001/genres) and then loading
+ * 2. Create a filter by fetching the list of gender (http://localhost:3001/genders) and then loading
  * list of movies that belong to that gender (Filter all movies).
  * 3. Order the movies by year and implement a button that switch between ascending and descending order for the list
  * 4. Try to recreate the user interface that comes with the exercise (exercise02.png)
@@ -13,64 +13,84 @@
  */
 
 import "./assets/styles.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useGenders } from "./hooks/useGenders";
+import { useFetchMovies } from "./hooks/useMovies";
+import NotFoundImage from "./assets/notFound.png";
 
-export default function Exercise02 () {
-  const [movies, setMovies] = useState([])
-  const [fetchCount, setFetchCount] = useState(0)
-  const [loading, setLoading] = useState(false)
+const filtersInitialState = { orderBy: "ASC", gerder: "" };
 
-  const handleMovieFetch = () => {
-    setLoading(true)
-    setFetchCount(fetchCount + 1)
-    console.log('Getting movies')
-    fetch('http://localhost:3001/movies?_limit=50')
-      .then(res => res.json())
-      .then(json => {
-        setMovies(json)
-        setLoading(false)
-      })
-      .catch(() => {
-        console.log('Run yarn movie-api for fake api')
-      })
-  }
+const orderButtonText = {
+  ASC: "Year descending",
+  DESC: "Year ascending",
+};
 
-  useEffect(() => {
-    handleMovieFetch()
-  }, [handleMovieFetch])
+export default function Exercise02() {
+  const [filters, setFilters] = useState(filtersInitialState);
+  const { genders, isLoading: isLoadingGenders } = useGenders();
+  const { movies, isLoading: isLoadingMovies } = useFetchMovies(filters);
+
+  const handleFilterGenderOnChange = (e) => {
+    const { name, value } = e.target;
+    setFilters({ ...filters, [name]: value });
+  };
+
+  const handleFilterOrderOnChange = () =>
+    setFilters((currentFilters) => ({
+      ...currentFilters,
+      orderBy: currentFilters.orderBy === "ASC" ? "DESC" : "ASC",
+    }));
 
   return (
     <section className="movie-library">
-      <h1 className="movie-library__title">
-        Movie Library
-      </h1>
+      <h1 className="movie-library__title">Movie Library</h1>
       <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
+        <select
+          name="gender"
+          placeholder={isLoadingGenders ? "Loading..." : "Search by gender..."}
+          disabled={isLoadingGenders}
+          onChange={handleFilterGenderOnChange}
+        >
+          {genders.length === 0 ? (
+            <option>No available</option>
+          ) : (
+            <>
+              <option value="">All categories</option>
+              {genders.map((gender) => (
+                <option value={gender}>{gender}</option>
+              ))}
+            </>
+          )}
         </select>
-        <button>Order Descending</button>
+        <button onClick={handleFilterOrderOnChange}>
+          {orderButtonText[filters.orderBy]}
+        </button>
       </div>
-      {loading ? (
+      {isLoadingMovies ? (
         <div className="movie-library__loading">
-          <p>Loading...</p>
-          <p>Fetched {fetchCount} times</p>
+          <div className="movie-library__loading-spinner" />
         </div>
       ) : (
-        <ul className="movie-library__list">
-          {movies.map(movie => (
-            <li key={movie.id} className="movie-library__card">
-              <img src={movie.posterUrl} alt={movie.title} />
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
-              </ul>
-            </li>
+        <div className="movie-library__list">
+          {movies.map((movie) => (
+            <div key={movie.id} className="movie-library__card">
+              <img
+                src={movie.posterUrl}
+                alt={movie.title}
+                onError={(e) => {
+                  e.target.onError = null;
+                  e.target.src = NotFoundImage;
+                }}
+              />
+              <div>
+                <p className="movie-library__cardtitle">{movie.title}</p>
+                <p>{movie.genres?.join(", ")}</p>
+                <p>{movie.year}</p>
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </section>
-  )
+  );
 }
