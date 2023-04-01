@@ -90,3 +90,7 @@
   margin-top: 1em;
   font-size: 1.25em;
 }
+
+.movies__cart-total p {
+  margin-bottom: .25em;
+}
