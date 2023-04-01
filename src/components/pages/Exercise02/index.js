@@ -16,28 +16,32 @@ import "./assets/styles.css";
 import { useEffect, useState } from "react";
 
 export default function Exercise02 () {
-  const [movies, setMovies] = useState([])
-  const [fetchCount, setFetchCount] = useState(0)
-  const [loading, setLoading] = useState(false)
+  const [movies, setMovies] = useState([]);
+  const [genres, setGenres] = useState([]);
+  const [selectedGenre, setSelectedGenre] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [ascending, setAscending] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+
+    fetch('http://localhost:3001/genres')
+      .then(res => res.json())
+      .then(json => {
+        setGenres(json);
+        setSelectedGenre(json[0]);
+        handleMovieFetch();
+      });
+  }, []);
 
   const handleMovieFetch = () => {
-    setLoading(true)
-    setFetchCount(fetchCount + 1)
-    console.log('Getting movies')
     fetch('http://localhost:3001/movies?_limit=50')
       .then(res => res.json())
       .then(json => {
-        setMovies(json)
-        setLoading(false)
-      })
-      .catch(() => {
-        console.log('Run yarn movie-api for fake api')
-      })
-  }
-
-  useEffect(() => {
-    handleMovieFetch()
-  }, [handleMovieFetch])
+        setMovies(json);
+        setLoading(false);
+      });
+  };
 
   return (
     <section className="movie-library">
@@ -45,30 +49,43 @@ export default function Exercise02 () {
         Movie Library
       </h1>
       <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
+        <select
+          name="genre"
+          placeholder="Search by genre..."
+          value={selectedGenre}
+          onChange={ev => setSelectedGenre(ev.target.value)}>
+          {genres.map(genre =>
+            <option value={genre}>{genre}</option>
+          )}
         </select>
-        <button>Order Descending</button>
+        <button style={{ backgroundColor: 'limeGreen', border: 'none' }} onClick={() => setAscending(!ascending)}>
+          Year {ascending ? 'Ascending' : 'Descending'}
+        </button>
       </div>
       {loading ? (
         <div className="movie-library__loading">
           <p>Loading...</p>
-          <p>Fetched {fetchCount} times</p>
         </div>
       ) : (
         <ul className="movie-library__list">
-          {movies.map(movie => (
-            <li key={movie.id} className="movie-library__card">
-              <img src={movie.posterUrl} alt={movie.title} />
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
-              </ul>
-            </li>
-          ))}
+          {movies.sort((a, b) => ascending ? a.year - b.year : b.year - a.year).map(movie => {
+            if (!movie.genres.includes(selectedGenre)) return;
+
+            return (
+              <li key={movie.id} className="movie-library__card">
+                <div className="movieContainer">
+                  <img src={movie.posterUrl} alt={movie.title} />
+                  <ul>
+                    <li>ID: {movie.id}</li>
+                    <li>Title: {movie.title}</li>
+                    <li>Year: {movie.year}</li>
+                    <li>Runtime: {movie.runtime}</li>
+                    <li>Genres: {movie.genres.join(', ')}</li>
+                  </ul>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       )}
     </section>
