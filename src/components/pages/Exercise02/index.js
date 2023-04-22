@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /**
  * Exercise 02: Movie Library
  * We are trying to make a movie library for internal users. We are facing some issues by creating this, try to help us following the next steps:
@@ -8,19 +7,93 @@
  * list of movies that belong to that gender (Filter all movies).
  * 3. Order the movies by year and implement a button that switch between ascending and descending order for the list
  * 4. Try to recreate the user interface that comes with the exercise (exercise02.png)
- * 
+ *
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
 
-import "./assets/styles.css";
-import { useEffect, useState } from "react";
+import './assets/styles.css';
 
-export default function Exercise02 () {
-  const [movies, setMovies] = useState([])
-  const [fetchCount, setFetchCount] = useState(0)
-  const [loading, setLoading] = useState(false)
+import Card from './components/Card';
+import useExercise02 from './useExercise02';
 
-  const handleMovieFetch = () => {
+let rendered = 0;
+
+export default function Exercise02() {
+  // --- Hooks --- //
+  const [
+    { loadingItemRef, loadingRef, fetchCount, movies, genres, actions },
+    { handleFetchMovies },
+  ] = useExercise02();
+
+  // ---- rendered count ---- //
+  console.count('rendered');
+  rendered += 1;
+
+  return (
+    <>
+      <p ref={loadingItemRef} className='item__hidden'>
+        ...{' '}
+      </p>
+      <div ref={loadingRef}>
+        <div className='hero-background'>
+          <section className='movie-library'>
+            <h1 className='movie-library__title'>
+              Movie Library - Rendered {rendered} times - Fetched{' '}
+              {fetchCount.current} times
+            </h1>
+            <div className='movie-library__actions'>
+              <select
+                value={actions.genres_like}
+                name='genres_like'
+                placeholder='Search by genre...'
+                onChange={(e) =>
+                  handleFetchMovies(e.target.name, e.target.value)
+                }
+              >
+                {genres.map((genre) => (
+                  <option value={genre} key={genre}>
+                    {genre}
+                  </option>
+                ))}
+              </select>
+              <button
+                onClick={() =>
+                  handleFetchMovies(
+                    '_order',
+                    actions._order === 'asc' ? 'desc' : 'asc'
+                  )
+                }
+              >
+                Year {actions._order === 'asc' ? 'Descending' : 'Ascending'}
+              </button>
+            </div>
+
+            <ul className='movie-library__list'>
+              {movies.map((movie) => (
+                <Card item={movie} key={movie.id} />
+              ))}
+            </ul>
+          </section>
+        </div>
+      </div>
+    </>
+  );
+}
+
+/*
+   
+  EN EL INICIO DEL PROYECTO ESTABA ESTE PROBLEMA DE UN BUCLE INFINITO, 
+  PERO LO SOLUCIONE CON EL USECALLBACK. Abajo les dejo la solución y el porqué del problema.
+
+  *Cuando defines una función dentro del cuerpo de un componente de React,
+  *se crea una nueva instancia de la función cada vez que el componente se renderiza.
+  *Si utilizas esta función dentro de un useEffect, el efecto se dispara en cada actualización del componente,
+  *lo que a su vez hace que la función se actualice nuevamente, lo que puede causar un bucle infinito.    
+  
+  *Para evitar esto, debes definir la función fuera del componente
+  *o utilizar useCallback para que la función no se actualice en cada renderización.
+
+  const handleMovieFetch = useCallback(() => {
     setLoading(true)
     setFetchCount(fetchCount + 1)
     console.log('Getting movies')
@@ -33,44 +106,10 @@ export default function Exercise02 () {
       .catch(() => {
         console.log('Run yarn movie-api for fake api')
       })
-  }
+  })
 
   useEffect(() => {
     handleMovieFetch()
   }, [handleMovieFetch])
 
-  return (
-    <section className="movie-library">
-      <h1 className="movie-library__title">
-        Movie Library
-      </h1>
-      <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
-        </select>
-        <button>Order Descending</button>
-      </div>
-      {loading ? (
-        <div className="movie-library__loading">
-          <p>Loading...</p>
-          <p>Fetched {fetchCount} times</p>
-        </div>
-      ) : (
-        <ul className="movie-library__list">
-          {movies.map(movie => (
-            <li key={movie.id} className="movie-library__card">
-              <img src={movie.posterUrl} alt={movie.title} />
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
-              </ul>
-            </li>
-          ))}
-        </ul>
-      )}
-    </section>
-  )
-}
+*/
