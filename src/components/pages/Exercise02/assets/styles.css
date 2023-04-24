@@ -1,40 +1,92 @@
-.movie-library {
+:root {
+  --main-bg-gradient-linear: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    #1b1b1b 23%
+  );
+
+  --border-search-items: 3px solid var(--ms-green);
+}
+
+.hero-background {
   background-color: var(--black);
+  background-image: var(--main-bg-gradient-linear), url('./mountains.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 30% 58%;
+  background-attachment: fixed;
+  min-height: 100vh;
+  z-index: 0;
+}
+
+.movie-library {
   color: var(--white);
   min-height: 100vh;
   padding: 2em;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 .movie-library__title {
-  font-size: 2em;
+  font-size: 2.3em;
+  font-weight: bold;
   margin-bottom: 1em;
+  margin-top: 0.5em;
 }
 
 .movie-library__actions {
   display: flex;
-  margin-bottom: 1em;
+  margin-bottom: 3em;
 }
 
 .movie-library__actions select {
   width: 100%;
-  padding: .25em;
+  padding: 0.7em;
+  font-size: 1em;
+  font-weight: 600;
+  outline: none;
+  border-radius: 5px 0 0 5px;
+  border-right: none;
+  border-left: var(--border-search-items);
+  border-top: var(--border-search-items);
+  border-bottom: var(--border-search-items);
 }
 
 .movie-library__actions button {
   white-space: nowrap;
+  background-color: var(--ms-green);
+  border: none;
+  font-size: 1em;
+  font-weight: 600;
+  padding-left: 2%;
+  padding-right: 2%;
+  cursor: pointer;
 }
 
 .movie-library__loading {
-  text-align: center;
-  width: 100%;
-  background-color: #222222;
-  padding: 1.25em 0;
-  margin: 2em 0;
+  filter: blur(1.5px);
+  z-index: 1;
+  cursor: wait;
+}
+
+.movie-library__loading-item {
+  z-index: 40;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--ms-green);
+  text-shadow: #333333 0 0 2px;
+  font-size: 15em;
+  border: none;
 }
 
 .movie-library__list {
-  padding: 1em;
-  background-color: #222222;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2.9rem;
+  width: 100%;
 }
 
 .movie-library__card {
@@ -54,4 +106,8 @@
 
 .movie-library__card li {
   line-height: 120%;
+}
+
+.item__hidden {
+  display: none;
 }

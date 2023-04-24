@@ -28,8 +28,8 @@
   text-decoration: none;
   color: var(--black);
   background-color: var(--ms-green);
-  padding: .5em 1em;
-  border-radius: .2em;
+  padding: 0.5em 1em;
+  border-radius: 0.2em;
   font-size: 1.2em;
   margin-left: 1em;
 }
