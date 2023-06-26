@@ -1,5 +1,5 @@
 .movie-library {
-  background-color: var(--black);
+  background-color: #000;
   color: var(--white);
   min-height: 100vh;
   overflow: hidden;
@@ -50,7 +50,7 @@
 }
 
 .movie-library__list .card {
-  background: white;
+  background: #fff;
   width: 300px;
   height: 400px;
   border-radius: 1em;
