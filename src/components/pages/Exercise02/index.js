@@ -8,69 +8,89 @@
  * list of movies that belong to that gender (Filter all movies).
  * 3. Order the movies by year and implement a button that switch between ascending and descending order for the list
  * 4. Try to recreate the user interface that comes with the exercise (exercise02.png)
- * 
+ *
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
 
-import "./assets/styles.css";
 import { useEffect, useState } from "react";
+import "./assets/styles.css";
+import { Card, Header } from "./components";
+import { API_BASE_URL } from "./constants";
 
-export default function Exercise02 () {
-  const [movies, setMovies] = useState([])
-  const [fetchCount, setFetchCount] = useState(0)
-  const [loading, setLoading] = useState(false)
+const getMovies = async ({ genre, sort }) => {
+  try {
+    let params = "";
 
-  const handleMovieFetch = () => {
-    setLoading(true)
-    setFetchCount(fetchCount + 1)
-    console.log('Getting movies')
-    fetch('http://localhost:3001/movies?_limit=50')
-      .then(res => res.json())
-      .then(json => {
-        setMovies(json)
-        setLoading(false)
-      })
-      .catch(() => {
-        console.log('Run yarn movie-api for fake api')
-      })
+    if (genre) params += `genres_like=${genre}`;
+    if (sort) params += `&_sort=year&_order=${sort}`;
+
+    const response = await fetch(`${API_BASE_URL}/movies?${params}`);
+
+    return response.json();
+  } catch (error) {
+    console.log("We have an Error: ", error);
   }
+};
 
-  useEffect(() => {
-    handleMovieFetch()
-  }, [handleMovieFetch])
+const getGenres = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/genres`);
+
+    return response.json();
+  } catch (error) {
+    console.log("We have an Error: ", error);
+  }
+};
+
+export default function Exercise02() {
+  const [genres, setGenres] = useState([]);
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [params, setParams] = useState({
+    genre: "",
+    sort: "asc",
+  });
+
+  const getInitData = async () => {
+    setLoading(true);
+    const [movies, genres] = await Promise.all([getMovies({}), getGenres()]);
+    setMovies(movies);
+    setGenres(genres);
+    setLoading(false);
+  };
+
+  const filterAndSortMovies = async (data) => {
+    setParams({ ...params, ...data });
+  };
+
+  useEffect(async () => {
+    await getInitData();
+  }, []);
+
+  useEffect(async () => {
+    setLoading(true);
+    const movies = await getMovies(params);
+    setMovies(movies);
+    setLoading(false);
+  }, [params]);
 
   return (
     <section className="movie-library">
-      <h1 className="movie-library__title">
-        Movie Library
-      </h1>
-      <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
-        </select>
-        <button>Order Descending</button>
+      <Header
+        loading={loading}
+        genres={genres}
+        params={params}
+        filterAndSortMovies={filterAndSortMovies}
+      />
+      <div className="movie-library__list">
+        {!loading ? (
+          movies.map((movie) => <Card movie={movie} />)
+        ) : (
+          <div className="loader-cont">
+            <div className="loader"></div>
+          </div>
+        )}
       </div>
-      {loading ? (
-        <div className="movie-library__loading">
-          <p>Loading...</p>
-          <p>Fetched {fetchCount} times</p>
-        </div>
-      ) : (
-        <ul className="movie-library__list">
-          {movies.map(movie => (
-            <li key={movie.id} className="movie-library__card">
-              <img src={movie.posterUrl} alt={movie.title} />
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
-              </ul>
-            </li>
-          ))}
-        </ul>
-      )}
     </section>
-  )
+  );
 }
