@@ -1,0 +1,42 @@
+.movie-library__header {
+  padding: 2em;
+  height: 150px;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), var(--black)), url('../../assets/mountains.jpeg');
+  background-repeat: repeat-x;
+}
+
+.movie-library__header__container {
+  margin: 0 auto;
+  max-width: 830px;
+}
+
+.movie-library__header__title {
+  font-weight: 900;
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+
+.movie-library__header__actions {
+  display: flex;
+  margin-bottom: 1em;
+}
+
+.movie-library__header__actions select {
+  width: 100%;
+  padding: 0.5em;
+  border-color: var(--ms-green);
+  border-radius: 5px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.movie-library__header__actions button {
+  background-color: var(--ms-green);
+  padding: 10px 15px;
+  padding-left: 20px;
+  border: none;
+  border-radius: 5px;
+  white-space: nowrap;
+  transform: translateX(-10px);
+  cursor: pointer;
+}

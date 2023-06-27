@@ -1,0 +1,34 @@
+.movies__cart-card {
+  background-color: #333333;
+  margin-bottom: 1rem;
+  padding: .75em;
+  border-radius: .2em;
+}
+
+.movies__cart-card:last-child {
+  margin-bottom: 0;
+}
+
+.movies__cart-card ul li {
+  font-size: 1em;
+  line-height: 120%;
+}
+
+.movies__cart-card-quantity {
+  display: flex;
+  align-items: center;
+  margin-top: .5em;
+}
+
+.movies__cart-card span {
+  margin: 0 .5em;
+}
+
+.movies__cart-card button {
+  background-color: var(--ms-green);
+  border: none;
+  cursor: pointer;
+  font-size: .75em;
+  border-radius: .25em;
+  padding: .25em .5em;
+}
