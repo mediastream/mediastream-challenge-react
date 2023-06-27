@@ -5,7 +5,13 @@ export default function useExercise01() {
   const [cart, setCart] = useState([]);
 
   function getTotal() {
-    return 0;
+    let total = 0;
+
+    cart.forEach(({ price, quantity }) => {
+      total += (price * quantity);
+    })
+
+    return total;
   }
 
   function handleDecrementQty(id) {
