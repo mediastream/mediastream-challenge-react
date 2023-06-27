@@ -6,6 +6,7 @@
 }
 
 .movie-library__title {
+  font-weight: 900;
   font-size: 2em;
   margin-bottom: 1em;
 }
