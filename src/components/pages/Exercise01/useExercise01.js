@@ -2,14 +2,7 @@ import { useState } from 'react'
 import { movies, discountRules } from './db';
 
 export default function useExercise01() {
-  const [cart, setCart] = useState([
-    {
-      id: 1,
-      name: 'Star Wars',
-      price: 20,
-      quantity: 2
-    }
-  ]);
+  const [cart, setCart] = useState([]);
 
   function getTotal() {
     return 0;
@@ -47,16 +40,28 @@ export default function useExercise01() {
     );
   }
 
-  function handleAddToCart() {
-    console.log('handleAddToCart');
+  function handleAddToCart(movie) {
+    const movieAlreadyInCart = cart.find((movieCart) => movieCart.id === movie.id);
+
+    if (movieAlreadyInCart) {
+      return;
+    }
+
+    setCart((prevState) => [
+      ...prevState,
+      {
+        ...movie,
+        quantity: 1
+      },
+    ]);
   }
 
   return {
     cart,
     movies,
+    getTotal,
     handleIncrementQty,
     handleDecrementQty,
     handleAddToCart,
-    getTotal
   }
 }

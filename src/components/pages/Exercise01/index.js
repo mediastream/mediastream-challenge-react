@@ -21,7 +21,7 @@ export default function Exercise01() {
     handleIncrementQty,
     handleDecrementQty,
     handleAddToCart,
-    getTotal
+    getTotal,
   } = useExercise01();
 
   return (
@@ -41,7 +41,7 @@ export default function Exercise01() {
                   Price: ${movie.price}
                 </li>
               </ul>
-              <button onClick={handleAddToCart}>
+              <button onClick={() => handleAddToCart(movie)}>
                 Add to cart
               </button>
             </li>
