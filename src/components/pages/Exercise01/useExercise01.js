@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { movies, discountRules } from './db';
-import { equalArray } from './utils';
+import equalArray from '../../../utils/arrayEqual';
 
 export default function useExercise01() {
   const [cart, setCart] = useState([]);
