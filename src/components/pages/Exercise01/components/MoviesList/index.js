@@ -6,7 +6,7 @@ export default function MoviesList({ movies, onAddToCart }) {
     <div className="movies__list">
       <ul>
         {movies.map(movie => (
-          <ListCard movie={movie} onAddToCart={onAddToCart} />))}
+          <ListCard key={movie.id} movie={movie} onAddToCart={onAddToCart} />))}
       </ul>
     </div>
   );
