@@ -2,20 +2,21 @@
   height: 275px;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #333333;
+  background-color: var(--black);
+  color: var(--white);
   margin-bottom: 1em;
   display: flex;
   flex-direction: column;
   align-items: bottom;
   justify-content: end;
   font-size: 10px;
-  height: 450px;
-  width: 300px;
-  transform: scale(0.7);
+  height: 270px;
+  width: 180px;
 }
 
 .movie-library__card__title {
   font-weight: bold;
+  font-size: 11px;
 }
 
 .movie-library__card ul {
@@ -23,5 +24,5 @@
 }
 
 .movie-library__card li {
-  line-height: 120%;
+  line-height: 150%;
 }
