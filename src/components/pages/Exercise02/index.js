@@ -23,13 +23,24 @@ export default function Exercise02() {
     loading,
     fetchCount,
     movies,
+    orderLabel,
+    genres,
+    loadingGenres,
+    handleChangeGenre,
+    handleClickYear,
   } = useExercise02();
 
   return (
     <>
       <section className="movie-library">
         <div className="movie-library__container">
-          <Header />
+          <Header
+            genres={genres}
+            loading={loadingGenres}
+            orderLabel={orderLabel}
+            onChangeGenre={handleChangeGenre}
+            onClickYear={handleClickYear}
+          />
           {
             loading
               ? <Loader fetchCount={fetchCount} />
