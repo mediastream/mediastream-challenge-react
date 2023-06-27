@@ -3,6 +3,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-color: var(--black);
+  background-position: center;
   color: var(--white);
   margin-bottom: 1em;
   display: flex;
