@@ -1,4 +1,4 @@
-export default function BasicCard(movie) {
+export default function BasicCard({ movie }) {
   return (
     <ul>
       <li> ID: {movie.id} </li>
