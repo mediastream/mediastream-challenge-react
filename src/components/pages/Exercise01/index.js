@@ -65,13 +65,13 @@ export default function Exercise01() {
                 </li>
               </ul>
               <div className="movies__cart-card-quantity">
-                <button onClick={handleDecrementQty}>
+                <button onClick={() => handleDecrementQty(cartMovie.id)}>
                   -
                 </button>
                 <span>
                   {cartMovie.quantity}
                 </span>
-                <button onClick={handleIncrementQty}>
+                <button onClick={() => handleIncrementQty(cartMovie.id)}>
                   +
                 </button>
               </div>

@@ -16,11 +16,35 @@ export default function useExercise01() {
   }
 
   function handleDecrementQty(id) {
-    console.log('handleDecrementQty');
+    setCart((prevState) => {
+      let removeIndex;
+      const newCart = prevState.map((movieCart, index) => {
+        if (movieCart.id === id) {
+          if (movieCart.quantity > 1) {
+            return { ...movieCart, quantity: movieCart.quantity - 1 }
+          } else {
+            removeIndex = index;
+            return {};
+          }
+        }
+        return movieCart;
+      });
+
+      if (removeIndex !== undefined) {
+        newCart.splice(removeIndex, 1);
+      }
+
+      return newCart;
+    });
   }
 
   function handleIncrementQty(id) {
-    console.log('handleIncrementQty');
+    setCart((prevState) =>
+      prevState.map((movieCart) => (
+        movieCart.id === id
+          ? { ...movieCart, quantity: movieCart.quantity + 1 }
+          : movieCart))
+    );
   }
 
   function handleAddToCart() {
