@@ -26,20 +26,20 @@ export default function Exercise01() {
     <section className="exercise01">
       <div className="movies__list">
         <ul>
-          {movies.map(o => (
-            <li className="movies__list-card">
+          {movies.map(movie => (
+            <li key={movie.id} className="movies__list-card">
               <ul>
                 <li>
-                  ID: {o.id}
+                  ID: {movie.id}
                 </li>
                 <li>
-                  Name: {o.name}
+                  Name: {movie.name}
                 </li>
                 <li>
-                  Price: ${o.price}
+                  Price: ${movie.price}
                 </li>
               </ul>
-              <button onClick={() => console.log('Add to cart', o)}>
+              <button onClick={() => console.log('Add to cart', movie)}>
                 Add to cart
               </button>
             </li>
@@ -48,27 +48,27 @@ export default function Exercise01() {
       </div>
       <div className="movies__cart">
         <ul>
-          {cart.map(x => (
-            <li className="movies__cart-card">
+          {cart.map(cartMovie => (
+            <li key={cartMovie.id} className="movies__cart-card">
               <ul>
                 <li>
-                  ID: {x.id}
+                  ID: {cartMovie.id}
                 </li>
                 <li>
-                  Name: {x.name}
+                  Name: {cartMovie.name}
                 </li>
                 <li>
-                  Price: ${x.price}
+                  Price: ${cartMovie.price}
                 </li>
               </ul>
               <div className="movies__cart-card-quantity">
-                <button onClick={() => console.log('Decrement quantity', x)}>
+                <button onClick={() => console.log('Decrement quantity', cartMovie)}>
                   -
                 </button>
                 <span>
-                  {x.quantity}
+                  {cartMovie.quantity}
                 </span>
-                <button onClick={() => console.log('Increment quantity', x)}>
+                <button onClick={() => console.log('Increment quantity', cartMovie)}>
                   +
                 </button>
               </div>
