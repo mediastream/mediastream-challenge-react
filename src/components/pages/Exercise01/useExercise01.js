@@ -1,8 +1,26 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { movies, discountRules } from './db';
+import { equalArray } from './utils';
 
 export default function useExercise01() {
   const [cart, setCart] = useState([]);
+  const [discount, setDiscount] = useState(0);
+
+  const sortedDiscountRules = useMemo(() => {
+    return discountRules.map((rule) => ({ ...rule, m: rule.m.sort() }));
+  }, []);
+
+  useEffect(() => {
+    const moviesId = cart.map(({ id }) => id).sort();
+    let discount = 0;
+    sortedDiscountRules.forEach((rule) => {
+      if (equalArray(rule.m, moviesId)) {
+        discount = rule.discount;
+      }
+    });
+    setDiscount(discount);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cart.length]);
 
   function getTotal() {
     let total = 0;
@@ -11,7 +29,7 @@ export default function useExercise01() {
       total += (price * quantity);
     })
 
-    return total;
+    return total - (total * discount);
   }
 
   function handleDecrementQty(id) {
