@@ -13,31 +13,14 @@
  */
 
 import "./assets/styles.css";
-import { useEffect, useState } from "react";
+import useExercise02 from "./useExercise02";
 
-export default function Exercise02 () {
-  const [movies, setMovies] = useState([])
-  const [fetchCount, setFetchCount] = useState(0)
-  const [loading, setLoading] = useState(false)
-
-  const handleMovieFetch = () => {
-    setLoading(true)
-    setFetchCount(fetchCount + 1)
-    console.log('Getting movies')
-    fetch('http://localhost:3001/movies?_limit=50')
-      .then(res => res.json())
-      .then(json => {
-        setMovies(json)
-        setLoading(false)
-      })
-      .catch(() => {
-        console.log('Run yarn movie-api for fake api')
-      })
-  }
-
-  useEffect(() => {
-    handleMovieFetch()
-  }, [handleMovieFetch])
+export default function Exercise02() {
+  const {
+    loading,
+    fetchCount,
+    movies,
+  } = useExercise02();
 
   return (
     <section className="movie-library">
