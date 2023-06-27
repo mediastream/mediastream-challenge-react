@@ -13,6 +13,9 @@
  */
 
 import "./assets/styles.css";
+import Header from "./components/Header";
+import Loader from "./components/Loader";
+import MoviesList from "./components/MoviesList";
 import useExercise02 from "./useExercise02";
 
 export default function Exercise02() {
@@ -23,37 +26,17 @@ export default function Exercise02() {
   } = useExercise02();
 
   return (
-    <section className="movie-library">
-      <h1 className="movie-library__title">
-        Movie Library
-      </h1>
-      <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
-        </select>
-        <button>Order Descending</button>
-      </div>
-      {loading ? (
-        <div className="movie-library__loading">
-          <p>Loading...</p>
-          <p>Fetched {fetchCount} times</p>
+    <>
+      <section className="movie-library">
+        <div className="movie-library__container">
+          <Header />
+          {
+            loading
+              ? <Loader fetchCount={fetchCount} />
+              : <MoviesList movies={movies} />
+          }
         </div>
-      ) : (
-        <ul className="movie-library__list">
-          {movies.map(movie => (
-            <li key={movie.id} className="movie-library__card">
-              <img src={movie.posterUrl} alt={movie.title} />
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
-              </ul>
-            </li>
-          ))}
-        </ul>
-      )}
-    </section>
+      </section >
+    </>
   )
 }
