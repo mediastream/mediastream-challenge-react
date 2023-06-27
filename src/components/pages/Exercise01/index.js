@@ -18,7 +18,6 @@ export default function Exercise01() {
   const {
     cart,
     movies,
-    discountRules,
     handleIncrementQty,
     handleDecrementQty,
     handleAddToCart,

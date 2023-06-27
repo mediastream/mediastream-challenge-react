@@ -54,7 +54,6 @@ export default function useExercise01() {
   return {
     cart,
     movies,
-    discountRules,
     handleIncrementQty,
     handleDecrementQty,
     handleAddToCart,
