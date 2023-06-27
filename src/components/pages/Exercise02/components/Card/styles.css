@@ -12,6 +12,7 @@
   font-size: 10px;
   height: 270px;
   width: 180px;
+  border-radius: 5px;
 }
 
 .movie-library__card__title {
