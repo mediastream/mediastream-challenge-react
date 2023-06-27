@@ -12,7 +12,9 @@
  */
 
 import './assets/styles.css'
-import useExercise01 from './useExercise01'
+import MoviesCart from './components/MoviesCart';
+import MoviesList from './components/MoviesList';
+import useExercise01 from './useExercise01';
 
 export default function Exercise01() {
   const {
@@ -26,61 +28,16 @@ export default function Exercise01() {
 
   return (
     <section className="exercise01">
-      <div className="movies__list">
-        <ul>
-          {movies.map(movie => (
-            <li key={movie.id} className="movies__list-card">
-              <ul>
-                <li>
-                  ID: {movie.id}
-                </li>
-                <li>
-                  Name: {movie.name}
-                </li>
-                <li>
-                  Price: ${movie.price}
-                </li>
-              </ul>
-              <button onClick={() => handleAddToCart(movie)}>
-                Add to cart
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="movies__cart">
-        <ul>
-          {cart.map(cartMovie => (
-            <li key={cartMovie.id} className="movies__cart-card">
-              <ul>
-                <li>
-                  ID: {cartMovie.id}
-                </li>
-                <li>
-                  Name: {cartMovie.name}
-                </li>
-                <li>
-                  Price: ${cartMovie.price}
-                </li>
-              </ul>
-              <div className="movies__cart-card-quantity">
-                <button onClick={() => handleDecrementQty(cartMovie.id)}>
-                  -
-                </button>
-                <span>
-                  {cartMovie.quantity}
-                </span>
-                <button onClick={() => handleIncrementQty(cartMovie.id)}>
-                  +
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <div className="movies__cart-total">
-          <p>Total: ${getTotal()}</p>
-        </div>
-      </div>
+      <MoviesList
+        movies={movies}
+        onAddToCart={handleAddToCart}
+      />
+      <MoviesCart
+        cart={cart}
+        onIncrement={handleIncrementQty}
+        onDecrement={handleDecrementQty}
+        getTotal={getTotal}
+      />
     </section>
   )
 } 
