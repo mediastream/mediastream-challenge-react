@@ -1,14 +1,14 @@
 import { useState } from 'react'
 
 export default function useExercise01() {
-  // {
-  //   id: 1,
-  //   name: 'Star Wars',
-  //   price: 20,
-  //   quantity: 2
-  // }
-
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState([
+    {
+      id: 1,
+      name: 'Star Wars',
+      price: 20,
+      quantity: 2
+    }
+  ]);
 
   const movies = [
     {
@@ -48,13 +48,29 @@ export default function useExercise01() {
     }
   ];
 
+  function getTotal() {
+    return 0;
+  }
 
-  const getTotal = () => 0 // TODO: Implement this
+  function handleDecrementQty(id) {
+    console.log('handleDecrementQty');
+  }
+
+  function handleIncrementQty(id) {
+    console.log('handleIncrementQty');
+  }
+
+  function handleAddToCart() {
+    console.log('handleAddToCart');
+  }
 
   return {
     cart,
     movies,
     discountRules,
+    handleIncrementQty,
+    handleDecrementQty,
+    handleAddToCart,
     getTotal
   }
 }

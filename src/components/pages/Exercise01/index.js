@@ -19,6 +19,9 @@ export default function Exercise01() {
     cart,
     movies,
     discountRules,
+    handleIncrementQty,
+    handleDecrementQty,
+    handleAddToCart,
     getTotal
   } = useExercise01();
 
@@ -39,7 +42,7 @@ export default function Exercise01() {
                   Price: ${movie.price}
                 </li>
               </ul>
-              <button onClick={() => console.log('Add to cart', movie)}>
+              <button onClick={handleAddToCart}>
                 Add to cart
               </button>
             </li>
@@ -62,13 +65,13 @@ export default function Exercise01() {
                 </li>
               </ul>
               <div className="movies__cart-card-quantity">
-                <button onClick={() => console.log('Decrement quantity', cartMovie)}>
+                <button onClick={handleDecrementQty}>
                   -
                 </button>
                 <span>
                   {cartMovie.quantity}
                 </span>
-                <button onClick={() => console.log('Increment quantity', cartMovie)}>
+                <button onClick={handleIncrementQty}>
                   +
                 </button>
               </div>
