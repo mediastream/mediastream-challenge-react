@@ -1,0 +1,27 @@
+.movie-library__card {
+  height: 275px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #333333;
+  margin-bottom: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: bottom;
+  justify-content: end;
+  font-size: 10px;
+  height: 450px;
+  width: 300px;
+  transform: scale(0.7);
+}
+
+.movie-library__card__title {
+  font-weight: bold;
+}
+
+.movie-library__card ul {
+  padding: 1em;
+}
+
+.movie-library__card li {
+  line-height: 120%;
+}
