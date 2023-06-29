@@ -15,7 +15,7 @@
   },
   "scripts": {
     "movie-api": "json-server --watch db.json --port 3001 --delay 1000",
-    "start": "react-scripts start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

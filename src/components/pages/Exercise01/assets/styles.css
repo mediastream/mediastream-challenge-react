@@ -31,7 +31,9 @@
 }
 
 .movies__list-card ul li {
-  font-size: 1em;
+  font-size: 1.25em;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
   line-height: 120%;
 }
 
@@ -86,7 +88,21 @@
   padding: .25em .5em;
 }
 
-.movies__cart-total {
+.movies__cart-subtotal {
   margin-top: 1em;
-  font-size: 1.25em;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-right: 0%;
+  margin-left: 0%;
+  font-size: 1.10em;
+}
+.movies__cart-totalDiscount {
+  margin-top: 1em;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-right: 0%;
+  margin-left: 0%;
+  font-size: 1.90em;
 }
