@@ -8,14 +8,14 @@
  * list of movies that belong to that gender (Filter all movies).
  * 3. Order the movies by year and implement a button that switch between ascending and descending order for the list
  * 4. Try to recreate the user interface that comes with the exercise (exercise02.png)
- * 
+ *
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
 
+import Actions from "./Actions";
+import Movie from "./Movie";
 import "./assets/styles.css";
 import { useEffect, useState } from "react";
-
-const placeholder = require("./assets/placeholder.jpg");
 
 export default function Exercise02() {
   const [movies, setMovies] = useState([]);
@@ -73,24 +73,13 @@ export default function Exercise02() {
   return (
     <section className="movie-library">
       <h1 className="movie-library__title">Movie Library</h1>
-      <div className="movie-library__actions">
-        <select
-          name="genre"
-          placeholder="Search by genre..."
-          value={selectedGenre}
-          onChange={(e) => setSelectedGenre(e.target.value)}
-        >
-          <option value="ALL">All genres</option>
-          {genres.map((genre) => (
-            <option key={genre} value={genre}>
-              {genre}
-            </option>
-          ))}
-        </select>
-        <button onClick={switchOrder}>
-          Year {order === "asc" ? "Ascending" : "Descending"}
-        </button>
-      </div>
+      <Actions
+        selectedGenre={selectedGenre}
+        genres={genres}
+        onChangeGenre={setSelectedGenre}
+        switchOrder={switchOrder}
+        order={order}
+      />
       {loading ? (
         <div className="movie-library__loading">
           <p>Loading...</p>
@@ -99,21 +88,7 @@ export default function Exercise02() {
       ) : (
         <ul className="movie-library__list">
           {movies.map((movie) => (
-            <li key={movie.id} className="movie-library__card">
-              <img
-                src={movie.posterUrl}
-                alt={movie.title}
-                onError={({ currentTarget }) => {
-                  currentTarget.onerror = null; // prevents looping
-                  currentTarget.src = placeholder.default;
-                }}
-              />
-              <ul>
-                <li>{movie.title}</li>
-                <li>{movie.year}</li>
-                <li>{movie.genres.join(", ")}</li>
-              </ul>
-            </li>
+            <Movie key={movie.id} movie={movie} />
           ))}
         </ul>
       )}
