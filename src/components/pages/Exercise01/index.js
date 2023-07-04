@@ -7,10 +7,12 @@
  * 4. Apply discount rules. You have an array of offers with discounts depending of the combination of movie you have in your cart.
  * You have to apply all discounts in the rules array (discountRules).
  * Ex: If m: [1, 2, 3], it means the discount will be applied to the total when the cart has all that products in only.
- * 
+ *
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
 
+import CartItem from "./CartItem";
+import Movie from "./Movie";
 import "./assets/styles.css";
 import { useMemo, useState } from "react";
 
@@ -131,32 +133,19 @@ export default function Exercise01() {
       <div className="movies__list">
         <ul>
           {movies.map((movie) => (
-            <li key={movie.id} className="movies__list-card">
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Name: {movie.name}</li>
-                <li>Price: ${movie.price}</li>
-              </ul>
-              <button onClick={() => addToCart(movie)}>Add to cart</button>
-            </li>
+            <Movie key={movie.id} movie={movie} onClickAddToCart={addToCart} />
           ))}
         </ul>
       </div>
       <div className="movies__cart">
         <ul>
           {cart.map((cartItem, index) => (
-            <li key={index} className="movies__cart-card">
-              <ul>
-                <li>ID: {cartItem.id}</li>
-                <li>Name: {cartItem.name}</li>
-                <li>Price: ${cartItem.price}</li>
-              </ul>
-              <div className="movies__cart-card-quantity">
-                <button onClick={() => decrementQuantity(cartItem)}>-</button>
-                <span>{cartItem.quantity}</span>
-                <button onClick={() => incrementQuantity(cartItem)}>+</button>
-              </div>
-            </li>
+            <CartItem
+              key={index}
+              cartItem={cartItem}
+              decrementQuantity={decrementQuantity}
+              incrementQuantity={incrementQuantity}
+            />
           ))}
         </ul>
         <div className="movies__cart-total">
