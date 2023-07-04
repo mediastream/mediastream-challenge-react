@@ -9,7 +9,7 @@ function App() {
       <Routes>
         <Route index element={ <Home /> } />
         <Route path='/01' element={ <Exercise01 /> } />
-        <Route path='/02' component={ <Exercise02 /> } />
+        <Route path='/02' element={ <Exercise02 /> } />
       </Routes>
     </BrowserRouter>
   );
