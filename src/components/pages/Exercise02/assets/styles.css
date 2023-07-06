@@ -17,7 +17,7 @@
 
 .movie-library__actions select {
   width: 100%;
-  padding: .25em;
+  padding: 0.25em;
 }
 
 .movie-library__actions button {
@@ -39,19 +39,43 @@
 
 .movie-library__card {
   background-color: #333333;
-  margin-bottom: 1em;
-  display: flex;
-  align-items: center;
+  width: 25%;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .movie-library__card img {
-  width: 10em;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.movie-library__list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .movie-library__card ul {
-  padding: 1em;
+  margin-top: 10px;
+  padding: 0;
+  list-style: none;
 }
 
 .movie-library__card li {
-  line-height: 120%;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+.sortBtn {
+  text-decoration: none;
+  color: var(--black);
+  background-color: var(--ms-green);
+  padding: 0.5em 1em;
+  border-radius: 0.2em;
+  font-size: 1.2em;
+  margin-left: 1em;
 }
