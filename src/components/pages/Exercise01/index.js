@@ -7,120 +7,151 @@
  * 4. Apply discount rules. You have an array of offers with discounts depending of the combination of movie you have in your cart.
  * You have to apply all discounts in the rules array (discountRules).
  * Ex: If m: [1, 2, 3], it means the discount will be applied to the total when the cart has all that products in only.
- * 
+ *
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
 
-import './assets/styles.css'
-import { useState } from 'react'
+import CartItem from "./CartItem";
+import Movie from "./Movie";
+import "./assets/styles.css";
+import { useMemo, useState } from "react";
 
-export default function Exercise01 () {
+const discountRules = [
+  {
+    m: [3, 2],
+    discount: 0.25,
+  },
+  {
+    m: [2, 4, 1],
+    discount: 0.5,
+  },
+  {
+    m: [4, 2],
+    discount: 0.1,
+  },
+];
+
+export default function Exercise01() {
   const movies = [
     {
       id: 1,
-      name: 'Star Wars',
-      price: 20
+      name: "Star Wars",
+      price: 20,
     },
     {
       id: 2,
-      name: 'Minions',
-      price: 25
+      name: "Minions",
+      price: 25,
     },
     {
       id: 3,
-      name: 'Fast and Furious',
-      price: 10
+      name: "Fast and Furious",
+      price: 10,
     },
     {
       id: 4,
-      name: 'The Lord of the Rings',
-      price: 5
-    }
-  ]
-
-  const discountRules = [
-    {
-      m: [3, 2],
-      discount: 0.25
+      name: "The Lord of the Rings",
+      price: 5,
     },
-    {
-      m: [2, 4, 1],
-      discount: 0.5
-    },
-    {
-      m: [4, 2],
-      discount: 0.1
-    } 
-  ]
+  ];
 
   const [cart, setCart] = useState([
     {
       id: 1,
-      name: 'Star Wars',
+      name: "Star Wars",
       price: 20,
-      quantity: 2
-    }
-  ])
+      quantity: 2,
+    },
+  ]);
 
-  const getTotal = () => 0 // TODO: Implement this
+  const getTotal = useMemo(() => {
+    // Calculate total
+    let total = 0;
+    cart.forEach((cartItem) => {
+      total += cartItem.price * cartItem.quantity;
+    });
+
+    // Apply discounts
+    let discount = 0;
+    discountRules.forEach((rule) => {
+      const hasAllMovies = rule.m.every((movieId) =>
+        cart.some((cartItem) => cartItem.id === movieId)
+      );
+      if (hasAllMovies) {
+        discount += rule.discount;
+      }
+    });
+    total -= total * discount;
+    return total;
+  }, [cart]);
+
+  const addToCart = (movie) => {
+    // check if movie is already in cart
+    const movieInCart = cart.find((x) => x.id === movie.id);
+    if (movieInCart) {
+      // increment quantity
+      setCart(
+        cart.map((x) =>
+          x.id === movie.id
+            ? { ...movieInCart, quantity: movieInCart.quantity + 1 }
+            : x
+        )
+      );
+    } else {
+      // add movie to cart
+      setCart([...cart, { ...movie, quantity: 1 }]);
+    }
+  };
+
+  const incrementQuantity = (movie) => {
+    // increment quantity
+    setCart(
+      cart.map((x) =>
+        x.id === movie.id ? { ...movie, quantity: movie.quantity + 1 } : x
+      )
+    );
+  };
+
+  const decrementQuantity = (movie) => {
+    if (movie.quantity === 1) {
+      // remove movie from cart
+      setCart(cart.filter((movieInCart) => movieInCart.id !== movie.id));
+      return;
+    }
+    // decrement quantity
+    setCart(
+      cart.map((movieInCart) =>
+        movieInCart.id === movie.id
+          ? { ...movie, quantity: movie.quantity - 1 }
+          : movieInCart
+      )
+    );
+  };
 
   return (
     <section className="exercise01">
       <div className="movies__list">
         <ul>
-          {movies.map(o => (
-            <li className="movies__list-card">
-              <ul>
-                <li>
-                  ID: {o.id}
-                </li>
-                <li>
-                  Name: {o.name}
-                </li>
-                <li>
-                  Price: ${o.price}
-                </li>
-              </ul>
-              <button onClick={() => console.log('Add to cart', o)}>
-                Add to cart
-              </button>
-            </li>
+          {movies.map((movie) => (
+            <Movie key={movie.id} movie={movie} onClickAddToCart={addToCart} />
           ))}
         </ul>
       </div>
       <div className="movies__cart">
         <ul>
-          {cart.map(x => (
-            <li className="movies__cart-card">
-              <ul>
-                <li>
-                  ID: {x.id}
-                </li>
-                <li>
-                  Name: {x.name}
-                </li>
-                <li>
-                  Price: ${x.price}
-                </li>
-              </ul>
-              <div className="movies__cart-card-quantity">
-                <button onClick={() => console.log('Decrement quantity', x)}>
-                  -
-                </button>
-                <span>
-                  {x.quantity}
-                </span>
-                <button onClick={() => console.log('Increment quantity', x)}>
-                  +
-                </button>
-              </div>
-            </li>
+          {cart.map((cartItem, index) => (
+            <CartItem
+              key={index}
+              cartItem={cartItem}
+              decrementQuantity={decrementQuantity}
+              incrementQuantity={incrementQuantity}
+            />
           ))}
         </ul>
         <div className="movies__cart-total">
-          <p>Total: ${getTotal()}</p>
+          <p>Total: ${getTotal}</p>
         </div>
       </div>
     </section>
-  )
-} 
+  );
+}
