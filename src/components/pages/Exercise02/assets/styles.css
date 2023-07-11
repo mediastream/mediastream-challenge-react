@@ -2,21 +2,23 @@
   background-color: var(--black);
   color: var(--white);
   min-height: 100vh;
-  padding: 2em;
 }
 
 .movie-library__title {
   font-size: 2em;
   margin-bottom: 1em;
+  padding-top: 2em;
+  padding-left: 2em;
 }
 
 .movie-library__actions {
   display: flex;
   margin-bottom: 1em;
+  padding-left: 2em;
 }
 
 .movie-library__actions select {
-  width: 100%;
+  width: 90%;
   padding: .25em;
 }
 
@@ -34,18 +36,32 @@
 
 .movie-library__list {
   padding: 1em;
-  background-color: #222222;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 1%, rgba(0, 0, 0, 1) 29%, rgba(0, 0, 0, 1) 80%);
+  column-count: 4;
+  column-gap: 1rem; 
 }
 
 .movie-library__card {
-  background-color: #333333;
-  margin-bottom: 1em;
+  margin: 5em;
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 20em;
+  height: 30em;
+}
+
+.movie-library__card-gradient {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(23, 96, 9, 0.8) 120%);
+  position: absolute;
+  width: 20em;
+  height: 30em;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
 
 .movie-library__card img {
-  width: 10em;
+  width: 20em;
 }
 
 .movie-library__card ul {
@@ -55,3 +71,50 @@
 .movie-library__card li {
   line-height: 120%;
 }
+
+.background-container {
+  min-height: 100vh;
+  background-image: url('../assets/mountains.jpeg');
+  background-size: cover;
+  background-position: center;
+  height: 200vh; /* Adjust the height as needed */
+}
+
+.form-group {
+  margin-bottom: 1rem; /* Adjust the margin as needed */
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem; /* Adjust the margin as needed */
+  font-weight: bold;
+}
+
+.custom-select {
+  display: block;
+  width: 90%;
+  padding: 0.4rem 0.8rem;
+  font-size: 1.2rem;
+  line-height: 4;
+  color: #495057;
+  background-color: #fff;
+  border: 3px solid #2fa60a;
+  border-radius: 0.25rem 0rem 0rem 0.25rem;
+}
+
+.custom-select-button {
+  display: block;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.7rem;
+  line-height: 4;
+  color: #ffff;
+  background-color: #2fa60a;
+  border: 3px solid #2fa60a;
+  border-radius: 0rem 0.25rem 0.25rem 0rem;
+}
+
+.movie-description-wrapper {
+  align-items: center;
+  justify-content: center;
+}
+
