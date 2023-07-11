@@ -78,49 +78,51 @@ export default function Exercise02() {
   return (
     <section className="movie-library">
       <div className="background-container">
-        <h1 className="movie-library__title">Movie Library</h1>
-        <div className="movie-library__actions form-group">
-          <select
-            className="custom-select"
-            name="genre"
-            placeholder="Search by genre..."
-            onChange={(e) => setSelectedGenre(e.target.value)}
-          >
-            {genres.map((genre) => (
-              <option value={genre}>{genre}</option>
-            ))}
-          </select>
-          <button className="custom-select-button" onClick={filterMovies}>
-            {descendingOrder ? "Order Descending" : "Order Ascending"}
-          </button>
-        </div>
-        {loading ? (
-          <div className="movie-library__loading">
-            <p>Loading...</p>
-            <p>Fetched {fetchCount} times</p>
+        <div className="background-gradient-container">
+          <h1 className="movie-library__title">Movie Library</h1>
+          <div className="movie-library__actions form-group">
+            <select
+              className="custom-select"
+              name="genre"
+              placeholder="Search by genre..."
+              onChange={(e) => setSelectedGenre(e.target.value)}
+            >
+              {genres.map((genre) => (
+                <option value={genre}>{genre}</option>
+              ))}
+            </select>
+            <button className="custom-select-button" onClick={filterMovies}>
+              {descendingOrder ? "Order Descending" : "Order Ascending"}
+            </button>
           </div>
-        ) : (
-          <ul className="movie-library__list">
-            {movies.map((movie) => (
-              <li key={movie.id} className="movie-library__card">
-                <img
-                  className="movie-img"
-                  src={movie.posterUrl}
-                  alt={movie.title}
-                />
-                <div className="movie-library__card-gradient">
-                  <ul className="movie-description-wrapper">
-                    <li>ID: {movie.id}</li>
-                    <li>Title: {movie.title}</li>
-                    <li>Year: {movie.year}</li>
-                    <li>Runtime: {movie.runtime}</li>
-                    <li>Genres: {movie.genres.join(", ")}</li>
-                  </ul>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
+          {loading ? (
+            <div className="movie-library__loading">
+              <p>Loading...</p>
+              <p>Fetched {fetchCount} times</p>
+            </div>
+          ) : (
+            <ul className="movie-library__list">
+              {movies.map((movie) => (
+                <li key={movie.id} className="movie-library__card">
+                  <img
+                    className="movie-img"
+                    src={movie.posterUrl}
+                    alt={movie.title}
+                  />
+                  <div className="movie-library__card-gradient">
+                    <ul className="movie-description-wrapper">
+                      <li>ID: {movie.id}</li>
+                      <li>Title: {movie.title}</li>
+                      <li>Year: {movie.year}</li>
+                      <li>Runtime: {movie.runtime}</li>
+                      <li>Genres: {movie.genres.join(", ")}</li>
+                    </ul>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </section>
   );
