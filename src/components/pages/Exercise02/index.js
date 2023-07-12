@@ -15,8 +15,12 @@
 import "./assets/styles.css";
 import { useEffect, useState } from "react";
 
-export default function Exercise02 () {
+export default function Exercise02() {
   const [movies, setMovies] = useState([])
+  const [moviesCopy, setMoviesCopy] = useState([])
+  const [genres, setGenres] = useState([])
+  const [order, setOrder] = useState(true)
+
   const [fetchCount, setFetchCount] = useState(0)
   const [loading, setLoading] = useState(false)
 
@@ -24,10 +28,11 @@ export default function Exercise02 () {
     setLoading(true)
     setFetchCount(fetchCount + 1)
     console.log('Getting movies')
-    fetch('http://localhost:3001/movies?_limit=50')
+    fetch(`http://localhost:3001/movies/?_limit=50`)
       .then(res => res.json())
       .then(json => {
         setMovies(json)
+        setMoviesCopy(json)
         setLoading(false)
       })
       .catch(() => {
@@ -35,21 +40,66 @@ export default function Exercise02 () {
       })
   }
 
+  /* fetching the genres */
+  const handleGenreFetch = () => {
+
+    fetch(`http://localhost:3001/genres/`)
+      .then(res => res.json())
+      .then(json => {
+        setGenres(json)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
+  }
+
+  /* genrer filter */
+  const changeGenrer = async (event) => {
+
+    let filtredMovies = moviesCopy.filter(item => item.genres.includes(event.target.value))
+
+    setMovies(filtredMovies)
+
+  }
+
+  /* changing between ascending and descending */
+  const changeOrder = (order) => {
+
+    let sortedMovies = []
+
+    if (order) {
+      sortedMovies = movies.slice().sort((a, b) => b.year - a.year)
+    } else {
+      sortedMovies = movies.slice().sort((b, a) => b.year - a.year)
+    }
+
+
+    setMovies(sortedMovies)
+
+  }
+
   useEffect(() => {
     handleMovieFetch()
-  }, [handleMovieFetch])
+    handleGenreFetch()
+  }, [])
 
   return (
     <section className="movie-library">
-      <h1 className="movie-library__title">
-        Movie Library
-      </h1>
-      <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
-        </select>
-        <button>Order Descending</button>
-      </div>
+      <header className="movie-header">
+        <h1 className="movie-library__title">
+          Movie Library
+        </h1>
+        <div className="movie-library__actions">
+          <select name="genre" placeholder="Search by genre..." onChange={changeGenrer}>
+            {
+              genres.map(item => (<option key={item} value={item} >{item}</option>))
+            }
+
+          </select>
+          <button onClick={() => { setOrder(!order); changeOrder(order) }}>{order ? "descending" : "ascending"}</button>
+        </div>
+      </header>
       {loading ? (
         <div className="movie-library__loading">
           <p>Loading...</p>
@@ -60,13 +110,14 @@ export default function Exercise02 () {
           {movies.map(movie => (
             <li key={movie.id} className="movie-library__card">
               <img src={movie.posterUrl} alt={movie.title} />
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
-              </ul>
+              <div className="movie-library__info">
+                <ul>
+                  <li className="movie-library__name">{movie.title}</li>
+                  <li>{movie.genres.join(', ')}</li>
+                  <li>{movie.year}</li>
+                </ul>
+              </div>
+
             </li>
           ))}
         </ul>
