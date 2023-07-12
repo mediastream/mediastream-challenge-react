@@ -86,6 +86,11 @@
   padding: .25em .5em;
 }
 
+.delete__button {
+  margin: 0 10px;
+  font-weight: 600;
+}
+
 .movies__cart-total {
   margin-top: 1em;
   font-size: 1.25em;
