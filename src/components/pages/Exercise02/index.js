@@ -28,9 +28,32 @@ export default function Exercise02() {
     setLoading(true)
     setFetchCount(fetchCount + 1)
     console.log('Getting movies')
-    fetch(`http://localhost:3001/movies/?_limit=51`)
+    fetch(`http://localhost:3001/movies/?_limit=100`)
       .then(res => res.json())
       .then(json => {
+
+        // Filter for the images that are not worling
+        /* let data = json
+        const filteredData = []
+
+        const promises = data.map(item => {
+          const imageUrl = item.posterUrl;
+          return fetch(imageUrl)
+            .then(response => {
+              if (response.ok) {
+                filteredData(item);
+              } else {
+                console.log(`Image inaccessible for item: ${item.title}`);
+              }
+            })
+            .catch(error => {
+              console.error(`Error checking image accessibility for item: ${item.title}`, error);
+            });
+        });
+
+        console.log(filteredData)
+        console.log(json) */
+
         setMovies(json)
         setMoviesCopy(json)
         setLoading(false)
