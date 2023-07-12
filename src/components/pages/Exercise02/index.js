@@ -28,7 +28,7 @@ export default function Exercise02() {
     setLoading(true)
     setFetchCount(fetchCount + 1)
     console.log('Getting movies')
-    fetch(`http://localhost:3001/movies/?_limit=50`)
+    fetch(`http://localhost:3001/movies/?_limit=51`)
       .then(res => res.json())
       .then(json => {
         setMovies(json)
@@ -97,7 +97,7 @@ export default function Exercise02() {
             }
 
           </select>
-          <button onClick={() => { setOrder(!order); changeOrder(order) }}>{order ? "descending" : "ascending"}</button>
+          <button onClick={() => { setOrder(!order); changeOrder(order) }}>{order ? "Year Descending" : "Year Ascending"}</button>
         </div>
       </header>
       {loading ? (
@@ -113,8 +113,8 @@ export default function Exercise02() {
               <div className="movie-library__info">
                 <ul>
                   <li className="movie-library__name">{movie.title}</li>
-                  <li>{movie.genres.join(', ')}</li>
-                  <li>{movie.year}</li>
+                  <li className="movie-library__details">{movie.genres.join(', ')}</li>
+                  <li className="movie-library__details">{movie.year}</li>
                 </ul>
               </div>
 

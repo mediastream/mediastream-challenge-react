@@ -22,10 +22,17 @@
 .movie-library__actions select {
   width: 100%;
   padding: .25em;
+  border: 1px solid #97D700;
 }
 
 .movie-library__actions button {
   white-space: nowrap;
+  background-color: #97D700;
+  width: 160px;
+  border: 1px solid #97D700;
+  border-radius: 1px;
+  font-size: 15px;
+  font-weight: 400;
 }
 
 .movie-library__loading {
@@ -62,21 +69,26 @@
 
 .movie-library__card img {
   width: 100%;
-  height;
+  height: 330px;
 }
 
 .movie-library__card ul {
-  padding: 1em;
+  padding: 0.5em;
   width: 100%;
   size: flex;
   justify-content: flex-end;
-  background-color: red;
-}
-
-.movie-library__name {
-  font-weight: 600;
 }
 
 .movie-library__card li {
   line-height: 120%;
+
+}
+
+.movie-library__name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.movie-library__details {
+  font-size: 12px;
 }
