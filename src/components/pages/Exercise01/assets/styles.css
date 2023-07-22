@@ -26,6 +26,11 @@
   border-radius: .2em;
 }
 
+.no-movie {
+  color: red;
+  font-size: 12px;;
+}
+
 .movies__list-card:last-child {
   margin-bottom: 0;
 }
