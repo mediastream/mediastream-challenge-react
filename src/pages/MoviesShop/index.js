@@ -7,14 +7,14 @@
  * 4. Apply discount rules. You have an array of offers with discounts depending of the combination of movie you have in your cart.
  * You have to apply all discounts in the rules array (discountRules).
  * Ex: If m: [1, 2, 3], it means the discount will be applied to the total when the cart has all that products in only.
- * 
+ *
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
 
 import './assets/styles.css'
 import { useState } from 'react'
 
-export default function Exercise01 () {
+export default function MoviesShop() {
   const movies = [
     {
       id: 1,
@@ -50,7 +50,7 @@ export default function Exercise01 () {
     {
       m: [4, 2],
       discount: 0.1
-    } 
+    }
   ]
 
   const [cart, setCart] = useState([
@@ -65,7 +65,7 @@ export default function Exercise01 () {
   const getTotal = () => 0 // TODO: Implement this
 
   return (
-    <section className="exercise01">
+    <section className="moviesShop">
       <div className="movies__list">
         <ul>
           {movies.map(o => (
@@ -123,4 +123,4 @@ export default function Exercise01 () {
       </div>
     </section>
   )
-} 
+}
