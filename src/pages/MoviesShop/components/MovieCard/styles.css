@@ -1,0 +1,25 @@
+.movies__list-card {
+  background-color: #333333;
+  margin-bottom: 1rem;
+  padding: .75em;
+  border-radius: .2em;
+}
+
+.movies__list-card:last-child {
+  margin-bottom: 0;
+}
+
+.movies__list-card ul li {
+  font-size: 1em;
+  line-height: 120%;
+}
+
+.movies__list-card button {
+  background-color: var(--ms-green);
+  border: none;
+  cursor: pointer;
+  font-size: .75em;
+  border-radius: .25em;
+  margin-top: .75em;
+  padding: .25em .5em;
+}

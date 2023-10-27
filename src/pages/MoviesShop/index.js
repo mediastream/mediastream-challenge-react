@@ -12,31 +12,18 @@
  */
 
 import './assets/styles.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import MoviesList from './components/MoviesList'
+import { getMovies } from '../../api/getMovies'
 
 export default function MoviesShop() {
-  const movies = [
-    {
-      id: 1,
-      name: 'Star Wars',
-      price: 20
-    },
-    {
-      id: 2,
-      name: 'Minions',
-      price: 25
-    },
-    {
-      id: 3,
-      name: 'Fast and Furious',
-      price: 10
-    },
-    {
-      id: 4,
-      name: 'The Lord of the Rings',
-      price: 5
-    }
-  ]
+  const [movies, setMovies] = useState([])
+
+  useEffect(() => {
+    getMovies().then(response => {
+      setMovies(response.data)
+    })
+  }, [])
 
   const discountRules = [
     {
@@ -66,28 +53,7 @@ export default function MoviesShop() {
 
   return (
     <section className="moviesShop">
-      <div className="movies__list">
-        <ul>
-          {movies.map(o => (
-            <li className="movies__list-card">
-              <ul>
-                <li>
-                  ID: {o.id}
-                </li>
-                <li>
-                  Name: {o.name}
-                </li>
-                <li>
-                  Price: ${o.price}
-                </li>
-              </ul>
-              <button onClick={() => console.log('Add to cart', o)}>
-                Add to cart
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <MoviesList movies={movies} />
       <div className="movies__cart">
         <ul>
           {cart.map(x => (

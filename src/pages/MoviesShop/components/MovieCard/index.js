@@ -1,4 +1,5 @@
 import { MovieType } from '../../types';
+import './styles.css';
 
 export default function MovieCard({ id, name, price }) {
   return (
