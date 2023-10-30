@@ -1,19 +1,33 @@
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useCartDispatch } from '../../../../hooks/cartHooks';
 import { MovieType } from '../../types';
 import './styles.css';
 
-export default function MovieCard({ id, name, price }) {
+export default function MovieCard({ movie, isCartElement }) {
+  const { id, name, price, quantity } = movie
+  const [productQuantity, setProductQuantity] = useState(quantity || 0);
   const dispatch = useCartDispatch()
 
   const handleAddToCart = () => {
     dispatch({
       type: 'added',
-      movie: {
-        id,
-        name,
-        price
-      }
+      movie
     })
+  }
+
+  const handleIncrementQuantity = () => {
+    setProductQuantity(productQuantity + 1)
+  }
+
+  const handleDecrementQuantity = () => {
+    if (productQuantity === 1) {
+      dispatch({
+        type: 'deleted',
+        movieId: id
+      })
+    }
+    setProductQuantity(productQuantity - 1)
   }
 
   return (
@@ -29,11 +43,30 @@ export default function MovieCard({ id, name, price }) {
           Price: ${price}
         </li>
       </ul>
-      <button onClick={handleAddToCart}>
-        Add to cart
-      </button>
+      {!isCartElement &&
+        <button onClick={handleAddToCart}>
+          Add to cart
+        </button>
+      }
+      {
+        isCartElement &&
+        <div className="movies__cart-card-quantity">
+          <button onClick={handleDecrementQuantity} >
+            -
+          </button>
+          <span>
+            {productQuantity}
+          </span>
+          <button onClick={handleIncrementQuantity}>
+            +
+          </button>
+        </div>
+      }
     </div>
   )
 }
 
-MovieCard.propTypes = MovieType
+MovieCard.propTypes = {
+  movie: MovieType,
+  isCartElement: PropTypes.bool
+}

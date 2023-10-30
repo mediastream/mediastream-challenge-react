@@ -43,7 +43,7 @@ export default function Layout() {
   return (
     <section className="moviesShop">
       <MoviesList movies={movies} />
-      <MoviesList movies={cart} />
+      <MoviesList movies={cart} isCart />
     </section>
   )
 }
