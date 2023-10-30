@@ -12,9 +12,8 @@
  */
 
 import { useReducer } from 'react';
-import { CartContext, CartDispatchContext } from '../../context/CartContext'
-import { cartReducer } from '../../reducers/cartReducer';
-import './assets/styles.css'
+import { CartContext, CartDispatchContext } from '@context/CartContext';
+import { cartReducer } from '@reducers/cartReducer';
 import Layout from './components/Layout'
 
 export default function MoviesShop() {

@@ -11,9 +11,10 @@
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
 import { useEffect, useState } from 'react'
-import { getMovies } from '../../../../api/getMovies'
+import { getMovies } from '@api/getMovies'
+import { useCart } from '@hooks/cartHooks'
 import MoviesList from '../MoviesList'
-import { useCart } from '../../../../hooks/cartHooks'
+import './styles.css'
 
 export default function Layout() {
   const [movies, setMovies] = useState([])

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useCartDispatch } from '../../../../hooks/cartHooks';
+import { useCartDispatch } from '@hooks/cartHooks';
 import { MovieType } from '../../types';
 import './styles.css';
 

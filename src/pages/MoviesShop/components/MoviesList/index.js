@@ -1,10 +1,10 @@
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { MovieType } from '../../types';
+import { getDiscounts } from '@api/getDiscounts';
+import { formatPrice } from '@utils/currency';
 import MovieCard from '../MovieCard';
 import './styles.css';
-import { useEffect, useState } from 'react';
-import { getDiscounts } from '../../../../api/getDiscounts';
-import { formatPrice } from '../../../../utils/currency';
 
 export default function MoviesList({ movies, isCart }) {
   const [discounts, setDiscounts] = useState([]);

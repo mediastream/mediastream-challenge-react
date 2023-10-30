@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import MoviesShop from './pages/MoviesShop';
-import Exercise02 from './pages/Exercise02';
-import Home from './pages/Home'
+import MoviesShop from '@pages/MoviesShop';
+import Exercise02 from '@pages/Exercise02';
+import Home from '@pages/Home';
 
 function App() {
   return (
