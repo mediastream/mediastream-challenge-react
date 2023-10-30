@@ -1,7 +1,21 @@
+import { useCartDispatch } from '../../../../hooks/cartHooks';
 import { MovieType } from '../../types';
 import './styles.css';
 
 export default function MovieCard({ id, name, price }) {
+  const dispatch = useCartDispatch()
+
+  const handleAddToCart = () => {
+    dispatch({
+      type: 'added',
+      movie: {
+        id,
+        name,
+        price
+      }
+    })
+  }
+
   return (
     <div className="movies__list-card">
       <ul>
@@ -15,7 +29,7 @@ export default function MovieCard({ id, name, price }) {
           Price: ${price}
         </li>
       </ul>
-      <button onClick={() => console.log('Add to cart', id)}>
+      <button onClick={handleAddToCart}>
         Add to cart
       </button>
     </div>

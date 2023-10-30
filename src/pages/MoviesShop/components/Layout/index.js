@@ -10,25 +10,40 @@
  *
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
+import { useEffect, useState } from 'react'
+import { getMovies } from '../../../../api/getMovies'
+import MoviesList from '../MoviesList'
+import { useCart } from '../../../../hooks/cartHooks'
 
-import { useReducer } from 'react';
-import { CartContext, CartDispatchContext } from '../../context/CartContext'
-import { cartReducer } from '../../reducers/cartReducer';
-import './assets/styles.css'
-import Layout from './components/Layout'
+export default function Layout() {
+  const [movies, setMovies] = useState([])
+  const cart = useCart()
 
-export default function MoviesShop() {
-  const [cart, dispatch] = useReducer(
-    cartReducer,
-    []
-  );
+  useEffect(() => {
+    getMovies().then(response => {
+      setMovies(response.data)
+    })
+  }, [])
+
+  const discountRules = [
+    {
+      m: [3, 2],
+      discount: 0.25
+    },
+    {
+      m: [2, 4, 1],
+      discount: 0.5
+    },
+    {
+      m: [4, 2],
+      discount: 0.1
+    }
+  ]
 
   return (
-
-    <CartContext.Provider value={cart}>
-      <CartDispatchContext.Provider value={dispatch}>
-        <Layout />
-      </CartDispatchContext.Provider>
-    </CartContext.Provider>
-  );
+    <section className="moviesShop">
+      <MoviesList movies={movies} />
+      <MoviesList movies={cart} />
+    </section>
+  )
 }
