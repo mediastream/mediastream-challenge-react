@@ -12,11 +12,11 @@ export default function Home() {
         </h1>
       </div>
       <div className="home__navigation">
-        <Link to="/01">
-          Exercise 01
+        <Link to="/movies-shop">
+          Buy a movie
         </Link>
-        <Link to="/02">
-          Exercise 02
+        <Link to="/movie-library">
+          Movie Library
         </Link>
       </div>
     </div>

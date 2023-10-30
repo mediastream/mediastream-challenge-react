@@ -1,15 +1,15 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Exercise01 from './components/pages/Exercise01';
-import Exercise02 from './components/pages/Exercise02';
-import Home from './components/pages/Home'
+import MoviesShop from '@pages/MoviesShop';
+import MovieLibrary from '@pages/MovieLibrary';
+import Home from '@pages/Home';
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
         <Route path="/" component={Home} exact />
-        <Route path="/01" component={Exercise01} exact />
-        <Route path="/02" component={Exercise02} exact />
+        <Route path="/movies-shop" component={MoviesShop} exact />
+        <Route path="/movie-library" component={MovieLibrary} exact />
       </Switch>
     </BrowserRouter>
   );

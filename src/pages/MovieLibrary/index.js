@@ -8,15 +8,15 @@
  * list of movies that belong to that gender (Filter all movies).
  * 3. Order the movies by year and implement a button that switch between ascending and descending order for the list
  * 4. Try to recreate the user interface that comes with the exercise (exercise02.png)
- * 
+ *
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
-
-import "./assets/styles.css";
 import { useEffect, useState } from "react";
+import "./assets/styles.css";
 
-export default function Exercise02 () {
+export default function MovieLibrary() {
   const [movies, setMovies] = useState([])
+  const [genres, setGenres] = useState([])
   const [fetchCount, setFetchCount] = useState(0)
   const [loading, setLoading] = useState(false)
 
@@ -35,9 +35,25 @@ export default function Exercise02 () {
       })
   }
 
+  const handleGenres = () => {
+    setLoading(true)
+    setFetchCount(fetchCount + 1)
+    console.log('Getting genres')
+    fetch('http://localhost:3001/genres')
+      .then(res => res.json())
+      .then(json => {
+        setGenres(json)
+        setLoading(false)
+      })
+      .catch(() => {
+        console.log('Run yarn movie-api for fake api')
+      })
+  }
+
   useEffect(() => {
     handleMovieFetch()
-  }, [handleMovieFetch])
+    handleGenres()
+  }, [])
 
   return (
     <section className="movie-library">
@@ -46,7 +62,7 @@ export default function Exercise02 () {
       </h1>
       <div className="movie-library__actions">
         <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
+          {genres.map((gender) => <option value="genre1">{gender}</option>)}
         </select>
         <button>Order Descending</button>
       </div>
