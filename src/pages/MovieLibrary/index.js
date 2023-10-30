@@ -30,14 +30,18 @@ export default function MovieLibrary() {
 
   const handleFilterMovies = (movies) => {
     const searchParams = new URLSearchParams(window.location.search);
-    let resultMovies = movies;
+    let resultMovies = movies
     let filters = {}
+    let order = "desc"
     if (searchParams.size > 0) {
+      order = searchParams.get("order") || order
       for (const [key, value] of searchParams) {
         filters = { ...filters, [key]: value }
         resultMovies = resultMovies.filter(movie => {
           const movieValue = movie[key];
-          if (Array.isArray(movieValue)) {
+          if (key === "order") {
+            return movie
+          } else if (Array.isArray(movieValue)) {
             return movieValue.includes(value)
           } else {
             return movieValue === value
@@ -46,7 +50,13 @@ export default function MovieLibrary() {
       }
       setFilters(filters)
     }
-    return resultMovies
+    return resultMovies.sort((a, b) => {
+      if (a.year > b.year) {
+        return order === "desc" ? -1 : 1
+      } else {
+        return order === "desc" ? 1 : -1
+      }
+    });
   }
   const handleFetchApi = (api, onSuccess) => {
     setLoading(true)
