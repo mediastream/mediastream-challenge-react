@@ -1,0 +1,13 @@
+.movie-library__actions {
+  display: flex;
+  margin-bottom: 1em;
+}
+
+.movie-library__actions select {
+  width: 100%;
+  padding: .25em;
+}
+
+.movie-library__actions button {
+  white-space: nowrap;
+}
