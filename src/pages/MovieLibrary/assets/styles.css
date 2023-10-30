@@ -2,12 +2,19 @@
   background-color: var(--black);
   color: var(--white);
   min-height: 100vh;
-  padding: 2em;
 }
 
 .movie-library__title {
   font-size: 2em;
-  margin-bottom: 1em;
+  font-weight: 600;
+  padding: 2rem 0 1.5rem 2rem;
+}
+
+.movie-library__heading {
+  background-image: url(./mountains.jpeg);
+  background-size: cover;
+  background-position-y: 20%;
+
 }
 
 .movie-library__loading {

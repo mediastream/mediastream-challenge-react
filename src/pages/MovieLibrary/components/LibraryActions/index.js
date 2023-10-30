@@ -22,7 +22,7 @@ export default function LibraryActions({ genres, filters }) {
       <select name="genre" placeholder="Search by genre..." onChange={handleSelectGender} value={filters.genres}>
         {genres.map((gender) => <option key={gender} value={gender}>{gender}</option>)}
       </select>
-      <button onClick={handleOrderList}>Order {order === "asc" ? "Descending" : "Ascending"}</button>
+      <button onClick={handleOrderList}>Year {order === "asc" ? "Descending" : "Ascending"}</button>
     </div>
   )
 }

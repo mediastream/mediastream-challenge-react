@@ -58,6 +58,7 @@ export default function MovieLibrary() {
       }
     });
   }
+
   const handleFetchApi = (api, onSuccess) => {
     setLoading(true)
     fetch(`http://localhost:3001/${api}`)
@@ -73,10 +74,12 @@ export default function MovieLibrary() {
 
   return (
     <section className="movie-library">
-      <h1 className="movie-library__title">
-        Movie Library
-      </h1>
-      <LibraryActions genres={genres} filters={filters} />
+      <div className="movie-library__heading">
+        <h1 className="movie-library__title">
+          Movie Library
+        </h1>
+        <LibraryActions genres={genres} filters={filters} />
+      </div>
       {loading ? (
         <div className="movie-library__loading">
           <p>Loading...</p>

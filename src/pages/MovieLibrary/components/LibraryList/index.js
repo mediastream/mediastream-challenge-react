@@ -8,12 +8,10 @@ export default function LibraryList({ movies }) {
       {movies.map(movie => (
         <li key={movie.id} className="movie-library__card">
           <img src={movie.posterUrl} alt={movie.title} />
-          <ul>
-            <li>ID: {movie.id}</li>
-            <li>Title: {movie.title}</li>
-            <li>Year: {movie.year}</li>
-            <li>Runtime: {movie.runtime}</li>
-            <li>Genres: {movie.genres.join(', ')}</li>
+          <ul className="movie-library__card-info">
+            <li className="movie-library__card-title">{movie.title}</li>
+            <li className="movie-library__card-genres">{movie.genres.join(', ')}</li>
+            <li className="movie-library__card-year">{movie.year}</li>
           </ul>
         </li>
       ))}

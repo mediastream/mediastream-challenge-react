@@ -1,23 +1,66 @@
 .movie-library__list {
-  padding: 1em;
+  padding: 2rem;
   background-color: #222222;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .movie-library__card {
-  background-color: #333333;
   margin-bottom: 1em;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  width: min-content;
+  position: relative;
+  margin-right: 2rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
 
 .movie-library__card img {
-  width: 10em;
+  width: 14em;
 }
 
 .movie-library__card ul {
+  display: flex;
   padding: 1em;
+  flex-direction: column;
+  justify-content: end;
 }
 
 .movie-library__card li {
   line-height: 120%;
+}
+
+.movie-library__card-info {
+  width: 100%;
+  width: -moz-available;
+  width: -webkit-fill-available;
+  width: fill-available;
+  height: 100%;
+  height: -moz-available;
+  height: -webkit-fill-available;
+  height: fill-available;
+  position: absolute;
+  background: linear-gradient(180deg, transparent 32%, var(--ms-green) 100%);
+  cursor: pointer;
+}
+
+.movie-library__card-info:hover {
+  background: linear-gradient(180deg, rgba(0,0,0,0.8) 32%, var(--ms-green) 100%);
+}
+
+.movie-library__card-title {
+  font-weight: 400;
+  font-size: 0.875rem;
+}
+
+.movie-library__card-genres {
+  font-size: 0.75rem;
+  margin-top: 0.1rem
+}
+
+.movie-library__card-year {
+  font-size: 0.75rem;
+  margin-top: 0.1rem
 }

@@ -1,13 +1,28 @@
 .movie-library__actions {
   display: flex;
-  margin-bottom: 1em;
+  background: linear-gradient(180deg, transparent 32%, rgba(34, 34, 34, 1) 76%);
+  padding: 0 2rem 0.5rem 2rem;
 }
 
 .movie-library__actions select {
   width: 100%;
-  padding: .25em;
+  padding: 0.5rem;
+  border-radius: 0.5rem 0 0 0.5rem;
+  border: 1px solid var(--ms-green);
+  border-right: 0;
+  cursor: pointer;
 }
 
 .movie-library__actions button {
   white-space: nowrap;
+  background-color: var(--ms-green);
+  border: 1px solid var(--ms-green);
+  border-left: 0;
+  border-radius: 0 0.5rem 0.5rem 0;
+  padding: 0 0.75rem;
+  cursor: pointer
+}
+
+.movie-library__actions button:hover {
+  opacity: 0.7;
 }
