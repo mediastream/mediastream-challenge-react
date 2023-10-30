@@ -19,8 +19,35 @@ import "./assets/styles.css";
 export default function MovieLibrary() {
   const [movies, setMovies] = useState([])
   const [genres, setGenres] = useState([])
+  const [filters, setFilters] = useState({})
   const [loading, setLoading] = useState(false)
 
+
+  useEffect(() => {
+    handleFetchApi('movies?_limit=50', (json) => setMovies(handleFilterMovies(json)))
+    handleFetchApi('genres', (json) => setGenres(json))
+  }, [])
+
+  const handleFilterMovies = (movies) => {
+    const searchParams = new URLSearchParams(window.location.search);
+    let resultMovies = movies;
+    let filters = {}
+    if (searchParams.size > 0) {
+      for (const [key, value] of searchParams) {
+        filters = { ...filters, [key]: value }
+        resultMovies = resultMovies.filter(movie => {
+          const movieValue = movie[key];
+          if (Array.isArray(movieValue)) {
+            return movieValue.includes(value)
+          } else {
+            return movieValue === value
+          }
+        })
+      }
+      setFilters(filters)
+    }
+    return resultMovies
+  }
   const handleFetchApi = (api, onSuccess) => {
     setLoading(true)
     fetch(`http://localhost:3001/${api}`)
@@ -34,17 +61,12 @@ export default function MovieLibrary() {
       })
   }
 
-  useEffect(() => {
-    handleFetchApi('movies?_limit=50', (json) => setMovies(json))
-    handleFetchApi('genres', (json) => setGenres(json))
-  }, [])
-
   return (
     <section className="movie-library">
       <h1 className="movie-library__title">
         Movie Library
       </h1>
-      <LibraryActions genres={genres} />
+      <LibraryActions genres={genres} filters={filters} />
       {loading ? (
         <div className="movie-library__loading">
           <p>Loading...</p>

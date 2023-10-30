@@ -21,7 +21,7 @@ export default function LibraryList({ movies }) {
   )
 }
 LibraryList.propTypes = {
-  movies: PropTypes.arrayOf(MovieType)
+  movies: PropTypes.arrayOf(PropTypes.shape(MovieType))
 }
 
 LibraryList.defaultProps = {
