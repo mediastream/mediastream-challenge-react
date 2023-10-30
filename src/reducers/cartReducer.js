@@ -16,6 +16,14 @@ export function cartReducer(movies, action) {
         ];
       }
     }
+    case 'updated': {
+      return movies.map(movie => {
+        if (movie.id === action.movie.id) {
+          return action.movie
+        }
+        return movie
+      });
+    }
     case 'deleted': {
       return movies.filter(movie => movie.id !== action.movieId);
     }

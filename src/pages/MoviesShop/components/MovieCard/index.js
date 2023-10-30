@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useCartDispatch } from '../../../../hooks/cartHooks';
 import { MovieType } from '../../types';
@@ -6,7 +6,6 @@ import './styles.css';
 
 export default function MovieCard({ movie, isCartElement }) {
   const { id, name, price, quantity } = movie
-  const [productQuantity, setProductQuantity] = useState(quantity || 0);
   const dispatch = useCartDispatch()
 
   const handleAddToCart = () => {
@@ -17,17 +16,30 @@ export default function MovieCard({ movie, isCartElement }) {
   }
 
   const handleIncrementQuantity = () => {
-    setProductQuantity(productQuantity + 1)
+    dispatch({
+      type: 'updated',
+      movie: {
+        ...movie,
+        quantity: quantity + 1
+      }
+    })
   }
 
   const handleDecrementQuantity = () => {
-    if (productQuantity === 1) {
+    if (quantity === 1) {
       dispatch({
         type: 'deleted',
         movieId: id
       })
+    } else {
+      dispatch({
+        type: 'updated',
+        movie: {
+          ...movie,
+          quantity: quantity - 1
+        }
+      })
     }
-    setProductQuantity(productQuantity - 1)
   }
 
   return (
@@ -55,7 +67,7 @@ export default function MovieCard({ movie, isCartElement }) {
             -
           </button>
           <span>
-            {productQuantity}
+            {quantity}
           </span>
           <button onClick={handleIncrementQuantity}>
             +

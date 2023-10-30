@@ -5,7 +5,7 @@ import './styles.css';
 
 export default function MoviesList({ movies, isCart }) {
   const getTotal = () => {
-
+    return movies.reduce((totalPrice, movie) => (movie.price * movie.quantity) + totalPrice, 0);
   }
 
   return (
