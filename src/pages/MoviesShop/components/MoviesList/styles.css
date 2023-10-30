@@ -6,3 +6,12 @@
   width: 24em;
 }
 
+.movies__list-cardContainer:last-child {
+  margin-bottom: 0;
+}
+
+.movies__cart-total {
+  margin-top: 1em;
+  font-size: 1.25em;
+}
+

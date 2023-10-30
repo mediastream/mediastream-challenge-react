@@ -61,7 +61,7 @@ export default function MovieCard({ movie, isCartElement }) {
       }
       {
         isCartElement &&
-        <div className="movies__cart-card-quantity">
+        <div className="movies__list-card-quantity">
           <button onClick={handleDecrementQuantity} >
             -
           </button>

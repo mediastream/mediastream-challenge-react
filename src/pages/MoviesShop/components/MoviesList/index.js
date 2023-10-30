@@ -37,7 +37,7 @@ export default function MoviesList({ movies, isCart }) {
     <div className="movies__list">
       <ul>
         {movies.map(movie => (
-          <li key={movie.id}>
+          <li key={movie.id} className="movies__list-cardContainer">
             <MovieCard movie={movie} isCartElement={isCart} />
           </li>
         ))}
