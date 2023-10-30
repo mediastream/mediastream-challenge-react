@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useCartDispatch } from '../../../../hooks/cartHooks';
 import { MovieType } from '../../types';

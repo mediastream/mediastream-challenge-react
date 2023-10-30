@@ -1,5 +1,5 @@
 export const getMovies = () => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     resolve({
       data: [{
         id: 1,
