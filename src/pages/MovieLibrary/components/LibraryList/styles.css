@@ -1,0 +1,23 @@
+.movie-library__list {
+  padding: 1em;
+  background-color: #222222;
+}
+
+.movie-library__card {
+  background-color: #333333;
+  margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+}
+
+.movie-library__card img {
+  width: 10em;
+}
+
+.movie-library__card ul {
+  padding: 1em;
+}
+
+.movie-library__card li {
+  line-height: 120%;
+}

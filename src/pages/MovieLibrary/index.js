@@ -12,37 +12,21 @@
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
 import { useEffect, useState } from "react";
+import LibraryActions from "./components/LibraryActions";
+import LibraryList from "./components/LibraryList";
 import "./assets/styles.css";
 
 export default function MovieLibrary() {
   const [movies, setMovies] = useState([])
   const [genres, setGenres] = useState([])
-  const [fetchCount, setFetchCount] = useState(0)
   const [loading, setLoading] = useState(false)
 
-  const handleMovieFetch = () => {
+  const handleFetchApi = (api, onSuccess) => {
     setLoading(true)
-    setFetchCount(fetchCount + 1)
-    console.log('Getting movies')
-    fetch('http://localhost:3001/movies?_limit=50')
+    fetch(`http://localhost:3001/${api}`)
       .then(res => res.json())
       .then(json => {
-        setMovies(json)
-        setLoading(false)
-      })
-      .catch(() => {
-        console.log('Run yarn movie-api for fake api')
-      })
-  }
-
-  const handleGenres = () => {
-    setLoading(true)
-    setFetchCount(fetchCount + 1)
-    console.log('Getting genres')
-    fetch('http://localhost:3001/genres')
-      .then(res => res.json())
-      .then(json => {
-        setGenres(json)
+        onSuccess(json)
         setLoading(false)
       })
       .catch(() => {
@@ -51,8 +35,8 @@ export default function MovieLibrary() {
   }
 
   useEffect(() => {
-    handleMovieFetch()
-    handleGenres()
+    handleFetchApi('movies?_limit=50', (json) => setMovies(json))
+    handleFetchApi('genres', (json) => setGenres(json))
   }, [])
 
   return (
@@ -60,32 +44,13 @@ export default function MovieLibrary() {
       <h1 className="movie-library__title">
         Movie Library
       </h1>
-      <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          {genres.map((gender) => <option value="genre1">{gender}</option>)}
-        </select>
-        <button>Order Descending</button>
-      </div>
+      <LibraryActions genres={genres} />
       {loading ? (
         <div className="movie-library__loading">
           <p>Loading...</p>
-          <p>Fetched {fetchCount} times</p>
         </div>
       ) : (
-        <ul className="movie-library__list">
-          {movies.map(movie => (
-            <li key={movie.id} className="movie-library__card">
-              <img src={movie.posterUrl} alt={movie.title} />
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
-              </ul>
-            </li>
-          ))}
-        </ul>
+        <LibraryList movies={movies} />
       )}
     </section>
   )
