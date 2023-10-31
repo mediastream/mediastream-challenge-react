@@ -11,47 +11,13 @@
  * You can modify all the code, this component isn't well designed intentionally. You can redesign it as you need.
  */
 
-import './assets/styles.css'
-import { useState } from 'react'
+import { useState, useCallback } from 'react';
+import { movies, discountRules } from './providers/data';
+import { constants } from './utils/contants';
 
-export default function Exercise01 () {
-  const movies = [
-    {
-      id: 1,
-      name: 'Star Wars',
-      price: 20
-    },
-    {
-      id: 2,
-      name: 'Minions',
-      price: 25
-    },
-    {
-      id: 3,
-      name: 'Fast and Furious',
-      price: 10
-    },
-    {
-      id: 4,
-      name: 'The Lord of the Rings',
-      price: 5
-    }
-  ]
+import './assets/styles.css';
 
-  const discountRules = [
-    {
-      m: [3, 2],
-      discount: 0.25
-    },
-    {
-      m: [2, 4, 1],
-      discount: 0.5
-    },
-    {
-      m: [4, 2],
-      discount: 0.1
-    } 
-  ]
+export default function Exercise01() {
 
   const [cart, setCart] = useState([
     {
@@ -60,29 +26,102 @@ export default function Exercise01 () {
       price: 20,
       quantity: 2
     }
-  ])
+  ]);
 
-  const getTotal = () => 0 // TODO: Implement this
+  const {
+    ID,
+    NAME,
+    PRICE,
+    ADD_TO_CART,
+    SYMBOLS,
+    TOTAL } = constants;
+
+  const { SUM, SUBSTRACT } = SYMBOLS;
+
+  const calculatePrice = (price, quantity) => price * quantity;
+
+  const changeAmount = useCallback(
+    (id, amount) => {
+      return cart.map(item => {
+        if (item.id === id) {
+          return ({
+            ...item,
+            quantity: item.quantity + amount,
+          });
+        } else {
+          return item;
+        }
+      })
+    },
+    [cart],
+  );
+
+  const addMovieToCart = (movie) => {
+    const foundMovie = cart.find(item => item.id === movie.id);
+
+    if (!foundMovie) {
+      const newMovie = {
+        ...movie,
+        quantity: 1,
+      }
+      setCart([...cart, newMovie]);
+    } else {
+      setCart(changeAmount(movie.id, 1))
+    }
+  };
+
+  const incrementQuantity = (movieId) => {
+    setCart(changeAmount(movieId, 1));
+  };
+
+  const decrementQuantity = (movieId) => {
+    const foundMovie = cart.find(movie => movie.id === movieId);
+
+    if (foundMovie.quantity - 1 === 0) {
+      setCart(cart.filter(movie => movie.id !== movieId));
+    } else {
+      setCart(changeAmount(movieId, -1));
+    }
+  };
+
+  const getTotal = () => {
+
+    const subTotal = cart.reduce((accTotal, movie) => {
+      accTotal += movie.price * movie.quantity;
+      return accTotal;
+    }, 0);
+
+    const applyingDiscounts = discountRules.map(discountRule => ({
+      ids: discountRule.m.map(item => !!cart.find(movie => movie.id === item)),
+      discount: discountRule.discount,
+    }));
+
+    const totalDiscount = applyingDiscounts.filter(item => item.ids.every(id => id))
+      .map(item => ({ calculatedDiscount: subTotal * item.discount }))
+      .reduce((acc, value) => acc + value.calculatedDiscount, 0);
+
+    return subTotal - totalDiscount;
+  }
 
   return (
     <section className="exercise01">
       <div className="movies__list">
         <ul>
-          {movies.map(o => (
-            <li className="movies__list-card">
+          {movies.map(movie => (
+            <li key={movie.id} className="movies__list-card">
               <ul>
                 <li>
-                  ID: {o.id}
+                  {ID}: {movie.id}
                 </li>
                 <li>
-                  Name: {o.name}
+                  {NAME}: {movie.name}
                 </li>
                 <li>
-                  Price: ${o.price}
+                  {PRICE}: ${movie.price}
                 </li>
               </ul>
-              <button onClick={() => console.log('Add to cart', o)}>
-                Add to cart
+              <button onClick={() => addMovieToCart(movie)}>
+                {ADD_TO_CART}
               </button>
             </li>
           ))}
@@ -90,37 +129,37 @@ export default function Exercise01 () {
       </div>
       <div className="movies__cart">
         <ul>
-          {cart.map(x => (
-            <li className="movies__cart-card">
+          {cart.map(movie => (
+            <li key={movie.id} className="movies__cart-card">
               <ul>
                 <li>
-                  ID: {x.id}
+                  {ID}: {movie.id}
                 </li>
                 <li>
-                  Name: {x.name}
+                  {NAME}: {movie.name}
                 </li>
                 <li>
-                  Price: ${x.price}
+                  {PRICE}: ${calculatePrice(movie.price, movie.quantity)}
                 </li>
               </ul>
               <div className="movies__cart-card-quantity">
-                <button onClick={() => console.log('Decrement quantity', x)}>
-                  -
+                <button onClick={() => decrementQuantity(movie.id)}>
+                  {SUBSTRACT}
                 </button>
                 <span>
-                  {x.quantity}
+                  {movie.quantity}
                 </span>
-                <button onClick={() => console.log('Increment quantity', x)}>
-                  +
+                <button onClick={() => incrementQuantity(movie.id)}>
+                  {SUM}
                 </button>
               </div>
             </li>
           ))}
         </ul>
         <div className="movies__cart-total">
-          <p>Total: ${getTotal()}</p>
+          <p>{TOTAL}: ${getTotal()}</p>
         </div>
       </div>
     </section>
   )
-} 
+};

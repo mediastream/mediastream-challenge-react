@@ -1,18 +1,37 @@
 .movie-library {
-  background-color: var(--black);
+  background-image: linear-gradient(transparent, var(--black) 20%);
+  background-repeat: repeat;
+  background-size: cover;
   color: var(--white);
   min-height: 100vh;
-  padding: 2em;
+  padding: 4em;
+  justify-content: center;
 }
 
 .movie-library__title {
   font-size: 2em;
   margin-bottom: 1em;
+  font-weight: bold;
 }
 
 .movie-library__actions {
   display: flex;
   margin-bottom: 1em;
+}
+
+.movie-library__actions select {
+  border: 1px solid var(--ms-green);
+  border-radius: 5px 0px 0px 5px;
+}
+
+.movie-library__actions select:target {
+  border: 1px solid var(--ms-green);
+}
+
+.movie-library__actions button {
+  background-color: var(--ms-green);
+  border: 1px solid var(--ms-green);
+  border-radius: 0px 5px 5px 0px;
 }
 
 .movie-library__actions select {
@@ -22,6 +41,7 @@
 
 .movie-library__actions button {
   white-space: nowrap;
+  min-width: 120px;
 }
 
 .movie-library__loading {
@@ -33,25 +53,64 @@
 }
 
 .movie-library__list {
-  padding: 1em;
-  background-color: #222222;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  column-gap: 20px;
+  row-gap: 10px;
 }
 
 .movie-library__card {
   background-color: #333333;
   margin-bottom: 1em;
-  display: flex;
-  align-items: center;
+  border-radius: 5px;
+  max-height: 400px;
+  max-width: 250px;
+  min-width: 250px;
+  min-height: 400px;
+  position: relative;
+  display: inline-block;
+  text-align: center;
 }
 
 .movie-library__card img {
-  width: 10em;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  opacity: 0.9;
+  z-index: -1;
 }
 
-.movie-library__card ul {
-  padding: 1em;
+.movie-library__card__description {
+  z-index: 100;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(transparent, var(--ms-green));
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 5px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-align: left;
 }
 
-.movie-library__card li {
-  line-height: 120%;
+.movie-library__card p {
+  line-height: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+}
+
+.movie-library__card__title {
+  font-size: 16px !important;
+  font-weight: bold;
+}
+
+.shadow-text {
+  text-shadow: 0px 0px 2px black !important;
 }
