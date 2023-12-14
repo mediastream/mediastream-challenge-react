@@ -53,6 +53,8 @@ table {
   --black: #1B1B1B;
   --white: #F5F5F5;
   --ms-green: rgb(151, 215, 0);
+  --background-dark: #222222;
+  --card-background: #333333;
   font-size: 16px;
   font-family: 'Poppins', sans-serif;
 }

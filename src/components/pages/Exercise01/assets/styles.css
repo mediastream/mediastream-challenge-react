@@ -1,3 +1,4 @@
+
 .exercise01 {
   background-color: var(--black);
   color: var(--white);
@@ -6,56 +7,74 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.movies__list, .movies__cart {
-  width: 24em;
+  flex-direction: column;
 }
 
 .movies__list {
-  background-color: #222222;
+  background-color: var(--background-dark);
   padding: 1em;
-  border-radius: .2em;
-  margin-right: 2em;
+  border-radius: 0.2em;
+  width: 80vw;
+}
+
+.movies__list ul {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 }
 
 .movies__list-card {
-  background-color: #333333;
-  margin-bottom: 1rem;
-  padding: .75em;
-  border-radius: .2em;
+  background-color: var(--card-background);
+  padding: 0.75em;
+  border-radius: 0.2em;
+  width: calc(25% - 1rem);
+  max-height: 500px;
+  display: flex;
+  flex-direction: column;
 }
 
-.movies__list-card:last-child {
-  margin-bottom: 0;
-}
-
-.movies__list-card ul li {
+.movies__list-card ul {
   font-size: 1em;
   line-height: 120%;
+  display: flex;
+  gap: 0.2rem;
+  flex-direction: column;
+  padding: 0;
+  margin-bottom: 1.5rem;
 }
 
 .movies__list-card button {
   background-color: var(--ms-green);
   border: none;
   cursor: pointer;
-  font-size: .75em;
-  border-radius: .25em;
-  margin-top: .75em;
-  padding: .25em .5em;
+  font-size: 0.75em;
+  border-radius: 0.25em;
+  margin-top: auto; 
+  padding: 0.25em 0.5em;
+  align-self: center;
 }
 
+
+
 .movies__cart {
-  background-color: #222222;
+  background-color: var(--background-dark);
   padding: 1em;
-  border-radius: .2em;
+  border-radius: 0.2em;
+  margin-top: 5em;
+  width: 18em;
+  display: flex;
+  flex-direction: column;
+}
+
+.movies__cart span {
+  align-self: center;
 }
 
 .movies__cart-card {
-  background-color: #333333;
+  background-color: var(--card-background);
   margin-bottom: 1rem;
-  padding: .75em;
-  border-radius: .2em;
+  padding: 0.75em;
+  border-radius: 0.2em;
 }
 
 .movies__cart-card:last-child {
@@ -68,25 +87,46 @@
 }
 
 .movies__cart-card-quantity {
-  display: flex;
-  align-items: center;
-  margin-top: .5em;
+  margin-top: 0.5em;
 }
 
 .movies__cart-card span {
-  margin: 0 .5em;
+  margin: 0 0.5em;
 }
 
 .movies__cart-card button {
   background-color: var(--ms-green);
   border: none;
   cursor: pointer;
-  font-size: .75em;
-  border-radius: .25em;
-  padding: .25em .5em;
+  font-size: 0.75em;
+  border-radius: 0.25em;
+  padding: 0.25em 0.5em;
 }
 
 .movies__cart-total {
   margin-top: 1em;
   font-size: 1.25em;
 }
+
+
+@media (max-width: 768px) {
+  
+  .movies__list {
+    width: 80%;
+  }
+  
+  .movies__list ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .movies__list-card {
+    padding: 0.75em;
+    border-radius: 0.2em;
+    width: 100%;
+  }
+
+}
+
+
