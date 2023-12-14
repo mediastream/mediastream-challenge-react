@@ -1,4 +1,3 @@
-// ShoppingCart.jsx
 import React from "react";
 
 const ShoppingCart = ({ cart, removeFromCart, addToCart }) => {
