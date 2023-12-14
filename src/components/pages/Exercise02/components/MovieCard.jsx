@@ -1,12 +1,25 @@
-export const MovieCard = ({ movie }) => (
-  <li className='movie-library__card'>
-    <img src={movie.posterUrl} alt={movie.title} />
-    <ul>
-      <li>ID: {movie.id}</li>
-      <li>Title: {movie.title}</li>
-      <li>Year: {movie.year}</li>
-      <li>Runtime: {movie.runtime}</li>
-      <li>Genres: {movie.genres.join(", ")}</li>
-    </ul>
-  </li>
-);
+import commingsoon from "../assets/commingsoon.jpg";
+
+export const MovieCard = ({ movie }) => {
+  return (
+    <li className='movie-library__card'>
+      <div className='movie-library__card-content'>
+        <img
+          src={movie.posterUrl}
+          alt={movie.title}
+          className='movie-library__card-img'
+          onError={(e) => {
+            e.target.src = commingsoon;
+          }}
+        />
+        <div className='movie-library__card-text'>
+          <p className='movie-library__card-title'>{movie.title}</p>
+          <p className='movie-library__card-info'>
+            <span> {movie.genres.join(", ")}</span>
+            <span> {movie.year}</span>
+          </p>
+        </div>
+      </div>
+    </li>
+  );
+};
