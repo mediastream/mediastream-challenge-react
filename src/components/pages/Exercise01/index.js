@@ -16,6 +16,7 @@ import { useState } from "react";
 import MovieList from "./components/MovieList";
 import ShoppingCart from "./components/ShoppingCart";
 import { movies, discountRules } from "./constants/exercise01_constants";
+import { formatCurrency } from "./utils/formatCurrency";
 
 export default function Exercise01() {
   const [cart, setCart] = useState([]);
@@ -67,7 +68,7 @@ export default function Exercise01() {
         addToCart={addToCart}
       />
       <div className='movies__cart-total'>
-        <p>Total: ${getTotal().toFixed(2)}</p>
+        <p>Total: {formatCurrency(getTotal())}</p>
       </div>
     </section>
   );
