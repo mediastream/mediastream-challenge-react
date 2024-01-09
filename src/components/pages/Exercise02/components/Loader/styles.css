@@ -1,0 +1,7 @@
+.movie-library__loading {
+  text-align: center;
+  width: 100%;
+  background-color: #222222;
+  padding: 1.25em 0;
+  margin: 2em 0;
+}

@@ -1,0 +1,11 @@
+.movies__cart {
+  width: 24em;
+  background-color: #222222;
+  padding: 1em;
+  border-radius: .2em;
+}
+
+.movies__cart-total {
+  margin-top: 1em;
+  font-size: 1.25em;
+}
