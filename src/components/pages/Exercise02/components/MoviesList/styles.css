@@ -1,0 +1,24 @@
+.movie-library__list__container {
+  display: flex;
+  justify-content: center;
+}
+
+.movie-library__list {
+  display: grid;
+  gap: 20px 30px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 600px) {
+  .movie-library__list {
+    max-width: 600px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .movie-library__list {
+    max-width: 900px;
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
