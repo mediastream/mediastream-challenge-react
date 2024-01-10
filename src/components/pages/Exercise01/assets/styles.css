@@ -49,6 +49,8 @@
   background-color: #222222;
   padding: 1em;
   border-radius: .2em;
+  overflow-y: scroll;
+  max-height: 80vh;
 }
 
 .movies__cart-card {
