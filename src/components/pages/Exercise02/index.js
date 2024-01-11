@@ -13,21 +13,41 @@
  */
 
 import "./assets/styles.css";
+import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
+import Filters from "./components/filters";
+import Listing from "./components/listing";
 
-export default function Exercise02 () {
-  const [movies, setMovies] = useState([])
-  const [fetchCount, setFetchCount] = useState(0)
+export default function Exercise02() {
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false)
+  const [fetchCount, setFetchCount] = useState(0)
+  const [movies, setMovies] = useState([])
+  const [genres, setGenres] = useState([])
+  const [moviesFiltered, setMoviesFiltered] = useState([])
+
 
   const handleMovieFetch = () => {
     setLoading(true)
     setFetchCount(fetchCount + 1)
-    console.log('Getting movies')
     fetch('http://localhost:3001/movies?_limit=50')
       .then(res => res.json())
       .then(json => {
         setMovies(json)
+        setMoviesFiltered(json)
+        setLoading(false)
+      })
+      .catch(() => {
+        console.log('Run yarn movie-api for fake api')
+      })
+  }
+  const handleGenreFetch = () => {
+    setLoading(true)
+    setFetchCount(fetchCount + 1)
+    fetch('http://localhost:3001/genres')
+      .then(res => res.json())
+      .then(json => {
+        setGenres(json)
         setLoading(false)
       })
       .catch(() => {
@@ -37,40 +57,43 @@ export default function Exercise02 () {
 
   useEffect(() => {
     handleMovieFetch()
-  }, [handleMovieFetch])
+    handleGenreFetch()
+  }, [])
 
+  useEffect(() => {
+    const order = searchParams.get('order')
+    const genre = searchParams.get('genre')
+
+    const moviesFilteredAndOrdered = movies
+      .filter(movie => (genre && genre !== 'All') ? movie.genres.includes(genre) : true)
+      .sort((a, b) => {
+        if (order === 'desc') {
+          return b.year - a.year
+        } else if (order === 'asc') {
+          return a.year - b.year
+        }
+        return 0
+      })
+    setMoviesFiltered(moviesFilteredAndOrdered)
+  }, [searchParams])
+  //TODO: pass main tag to Layout component
   return (
-    <section className="movie-library">
-      <h1 className="movie-library__title">
-        Movie Library
-      </h1>
-      <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
-        </select>
-        <button>Order Descending</button>
-      </div>
-      {loading ? (
-        <div className="movie-library__loading">
-          <p>Loading...</p>
-          <p>Fetched {fetchCount} times</p>
-        </div>
-      ) : (
-        <ul className="movie-library__list">
-          {movies.map(movie => (
-            <li key={movie.id} className="movie-library__card">
-              <img src={movie.posterUrl} alt={movie.title} />
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
-              </ul>
-            </li>
-          ))}
-        </ul>
-      )}
-    </section>
+    <main className="movie-library__main">
+      <div className="movie-library__header" />
+      <section className="movie-library">
+        <h1 className="movie-library__title">
+          Movie Library
+        </h1>
+        <Filters genres={genres} />
+        {loading ? (
+          <div className="movie-library__loading">
+            <p>Loading...</p>
+            <p>Fetched {fetchCount} times</p>
+          </div>
+        ) : (
+          <Listing movies={moviesFiltered} />
+        )}
+      </section>
+    </main>
   )
 }
