@@ -5,6 +5,7 @@ import {
     useMemo,
     useState,
 } from "react";
+import { getDiscount } from "../utils/get-discount";
 
 
 const CartContext = createContext({
@@ -13,6 +14,7 @@ const CartContext = createContext({
     addToCart: () => { },
     incrementQuantity: () => { },
     decrementQuantity: () => { },
+    subtotal: 2,
     total: 0,
 });
 
@@ -36,6 +38,7 @@ export const CartProvider = ({ children }) => {
         0,
     );
 
+    const subtotal = getDiscount(cart, total);
 
     const addToCart = (movie) => {
         setCart(
@@ -44,6 +47,7 @@ export const CartProvider = ({ children }) => {
                 quantity: 1
             }])
     }
+
     const removeFromCart = (movie) => {
         setCart(cart.filter((item) => item.id !== movie.id))
     }
@@ -63,13 +67,13 @@ export const CartProvider = ({ children }) => {
             setCart(itemsCart);
         }
     }, [setCart]);
-    ;
 
     const contextValue = useMemo(() => ({
         cart,
         setCart,
+        subtotal,
         total,
-    }), [cart, setCart, total]);
+    }), [cart, subtotal, total]);
 
     useEffect(() => {
         localStorage.setItem("cart", JSON.stringify(cart));

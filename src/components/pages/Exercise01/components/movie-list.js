@@ -6,7 +6,8 @@ export default function MovieList() {
 
     return (
         <div className="movies__list">
-            <ul>
+            <h1>Movies List</h1>
+            <ul className="movies__cart-ul">
                 {movies.map(movie => (
                     <li key={movie.id} className="movies__list-card">
                         <ul>
