@@ -76,21 +76,24 @@ export default function Exercise02() {
       })
     setMoviesFiltered(moviesFilteredAndOrdered)
   }, [searchParams])
-
+  //TODO: pass main tag to Layout component
   return (
-    <section className="movie-library">
-      <h1 className="movie-library__title">
-        Movie Library
-      </h1>
-      <Filters genres={genres} />
-      {loading ? (
-        <div className="movie-library__loading">
-          <p>Loading...</p>
-          <p>Fetched {fetchCount} times</p>
-        </div>
-      ) : (
-        <Listing movies={moviesFiltered} />
-      )}
-    </section>
+    <main className="movie-library__main">
+      <div className="movie-library__header" />
+      <section className="movie-library">
+        <h1 className="movie-library__title">
+          Movie Library
+        </h1>
+        <Filters genres={genres} />
+        {loading ? (
+          <div className="movie-library__loading">
+            <p>Loading...</p>
+            <p>Fetched {fetchCount} times</p>
+          </div>
+        ) : (
+          <Listing movies={moviesFiltered} />
+        )}
+      </section>
+    </main>
   )
 }
