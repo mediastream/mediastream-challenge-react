@@ -13,17 +13,21 @@
  */
 
 import "./assets/styles.css";
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
 
-export default function Exercise02 () {
+export default function Exercise02() {
   const [movies, setMovies] = useState([])
   const [fetchCount, setFetchCount] = useState(0)
+  const [genres, setGenres] = useState([])
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+
 
   const handleMovieFetch = () => {
     setLoading(true)
     setFetchCount(fetchCount + 1)
-    console.log('Getting movies')
     fetch('http://localhost:3001/movies?_limit=50')
       .then(res => res.json())
       .then(json => {
@@ -34,10 +38,42 @@ export default function Exercise02 () {
         console.log('Run yarn movie-api for fake api')
       })
   }
+  const handleGenreFetch = () => {
+    setLoading(true)
+    setFetchCount(fetchCount + 1)
+    fetch('http://localhost:3001/genres')
+      .then(res => res.json())
+      .then(json => {
+        setGenres(json)
+        setLoading(false)
+      })
+      .catch(() => {
+        console.log('Run yarn movie-api for fake api')
+      })
+  }
 
   useEffect(() => {
     handleMovieFetch()
-  }, [handleMovieFetch])
+  }, [])
+
+  useEffect(() => {
+    handleGenreFetch()
+  }, [])
+
+  const handleOrder = () => {
+    const params = new URLSearchParams()
+    params.set('order', 'desc')
+    params.set('genre', searchParams.get('genre'))
+    setSearchParams(params)
+  }
+
+  const handleSelectGenre = (event) => {
+    const genre = event.target.value
+    const params = new URLSearchParams()
+    params.set('genre', genre)
+    params.set('order', searchParams.get('order'))
+    setSearchParams(params)
+  }
 
   return (
     <section className="movie-library">
@@ -45,10 +81,14 @@ export default function Exercise02 () {
         Movie Library
       </h1>
       <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
+        <select name="genre" placeholder="Search by genre..." onChange={handleSelectGenre}>
+          {
+            genres.map(genre => (
+              <option key={genre} value={genre}>{genre}</option>
+            ))
+          }
         </select>
-        <button>Order Descending</button>
+        <button onClick={handleOrder}>Order Descending</button>
       </div>
       {loading ? (
         <div className="movie-library__loading">
