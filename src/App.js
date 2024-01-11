@@ -7,8 +7,8 @@ import Home from './components/pages/Home'
 function App() {
   const routers = createBrowserRouter([
     { path: '/', element: <Home /> },
-    { path: '/01', element: <Exercise01 /> },
-    { path: '/02', element: <Exercise02 /> },
+    { path: '/movie-store', element: <Exercise01 /> },
+    { path: '/movie-library', element: <Exercise02 /> },
   ])
   return <RouterProvider router={routers} />;
 }

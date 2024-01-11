@@ -13,16 +13,18 @@
  */
 
 import "./assets/styles.css";
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
+import Filters from "./components/filters";
+import Listing from "./components/listing";
 
 export default function Exercise02() {
-  const [movies, setMovies] = useState([])
-  const [fetchCount, setFetchCount] = useState(0)
-  const [genres, setGenres] = useState([])
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false)
-  const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [fetchCount, setFetchCount] = useState(0)
+  const [movies, setMovies] = useState([])
+  const [genres, setGenres] = useState([])
+  const [moviesFiltered, setMoviesFiltered] = useState([])
 
 
   const handleMovieFetch = () => {
@@ -32,6 +34,7 @@ export default function Exercise02() {
       .then(res => res.json())
       .then(json => {
         setMovies(json)
+        setMoviesFiltered(json)
         setLoading(false)
       })
       .catch(() => {
@@ -54,62 +57,39 @@ export default function Exercise02() {
 
   useEffect(() => {
     handleMovieFetch()
-  }, [])
-
-  useEffect(() => {
     handleGenreFetch()
   }, [])
 
-  const handleOrder = () => {
-    const params = new URLSearchParams()
-    params.set('order', 'desc')
-    params.set('genre', searchParams.get('genre'))
-    setSearchParams(params)
-  }
+  useEffect(() => {
+    const order = searchParams.get('order')
+    const genre = searchParams.get('genre')
 
-  const handleSelectGenre = (event) => {
-    const genre = event.target.value
-    const params = new URLSearchParams()
-    params.set('genre', genre)
-    params.set('order', searchParams.get('order'))
-    setSearchParams(params)
-  }
+    const moviesFilteredAndOrdered = movies
+      .filter(movie => (genre && genre !== 'All') ? movie.genres.includes(genre) : true)
+      .sort((a, b) => {
+        if (order === 'desc') {
+          return b.year - a.year
+        } else if (order === 'asc') {
+          return a.year - b.year
+        }
+        return 0
+      })
+    setMoviesFiltered(moviesFilteredAndOrdered)
+  }, [searchParams])
 
   return (
     <section className="movie-library">
       <h1 className="movie-library__title">
         Movie Library
       </h1>
-      <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre..." onChange={handleSelectGenre}>
-          {
-            genres.map(genre => (
-              <option key={genre} value={genre}>{genre}</option>
-            ))
-          }
-        </select>
-        <button onClick={handleOrder}>Order Descending</button>
-      </div>
+      <Filters genres={genres} />
       {loading ? (
         <div className="movie-library__loading">
           <p>Loading...</p>
           <p>Fetched {fetchCount} times</p>
         </div>
       ) : (
-        <ul className="movie-library__list">
-          {movies.map(movie => (
-            <li key={movie.id} className="movie-library__card">
-              <img src={movie.posterUrl} alt={movie.title} />
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
-              </ul>
-            </li>
-          ))}
-        </ul>
+        <Listing movies={moviesFiltered} />
       )}
     </section>
   )
