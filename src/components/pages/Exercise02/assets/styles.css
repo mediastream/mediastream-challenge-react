@@ -1,57 +1,101 @@
 .movie-library {
-  background-color: var(--black);
-  color: var(--white);
-  min-height: 100vh;
-  padding: 2em;
+	background: linear-gradient(to bottom, rgba(255, 153, 153, 0) 0%, rgba(27, 27, 27, 1) 75%),
+		url('mountains.jpeg');
+	background-attachment: fixed;
+	background-position: center 50%;
+	background-repeat: no-repeat;
+	background-size: 100% auto;
+	background-color: var(--black);
+	color: var(--white);
+	min-height: 100vh;
+	padding: 6em 4em 4em;
 }
 
 .movie-library__title {
-  font-size: 2em;
-  margin-bottom: 1em;
+	font-size: 2.5em;
+	font-weight: 900;
+	margin-bottom: 1em;
 }
 
 .movie-library__actions {
-  display: flex;
-  margin-bottom: 1em;
+	display: flex;
+	margin-bottom: 2em;
 }
 
 .movie-library__actions select {
-  width: 100%;
-  padding: .25em;
+	width: 100%;
+	padding: 0.25em 1em;
+	border: 1px px solid var(--ms-green);
+	border-radius: 0.5em 0 0 0.5em;
 }
 
 .movie-library__actions button {
-  white-space: nowrap;
+	white-space: nowrap;
+	background-color: var(--ms-green);
+	border: none;
+	border-radius: 0 0.5em 0.5em 0;
+	padding: 0.5em 1em;
 }
 
 .movie-library__loading {
-  text-align: center;
-  width: 100%;
-  background-color: #222222;
-  padding: 1.25em 0;
-  margin: 2em 0;
+	text-align: center;
+	width: 100%;
+	background-color: #222222;
+	padding: 1.25em 0;
+	margin: 2em 0;
 }
 
 .movie-library__list {
-  padding: 1em;
-  background-color: #222222;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 1.5em 2em;
 }
 
 .movie-library__card {
-  background-color: #333333;
-  margin-bottom: 1em;
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
+	border-radius: 0.5em;
+	flex-direction: column;
+	overflow: hidden;
+	position: relative;
 }
 
 .movie-library__card img {
-  width: 10em;
+	width: 100%;
+	position: relative;
 }
 
 .movie-library__card ul {
-  padding: 1em;
+	padding: 1em;
+	position: absolute;
+	background: linear-gradient(to bottom, transparent 30%, var(--ms-green) 100%);
+	bottom: 0;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: flex-end;
 }
 
 .movie-library__card li {
-  line-height: 120%;
+	line-height: 1.3rem;
+	padding: 0 1rem;
+	font-size: 14px;
+}
+.movie-library__card li:first-child {
+	font-weight: 900;
+	font-size: 18px;
+}
+
+@media screen and (max-width: 768px) {
+	.movie-library__list {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media screen and (max-width: 1200px) {
+	.movie-library {
+		background-position: center top;
+	}
 }
