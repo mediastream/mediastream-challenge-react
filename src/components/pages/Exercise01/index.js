@@ -12,7 +12,8 @@
  */
 
 import './assets/styles.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
 
 export default function Exercise01 () {
   const movies = [
@@ -53,16 +54,71 @@ export default function Exercise01 () {
     } 
   ]
 
-  const [cart, setCart] = useState([
-    {
-      id: 1,
-      name: 'Star Wars',
-      price: 20,
-      quantity: 2
-    }
-  ])
+  const [cart, setCart] = useState([])
+  const [total, setTotal] = useState(0)
 
-  const getTotal = () => 0 // TODO: Implement this
+
+  const addToCart = (movie) =>{    
+    setCart((prev)=> {
+      const isMovieInCart = prev?.find(x => x.id === movie.id)      
+      if(isMovieInCart){
+        return prev.map(x => x.id === movie.id ? {...x, amount: x.amount + 1} : x)
+      }
+      return [...prev, { ...movie, amount: 1 }];
+    })
+
+  }  
+
+  const removeFromCart = (movie) =>{
+    setCart((prev)=> {
+      return prev.filter(x => x.id !== movie.id)
+    })
+  }
+
+
+  const incrementQuantity = (x) =>{ 
+     
+    const inCart = cart.find((movieInCart) => movieInCart.id === x.id)  
+   if(inCart){      
+      setCart((prev)=> {
+        return prev.map(x => x.id === inCart.id ? {...x, amount: x.amount + 1} : x)
+      })
+      }      
+    }  
+  
+  const decrementQuantity = (x) =>{    
+    if(x.amount === 1){
+      removeFromCart(x)
+      return
+    }    
+    const inCart = cart.find((movieInCart) => movieInCart.id === x.id)           
+   if(inCart){      
+      setCart((prev)=> {
+        return prev.map(x => x.id === inCart.id ? {...x, amount: x.amount - 1} : x)
+      })
+      } 
+      
+  }
+
+  const getTotal =  (cart, discountRules) => {
+    if(cart.length === 0) return 0
+    let total = cart.reduce((acc, curr) => acc + (curr.price * curr.amount), 0);
+    let maxDiscount = 0;
+    discountRules.forEach(rule => {
+      const discounts = rule.m.every(x => cart.some(y => y.id === x))
+      if(discounts && rule.discount > maxDiscount){
+        maxDiscount =rule.discount}
+      })
+      total = total - (total * maxDiscount)
+      return total   
+
+  }
+  
+  useEffect(() => {
+   setTotal(getTotal(cart, discountRules))
+  },[cart])
+
+   
 
   return (
     <section className="exercise01">
@@ -81,7 +137,7 @@ export default function Exercise01 () {
                   Price: ${o.price}
                 </li>
               </ul>
-              <button onClick={() => console.log('Add to cart', o)}>
+              <button onClick={() => addToCart(o)}>
                 Add to cart
               </button>
             </li>
@@ -90,7 +146,7 @@ export default function Exercise01 () {
       </div>
       <div className="movies__cart">
         <ul>
-          {cart.map(x => (
+          {cart?.map(x => (
             <li className="movies__cart-card">
               <ul>
                 <li>
@@ -104,13 +160,13 @@ export default function Exercise01 () {
                 </li>
               </ul>
               <div className="movies__cart-card-quantity">
-                <button onClick={() => console.log('Decrement quantity', x)}>
+                <button onClick={()=>decrementQuantity(x)}>
                   -
                 </button>
                 <span>
-                  {x.quantity}
+                  {x.amount}
                 </span>
-                <button onClick={() => console.log('Increment quantity', x)}>
+                <button onClick={()=>incrementQuantity(x)}>
                   +
                 </button>
               </div>
@@ -118,7 +174,7 @@ export default function Exercise01 () {
           ))}
         </ul>
         <div className="movies__cart-total">
-          <p>Total: ${getTotal()}</p>
+          <p>Total: {total > 0 ? `$ ${total}` : "No hay Productos "}</p>
         </div>
       </div>
     </section>
