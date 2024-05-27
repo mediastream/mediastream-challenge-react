@@ -14,41 +14,67 @@
 
 import "./assets/styles.css";
 import { useEffect, useState } from "react";
+import mountainImg from './assets/mountains.jpeg'
 
 export default function Exercise02 () {
-  const [movies, setMovies] = useState([])
-  const [fetchCount, setFetchCount] = useState(0)
-  const [loading, setLoading] = useState(false)
+  const [movies, setMovies] = useState([]);
+  const [genres, setGenres] = useState([]);
+  const [selectedGenre, setSelectedGenre] = useState('');
+  const [fetchCount, setFetchCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [order, setOrder] = useState('asc');
 
   const handleMovieFetch = () => {
-    setLoading(true)
-    setFetchCount(fetchCount + 1)
-    console.log('Getting movies')
-    fetch('http://localhost:3001/movies?_limit=50')
+    setLoading(true);
+    setFetchCount(fetchCount + 1);
+    fetch(`http://localhost:3001/movies?_limit=50`)
       .then(res => res.json())
       .then(json => {
-        setMovies(json)
-        setLoading(false)
+        const filteredMovies = selectedGenre 
+          ? json.filter(movie => movie.genres.includes(selectedGenre))
+          : json;
+        const sortedMovies = filteredMovies.sort((a, b) => a.year - b.year);
+        setMovies(sortedMovies);
+        setOrder('asc');
+        setLoading(false);
       })
       .catch(() => {
-        console.log('Run yarn movie-api for fake api')
-      })
-  }
+        setLoading(false);
+      });
+  };
+
+  const handleGenreFetch = () => {
+    fetch('http://localhost:3001/genres')
+      .then(res => res.json())
+      .then(json => setGenres(json));
+  };
 
   useEffect(() => {
-    handleMovieFetch()
-  }, [handleMovieFetch])
+    handleGenreFetch();
+    handleMovieFetch();
+  }, [selectedGenre]);
+
+  const handleOrderToggle = () => {
+    const sortedMovies = [...movies].sort((a, b) => order === 'asc' ? b.year - a.year : a.year - b.year);
+    setMovies(sortedMovies);
+    setOrder(order === 'asc' ? 'desc' : 'asc');
+  };
 
   return (
     <section className="movie-library">
-      <h1 className="movie-library__title">
-        Movie Library
-      </h1>
-      <div className="movie-library__actions">
-        <select name="genre" placeholder="Search by genre...">
-          <option value="genre1">Genre 1</option>
-        </select>
-        <button>Order Descending</button>
+      <div id="backgroundImgContainer">
+      </div>
+      <div className="search">
+        <h1 className="movie-library__title">Movie Library</h1>
+        <div className="movie-library__actions">
+          <select name="genre" onChange={(e) => setSelectedGenre(e.target.value)} placeholder="Search by genre...">
+            <option value="">All Genres</option>
+            {genres.map(genre => (
+              <option key={genre} value={genre}>{genre}</option>
+            ))}
+          </select>
+          <span className="year-btn" onClick={handleOrderToggle}>Year {order === 'asc' ? 'Descending' : 'Ascending'}</span>
+        </div>
       </div>
       {loading ? (
         <div className="movie-library__loading">
@@ -60,17 +86,15 @@ export default function Exercise02 () {
           {movies.map(movie => (
             <li key={movie.id} className="movie-library__card">
               <img src={movie.posterUrl} alt={movie.title} />
-              <ul>
-                <li>ID: {movie.id}</li>
-                <li>Title: {movie.title}</li>
-                <li>Year: {movie.year}</li>
-                <li>Runtime: {movie.runtime}</li>
-                <li>Genres: {movie.genres.join(', ')}</li>
+              <ul className="movie-description">
+                <li id="movieTitle">{movie.title}</li>
+                <li>{movie.genres.join(', ')}</li>
+                <li>{movie.year}</li>
               </ul>
             </li>
           ))}
         </ul>
       )}
     </section>
-  )
+  );
 }
