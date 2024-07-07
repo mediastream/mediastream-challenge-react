@@ -1,29 +1,30 @@
 .exercise01 {
+  align-items: center;
   background-color: var(--black);
   color: var(--white);
-  height: 100vh;
-  width: 100vw;
   display: flex;
-  align-items: center;
+  height: 100vh;
   justify-content: center;
+  width: 100vw;
 }
 
-.movies__list, .movies__cart {
+.movies__list,
+.movies__cart {
   width: 24em;
 }
 
 .movies__list {
   background-color: #222222;
-  padding: 1em;
-  border-radius: .2em;
+  border-radius: 0.2em;
   margin-right: 2em;
+  padding: 1em;
 }
 
 .movies__list-card {
   background-color: #333333;
+  border-radius: 0.2em;
   margin-bottom: 1rem;
-  padding: .75em;
-  border-radius: .2em;
+  padding: 0.75em;
 }
 
 .movies__list-card:last-child {
@@ -37,25 +38,25 @@
 
 .movies__list-card button {
   background-color: var(--ms-green);
+  border-radius: 0.25em;
   border: none;
   cursor: pointer;
-  font-size: .75em;
-  border-radius: .25em;
-  margin-top: .75em;
-  padding: .25em .5em;
+  font-size: 0.75em;
+  margin-top: 0.75em;
+  padding: 0.25em 0.5em;
 }
 
 .movies__cart {
   background-color: #222222;
+  border-radius: 0.2em;
   padding: 1em;
-  border-radius: .2em;
 }
 
 .movies__cart-card {
   background-color: #333333;
+  border-radius: 0.2em;
   margin-bottom: 1rem;
-  padding: .75em;
-  border-radius: .2em;
+  padding: 0.75em;
 }
 
 .movies__cart-card:last-child {
@@ -68,25 +69,35 @@
 }
 
 .movies__cart-card-quantity {
-  display: flex;
   align-items: center;
-  margin-top: .5em;
+  display: flex;
+  margin-top: 0.5em;
 }
 
 .movies__cart-card span {
-  margin: 0 .5em;
+  margin: 0 0.5em;
 }
 
 .movies__cart-card button {
   background-color: var(--ms-green);
+  border-radius: 0.25em;
   border: none;
   cursor: pointer;
-  font-size: .75em;
-  border-radius: .25em;
-  padding: .25em .5em;
+  font-size: 0.75em;
+  padding: 0.25em 0.5em;
 }
 
 .movies__cart-total {
-  margin-top: 1em;
   font-size: 1.25em;
+  margin-top: 1em;
+}
+.movies__cart-total .total-price {
+  border-top: 1px solid white;
+  display: block;
+  margin-top: 0.9375em;
+  padding-top: 0.9375em;
+}
+
+.movies__cart-total .total-price h2 {
+  font-size: 1.5em;
 }
